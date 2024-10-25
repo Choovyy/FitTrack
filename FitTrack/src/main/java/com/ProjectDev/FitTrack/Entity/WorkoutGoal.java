@@ -12,27 +12,39 @@ public class WorkoutGoal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long workoutID;      // Changed to workoutID
+    private Long userID;         // Added userID
     private String goalDescription;
-    private String targetMetrics; // e.g., distance, calories, time
+    private Integer targetCalories;   // Changed to Integer for calories
+    private Integer targetDuration;    // Changed to Integer for duration
     private String deadline;
 
     // Constructors
     public WorkoutGoal() {}
 
-    public WorkoutGoal(String goalDescription, String targetMetrics, String deadline) {
+    public WorkoutGoal(Long userID, String goalDescription, Integer targetCalories, Integer targetDuration, String deadline) {
+        this.userID = userID;
         this.goalDescription = goalDescription;
-        this.targetMetrics = targetMetrics;
+        this.targetCalories = targetCalories;
+        this.targetDuration = targetDuration;
         this.deadline = deadline;
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
+    public Long getWorkoutID() {
+        return workoutID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setWorkoutID(Long workoutID) {
+        this.workoutID = workoutID;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     public String getGoalDescription() {
@@ -43,12 +55,20 @@ public class WorkoutGoal {
         this.goalDescription = goalDescription;
     }
 
-    public String getTargetMetrics() {
-        return targetMetrics;
+    public Integer getTargetCalories() {
+        return targetCalories;
     }
 
-    public void setTargetMetrics(String targetMetrics) {
-        this.targetMetrics = targetMetrics;
+    public void setTargetCalories(Integer targetCalories) {
+        this.targetCalories = targetCalories;
+    }
+
+    public Integer getTargetDuration() {
+        return targetDuration;
+    }
+
+    public void setTargetDuration(Integer targetDuration) {
+        this.targetDuration = targetDuration;
     }
 
     public String getDeadline() {
@@ -59,4 +79,3 @@ public class WorkoutGoal {
         this.deadline = deadline;
     }
 }
-

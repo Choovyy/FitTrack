@@ -75,7 +75,6 @@ INDEX VERSION 1.134+D:\BSIT3\321\finalFitTrack\FitTrack\.metadata\.plugins\org.e
 2301570699.index
 866893059.index
 1167131213.index
-3254782968.index
 2205804690.index
 1947293938.index
 3180448448.index
