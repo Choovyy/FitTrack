@@ -1,0 +1,5 @@
+package com.ProjectDev.FitTrack.Repository;
+
+public class WorkoutGoalRepository {
+
+}
