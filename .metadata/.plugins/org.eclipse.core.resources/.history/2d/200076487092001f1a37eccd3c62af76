@@ -1,0 +1,5 @@
+package com.ProjectDev.FitTrack.Entity;
+
+public class WorkoutGoal {
+
+}
