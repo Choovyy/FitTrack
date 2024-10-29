@@ -1,0 +1,75 @@
+/* General styling */
+body {
+    background-color: #FFFFFF; /* Background */
+    color: #263238; /* Font color */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header / Navigation Bar */
+  header {
+    background-color: #263238;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Logo */
+  .logo {
+    color: #009688;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  /* Buttons / CTAs */
+  button {
+    background-color: #FFCA28;
+    color: #263238;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Background dividers */
+  .divider {
+    background-color: #B0BEC5;
+    height: 1px;
+    margin: 20px 0;
+  }
+  
+  /* Form containers */
+  .form-container {
+    background-color: #FFFFFF;
+    border: 1px solid #B0BEC5;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form labels */
+  label {
+    font-weight: bold;
+    color: #263238;
+  }
+  
+  /* Form inputs */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #B0BEC5;
+    border-radius: 4px;
+  }
+  
+  
