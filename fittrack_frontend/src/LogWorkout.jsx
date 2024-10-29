@@ -1,5 +1,8 @@
 // src/pages/LogWorkout.jsx
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './App.css';
+import './Style/Workout.css'
 
 const LogWorkout = () => {
     const [exerciseType, setExerciseType] = useState('');
@@ -7,63 +10,52 @@ const LogWorkout = () => {
     const [caloriesBurned, setCaloriesBurned] = useState('');
 
     const handleSave = () => {
-        // Handle save logic here, e.g., sending data to backend or state management
         console.log({ exerciseType, duration, caloriesBurned });
         alert('Workout saved!');
     };
 
     return (
-        <div style={styles.container}>
-            <h2>Log Your Workout</h2>
-            <div style={styles.formGroup}>
-                <label>Exercise Type:</label>
-                <input 
-                    type="text" 
-                    value={exerciseType} 
-                    onChange={(e) => setExerciseType(e.target.value)} 
-                />
+        <>
+            <nav className="navbar">
+                <ul className="navList">
+                    <li className="navDashboard">
+                        <Link to="/dashboard" className="navLink">Dashboard</Link>
+                    </li>
+                    <li className="navLogworkout">
+                        <Link to="/log-workout" className="navLink">Log Workout</Link>
+                    </li>
+                </ul>
+            </nav>
+            <div className="container">
+                <h2>Log Your Workout</h2>
+                <div className="formGroup">
+                    <label>Exercise Type:</label>
+                    <input 
+                        type="text" 
+                        value={exerciseType} 
+                        onChange={(e) => setExerciseType(e.target.value)} 
+                    />
+                </div>
+                <div className="formGroup">
+                    <label>Duration (minutes):</label>
+                    <input 
+                        type="number" 
+                        value={duration} 
+                        onChange={(e) => setDuration(e.target.value)} 
+                    />
+                </div>
+                <div className="formGroup">
+                    <label>Calories Burned:</label>
+                    <input 
+                        type="number" 
+                        value={caloriesBurned} 
+                        onChange={(e) => setCaloriesBurned(e.target.value)} 
+                    />
+                </div>
+                <button onClick={handleSave} className="saveButton">Save</button>
             </div>
-            <div style={styles.formGroup}>
-                <label>Duration (minutes):</label>
-                <input 
-                    type="number" 
-                    value={duration} 
-                    onChange={(e) => setDuration(e.target.value)} 
-                />
-            </div>
-            <div style={styles.formGroup}>
-                <label>Calories Burned:</label>
-                <input 
-                    type="number" 
-                    value={caloriesBurned} 
-                    onChange={(e) => setCaloriesBurned(e.target.value)} 
-                />
-            </div>
-            <button onClick={handleSave} style={styles.saveButton}>Save</button>
-        </div>
+        </>
     );
-};
-
-const styles = {
-    container: {
-        maxWidth: '400px',
-        margin: 'auto',
-        padding: '20px',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        boxShadow: '0px 4px 8px rgba(0,0,0,0.1)'
-    },
-    formGroup: {
-        marginBottom: '15px'
-    },
-    saveButton: {
-        backgroundColor: '#4CAF50',
-        color: '#fff',
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer'
-    }
 };
 
 export default LogWorkout;

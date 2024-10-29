@@ -85,7 +85,6 @@ body {
 }
 
 
-
 /* Post container styling */
 .post {
   width: 400px;
@@ -183,4 +182,49 @@ body {
 
 .post button:hover {
   background-color: #27ae60;
+
+/* Navbar styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #28a745;
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  z-index: 1000;
+}
+.navList {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+}
+.navLogworkout{
+margin-left: auto;
+margin-right: 150px;
+}
+.navDashboard {
+  margin-right: 20px;
+  margin-left: 50px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #333;
+}
+
+.container {
+  padding: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.saveButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
 }
