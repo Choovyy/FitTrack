@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
+import './Style/Workout.css'
 
 const LogWorkout = () => {
     const [exerciseType, setExerciseType] = useState('');
@@ -17,10 +18,10 @@ const LogWorkout = () => {
         <>
             <nav className="navbar">
                 <ul className="navList">
-                    <li className="navItem">
+                    <li className="navDashboard">
                         <Link to="/dashboard" className="navLink">Dashboard</Link>
                     </li>
-                    <li className="navItem">
+                    <li className="navLogworkout">
                         <Link to="/log-workout" className="navLink">Log Workout</Link>
                     </li>
                 </ul>
