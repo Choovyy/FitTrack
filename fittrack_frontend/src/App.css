@@ -83,3 +83,104 @@ body {
 .header a:hover {
   color: #007bff;
 }
+
+
+
+/* Post container styling */
+.post {
+  width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.post p {
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.post span {
+  display: block;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+}
+
+/* LikeButton styling */
+.like-button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.like-button-container button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.like-button-container button:hover {
+  background-color: #2980b9;
+}
+
+.like-button-container span {
+  margin-left: 10px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Comments section styling */
+.comment {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.comment p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.comment span {
+  display: block;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+}
+
+/* Comment input styling */
+.post input[type="text"] {
+  width: calc(100% - 100px);
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+
+.post button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.post button:hover {
+  background-color: #27ae60;
+}
