@@ -11,7 +11,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
-                <Route path="/post" element={<Post post={samplePost} />} /> {/* Add this line */}
+                {/* <Route path="/post" element={<Post post={samplePost} />} /> Add this line */}
                 {/* Add more routes as needed */}
             </Routes>
         </Router>
