@@ -12,7 +12,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
                 <Route path="/post" element={<Post />} /> {/* Adjusted without samplePost */}
                 <Route path="/workout-goals" element={<WorkoutGoalPage />} /> {/* Page for viewing all goals */}
