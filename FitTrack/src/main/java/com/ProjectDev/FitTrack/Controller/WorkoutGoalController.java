@@ -5,10 +5,10 @@ import com.ProjectDev.FitTrack.Service.WorkoutGoalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:3000")
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/workout-goals")
 public class WorkoutGoalController {
@@ -16,8 +16,14 @@ public class WorkoutGoalController {
     @Autowired
     private WorkoutGoalService workoutGoalService;
 
+    // Handle OPTIONS request for CORS preflight
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> handleOptions() {
+        return ResponseEntity.ok().build();
+    }
+
     // Create a new Workout Goal
-    @PostMapping
+    @PostMapping("/create")
     public WorkoutGoal createWorkoutGoal(@RequestBody WorkoutGoal workoutGoal) {
         return workoutGoalService.saveWorkoutGoal(workoutGoal);
     }
