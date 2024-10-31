@@ -1,9 +1,9 @@
 // src/pages/LogWorkout.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
-import './Style/Workout.css'
-import { useNavigate } from 'react-router-dom';
+import './Style/Workout.css';
+import { createWorkout } from './LogWorkoutService'; // Import the service
 
 const LogWorkout = () => {
     const [exerciseType, setExerciseType] = useState('');
@@ -11,10 +11,23 @@ const LogWorkout = () => {
     const [caloriesBurned, setCaloriesBurned] = useState('');
     const navigate = useNavigate();
 
-    const handleSave = () => {
-        console.log({ exerciseType, duration, caloriesBurned });
-        alert('Workout saved!');
+    const handleSave = async () => {
+        try {
+            const workoutData = {
+                exerciseType,
+                duration: parseInt(duration, 10),
+                caloriesBurned: parseInt(caloriesBurned, 10)
+            };
+            await createWorkout(workoutData);
+            alert('Workout saved!');
+            navigate('/home');
+        } catch (error) {
+            console.error('Full error details:', error.response ? error.response.data : error.message);
+            alert('Failed to save workout. Please try again.');
+        }
     };
+    
+    
 
     const handleCancel = () => {
         navigate('/home');
