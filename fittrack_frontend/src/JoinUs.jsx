@@ -1,4 +1,3 @@
-// JoinUs.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './assets/FitTrack Logo.png'; // Adjust the import path according to your file structure
@@ -12,7 +11,15 @@ const JoinUs = () => {
 
   return (
     <div className="app-container">
-      <img src={logo} alt="FitTrack Logo" className="logo" /> {/* Logo added here */}
+      <style>
+        {`
+          .logo {
+            width: 250px; /* Adjust width as needed */
+            height: auto; /* Maintains aspect ratio */
+          }
+        `}
+      </style>
+      <img src={logo} alt="FitTrack Logo" className="logo" />
       <h1>Join Us</h1>
       <p>Become a part of our community!</p>
       <button className="saveButton" onClick={handleJoinClick}>
