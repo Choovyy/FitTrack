@@ -6,6 +6,8 @@ import Post from './Post';
 import WorkoutGoalForm from './WorkoutGoalForm';
 import WorkoutGoalList from './WorkoutGoalList';
 import WorkoutGoalPage from './WorkoutGoalPage';
+import JoinUs from './JoinUs';
+import Login from './Login'; 
 import './App.css';
 
 function App() {
@@ -14,10 +16,12 @@ function App() {
             <Routes>
                 <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
-                <Route path="/post" element={<Post />} /> {/* Adjusted without samplePost */}
-                <Route path="/workout-goals" element={<WorkoutGoalPage />} /> {/* Page for viewing all goals */}
-                <Route path="/workout-goals/new" element={<WorkoutGoalForm />} /> {/* Form for new goal */}
-                <Route path="/workout-goals/list" element={<WorkoutGoalList />} /> {/* List of workout goals */}
+                <Route path="/post" element={<Post />} />
+                <Route path="/workout-goals" element={<WorkoutGoalPage />} />
+                <Route path="/workout-goals/new" element={<WorkoutGoalForm />} />
+                <Route path="/workout-goals/list" element={<WorkoutGoalList />} />
+                <Route path="/join-us" element={<JoinUs />} />
+                <Route path="/login" element={<Login />} /> {/* Added Login route */}
                 {/* Add more routes as needed */}
             </Routes>
         </Router>
