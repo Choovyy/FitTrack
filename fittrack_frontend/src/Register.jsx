@@ -2,42 +2,52 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setMessage('');
 
     try {
-      const response = await axios.post('http://localhost:8080/api/users/login', {
+      const response = await axios.post('http://localhost:8080/api/users', {
+        name,
         email,
         password,
       });
 
-      if (response.status === 200) {
-        const { token } = response.data; // Assume the token is returned in the response
-        localStorage.setItem('token', token); // Store the token in local storage
-        setMessage('Login successful!');
-        navigate('/home'); // Redirect to home page
+      if (response.status === 201) {
+        setMessage('Registration successful! You can now log in.');
+        // Optionally, redirect to login after a short delay
+        setTimeout(() => navigate('/login'), 2000);
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Registration error:', error);
       if (error.response) {
         setMessage(error.response.data); // Show server error message
       } else {
-        setMessage('Login failed. Please try again.'); // Generic error message
+        setMessage('Registration failed. Please try again.'); // Generic error message
       }
     }
   };
 
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <h2>Register</h2>
+      <form onSubmit={handleRegister}>
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
         <div>
           <label>Email:</label>
           <input
@@ -56,14 +66,11 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
-      <p>
-        Don't have an account? <button onClick={() => navigate('/register')}>Register</button>
-      </p>
     </div>
   );
 };
 
-export default Login;
+export default Register;

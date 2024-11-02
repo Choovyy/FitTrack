@@ -19,8 +19,12 @@ public class UserController {
 
     // Create a new User
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        if (userService.emailExists(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
+        userService.saveUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
     // User Login
@@ -33,7 +37,6 @@ public class UserController {
         boolean isAuthenticated = userService.authenticate(email, password);
         
         if (isAuthenticated) {
-            // Respond with a success message
             return ResponseEntity.ok("Login successful");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");

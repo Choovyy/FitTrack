@@ -1,7 +1,7 @@
 package com.ProjectDev.FitTrack.Service;
 
 import com.ProjectDev.FitTrack.Entity.User;
-import com.ProjectDev.FitTrack.Repository.UserRepository; // Make sure to import your repository
+import com.ProjectDev.FitTrack.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,11 @@ public class UserService {
     // Save a new user
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    // Check if email exists
+    public boolean emailExists(String email) {
+        return userRepository.findByEmail(email).isPresent(); // Check if user exists by email
     }
 
     // Get all users
@@ -41,7 +46,7 @@ public class UserService {
 
     // Authenticate user
     public boolean authenticate(String email, String password) {
-        User user = userRepository.findByEmail(email); // Implement this in your repository
-        return user != null && user.getPassword().equals(password); // Consider using hashed passwords in production
+        Optional<User> user = userRepository.findByEmail(email); // Use Optional
+        return user.isPresent() && user.get().getPassword().equals(password); // Consider using hashed passwords in production
     }
 }
