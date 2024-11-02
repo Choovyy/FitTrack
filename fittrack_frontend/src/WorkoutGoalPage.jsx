@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { getAllWorkoutGoals, deleteWorkoutGoal } from './WorkoutGoalService'; // Update the import path
+import { Link, useNavigate } from 'react-router-dom';
+import { getAllWorkoutGoals, deleteWorkoutGoal } from './WorkoutGoalService';
+import './Style/WorkoutGoalPage.css';
+import './App.css';
 
 const WorkoutGoalPage = () => {
   const [workoutGoals, setWorkoutGoals] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGoals = async () => {
       try {
         const response = await getAllWorkoutGoals();
-        setWorkoutGoals(response); // Assuming response contains the data directly
+        setWorkoutGoals(response);
       } catch (error) {
         console.error('Error fetching workout goals:', error);
       }
@@ -27,16 +31,34 @@ const WorkoutGoalPage = () => {
   };
 
   return (
-    <div>
-      <h1>Your Workout Goals</h1>
-      <ul>
-        {workoutGoals.map(goal => (
-          <li key={goal.workoutID}>
-            <span>{goal.goalDescription} - {goal.targetCalories} calories</span>
-            <button onClick={() => handleDelete(goal.workoutID)}>Delete</button>
+    <div className="workout-goal-page">
+      <nav className="navbar">
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
+          <li className="navLogWorkout">
+            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          </li>
+        </ul>
+      </nav>
+      <div className="goals-header">
+        <h2 className="goals-title">Your Goals</h2>
+        <Link to="/workout-goals/new" className="add-goal-button">Add Goal</Link>
+      </div>
+      <div className="goals-container">
+        {workoutGoals.map(goal => (
+          <div key={goal.workoutID} className="goal-card">
+            <div className="goal-details">
+              <p className="goal-description">Description: {goal.goalDescription}</p>
+              <p className="goal-target-calories">Target Calories: {goal.targetCalories} calories</p>
+              <p className="goal-target-duration">Target Duration: {goal.targetDuration} minutes</p>
+              <p className="goal-deadline">Deadline: {goal.deadline}</p>
+            </div>
+            <button onClick={() => handleDelete(goal.workoutID)} className="delete-button">Delete</button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

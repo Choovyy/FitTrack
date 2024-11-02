@@ -4,7 +4,6 @@ import Home from './Home';
 import LogWorkout from './LogWorkout';
 import Post from './Post';
 import WorkoutGoalForm from './WorkoutGoalForm';
-import WorkoutGoalList from './WorkoutGoalList';
 import WorkoutGoalPage from './WorkoutGoalPage';
 import JoinUs from './JoinUs';
 import Login from './Login'; 
@@ -19,7 +18,6 @@ function App() {
                 <Route path="/post" element={<Post />} />
                 <Route path="/workout-goals" element={<WorkoutGoalPage />} />
                 <Route path="/workout-goals/new" element={<WorkoutGoalForm />} />
-                <Route path="/workout-goals/list" element={<WorkoutGoalList />} />
                 <Route path="/join-us" element={<JoinUs />} />
                 <Route path="/login" element={<Login />} /> {/* Added Login route */}
                 {/* Add more routes as needed */}

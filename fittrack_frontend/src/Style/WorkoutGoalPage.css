@@ -1,0 +1,86 @@
+.workout-goal-page {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+}
+
+.navbar {
+    padding: 10px 20px;
+}
+
+.goals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.goals-title {
+    color: #000000;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.add-goal-button {
+    background: #009688;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    min-width: 100px;
+}
+
+/* Removed hover font color */
+.add-goal-button:hover {
+    color: #FFFFFF;
+}
+
+.goals-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.goal-card {
+    width: 1160px;
+    height: 176px;
+    background: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #B0BEC5; /* Added border color */
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.goal-details {
+    text-align: left;
+    flex: 1;
+}
+
+.goal-description,
+.goal-target-calories,
+.goal-target-duration {
+    color: black;
+    font-size: 18px; /* Adjusted font size */
+    margin: 5px 0;
+}
+
+.goal-deadline {
+    color: red;
+    font-size: 18px; /* Adjusted font size */
+    margin: 5px 0;
+}
+
+.delete-button {
+    background: #FFCA28;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #263238;
+    cursor: pointer;
+}

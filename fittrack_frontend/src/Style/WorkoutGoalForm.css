@@ -1,75 +1,132 @@
-/* General styling */
-body {
-    background-color: #FFFFFF; /* Background */
-    color: #263238; /* Font color */
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Header / Navigation Bar */
-  header {
-    background-color: #263238;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  /* Logo */
-  .logo {
-    color: #009688;
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-  
-  /* Buttons / CTAs */
-  button {
-    background-color: #FFCA28;
-    color: #263238;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    opacity: 0.9;
-  }
-  
-  /* Background dividers */
-  .divider {
-    background-color: #B0BEC5;
-    height: 1px;
-    margin: 20px 0;
-  }
-  
-  /* Form containers */
-  .form-container {
-    background-color: #FFFFFF;
-    border: 1px solid #B0BEC5;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Form labels */
-  label {
-    font-weight: bold;
-    color: #263238;
-  }
-  
-  /* Form inputs */
-  input[type="text"],
-  input[type="number"],
-  input[type="date"],
-  textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #B0BEC5;
-    border-radius: 4px;
-  }
-  
-  
+/* General Styling */
+.workout-goal-form-page {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+.workout-goal-form-container {
+  width: 800px;
+  height: 515px;
+  background-color: #FFFFFF;
+  border: 2px solid black;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Set Your Goals heading with underline */
+.form-heading {
+  font-size: 32px;
+  color: #000000;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+/* Form Layout */
+.form-content {
+  display: flex;
+  gap: 20px;
+  height: 100%; /* Ensure this can fill the container */
+}
+
+/* Left Column: Goal Description */
+.left-column {
+  width: 50%;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  height: 100%; /* Allow the left column to take the full height */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Increased bottom margin for spacing */
+  font-family: 'Inter', sans-serif;
+  flex: 1; /* Allow flex-grow for .form-group to distribute space */
+}
+
+label {
+  font-weight: bold;
+  color: #0a0a0a;
+  display: block;
+  margin-bottom: 10px; /* Increased margin for spacing between label and field */
+  text-align: left;
+}
+
+textarea,
+input[type="number"],
+input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: 2px solid black;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Adjusted textarea for description */
+textarea {
+  width: 100%;             /* Full width */
+  height: 100%;           /* Make it take full height of parent */
+  padding: 15px;          /* Internal padding */
+  border: 2px solid black; /* Border style */
+  border-radius: 4px;     /* Rounded corners */
+  font-family: 'Inter', sans-serif; /* Font styling */
+  resize: none;            /* Disable resizing if needed */
+}
+
+/* Right Column: Other Fields and Buttons */
+.right-column {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Flex container for the deadline and buttons */
+.deadline-button-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center;    /* Center elements horizontally */
+  margin-top: 20px;      /* Add space above this section */
+}
+
+/* Deadline field styling */
+.deadline-field {
+  width: 100%;           /* Ensure it takes full width */
+  margin-bottom: 20px;  /* Space below the deadline field */
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 15px;
+  margin-top: 20px;       /* Add space above buttons */
+}
+
+button {
+  font-size: 1em;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #009688;
+  color: #FFFFFF;
+  min-width: 120px;
+}
+
+.cancel-button {
+  background-color: #263238;
+  color: #FFFFFF;
+  min-width: 120px;
+}
