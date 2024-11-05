@@ -130,3 +130,9 @@ button {
   color: #FFFFFF;
   min-width: 120px;
 }
+
+.navbar-logo {
+  height: 50px; /* Adjust to a smaller size */
+  margin-left: auto;
+  width: 50px;
+}

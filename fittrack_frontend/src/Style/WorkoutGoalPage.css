@@ -2,11 +2,22 @@
     width: 100%;
     font-family: 'Inter', sans-serif;
     padding: 20px;
+    margin-top: 30px;
 }
 
 .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #263238; /* Example background color */
     padding: 10px 20px;
 }
+.navList {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}  
 
 .goals-header {
     display: flex;
@@ -77,10 +88,17 @@
 }
 
 .delete-button {
-    background: #FFCA28;
+    background: red;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     padding: 5px 10px;
-    color: #263238;
+    color: #ffffff;
     cursor: pointer;
 }
+
+.navbar-logo {
+    height: 50px; /* Adjust to a smaller size */
+    margin-left: auto;
+    width: 50px;
+  }
+  
