@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './Home';
 import LogWorkout from './LogWorkout';
 import Post from './Post';
 import AddPost from './AddPost'; 
 import WorkoutGoalForm from './WorkoutGoalForm';
-import WorkoutGoalList from './WorkoutGoalList';
 import WorkoutGoalPage from './WorkoutGoalPage';
+import JoinUs from './JoinUs';
+import Login from './Login';
+import Register from './Register'; 
 import './App.css';
 
 function App() {
@@ -19,6 +23,7 @@ function App() {
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<Navigate to="/join-us" />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
                 <Route path="/post" element={<Post post={posts[posts.length - 1]} />} /> 
@@ -26,6 +31,12 @@ function App() {
                 <Route path="/workout-goals" element={<WorkoutGoalPage />} />
                 <Route path="/workout-goals/new" element={<WorkoutGoalForm />} />
                 <Route path="/workout-goals/list" element={<WorkoutGoalList />} />
+                <Route path="/post" element={<Post />} />
+                <Route path="/workout-goals" element={<WorkoutGoalPage />} />
+                <Route path="/workout-goals/new" element={<WorkoutGoalForm />} />
+                <Route path="/join-us" element={<JoinUs />} />
+                <Route path="/login" element={<Login />} /> 
+                <Route path="/register" element={<Register />} /> 
             </Routes>
         </Router>
     );

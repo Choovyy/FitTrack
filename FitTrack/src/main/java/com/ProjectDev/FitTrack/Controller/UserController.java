@@ -3,6 +3,7 @@ package com.ProjectDev.FitTrack.Controller;
 import com.ProjectDev.FitTrack.Entity.User;
 import com.ProjectDev.FitTrack.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from your frontend
 public class UserController {
 
     @Autowired
@@ -17,8 +19,28 @@ public class UserController {
 
     // Create a new User
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        if (userService.emailExists(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
+        userService.saveUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+    }
+
+    // User Login
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+        
+        // Call your service to authenticate the user
+        boolean isAuthenticated = userService.authenticate(email, password);
+        
+        if (isAuthenticated) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
     }
 
     // Get all Users
