@@ -1,33 +1,32 @@
 package com.ProjectDev.FitTrack.Entity;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "posts")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postID;
     private Integer userID;
+    private String username;
     private String content;
     private LocalDateTime timestamp;
-    private String type;
-    private int likeCount;
+    private Integer likeCount;
 
-    // Constructors
+    // Default Constructor
     public Post() {}
 
-    public Post(Integer userID, String content, LocalDateTime timestamp, String type, int likeCount) {
+    // Parameterized Constructor
+    public Post(Integer userID, String username, String content, LocalDateTime timestamp, Integer likeCount) {
         this.userID = userID;
+        this.username = username;
         this.content = content;
         this.timestamp = timestamp;
-        this.type = type;
         this.likeCount = likeCount;
     }
 
@@ -48,6 +47,14 @@ public class Post {
         this.userID = userID;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getContent() {
         return content;
     }
@@ -64,19 +71,23 @@ public class Post {
         this.timestamp = timestamp;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getLikeCount() {
+    public Integer getLikeCount() {
         return likeCount;
     }
 
-    public void setLikeCount(int likeCount) {
+    public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postID=" + postID +
+                ", userID=" + userID +
+                ", username='" + username + '\'' +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                ", likeCount=" + likeCount +
+                '}';
     }
 }

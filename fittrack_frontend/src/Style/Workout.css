@@ -1,7 +1,7 @@
 /* Container styles */
 .container {
   max-width: 400px;
-  margin: 80px auto 0; /* Adjusted margin to prevent overlap with the navbar */
+  margin: 80px auto 0; 
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -19,4 +19,35 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.textBox{
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.log-workout, .workout-list {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.workout-item {
+  margin-bottom: 15px;
+}
+
+button {
+  margin-top: 10px;
+}
+.lists{
+  list-style-type: none;
 }

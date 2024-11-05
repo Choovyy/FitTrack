@@ -1,4 +1,3 @@
-// src/components/LikeButton.jsx
 import React, { useState } from 'react';
 
 const LikeButton = ({ postID, initialCount }) => {
@@ -6,7 +5,6 @@ const LikeButton = ({ postID, initialCount }) => {
 
   const handleLike = () => {
     setLikeCount(likeCount + 1);
-    // Future: Add API call to update like count in the backend
   };
 
   return (

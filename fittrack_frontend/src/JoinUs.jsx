@@ -1,6 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import logo from './assets/FitTrack Logo.png'; // Adjust the import path according to your file structure
+import {Link, useNavigate } from 'react-router-dom';
+import logo from './assets/FitTrack Logo.png';
 
 const JoinUs = () => {
   const navigate = useNavigate(); // Hook for navigation
@@ -10,6 +10,14 @@ const JoinUs = () => {
   };
 
   return (
+    <>
+    <nav className="navbar">
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/" className="navLink">Dashboard</Link>
+          </li>
+        </ul>
+      </nav>
     <div className="app-container">
       <style>
         {`
@@ -22,10 +30,11 @@ const JoinUs = () => {
       <img src={logo} alt="FitTrack Logo" className="logo" />
       <h1>Join Us</h1>
       <p>Become a part of our community!</p>
-      <button className="saveButton" onClick={handleJoinClick}>
+      <button className="joinButton" onClick={handleJoinClick}>
         Join Us
       </button>
     </div>
+    </>
   );
 };
 

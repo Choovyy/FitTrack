@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,6 +35,14 @@ const Login = () => {
   };
 
   return (
+    <>
+    <nav className="navbar">
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/" className="navLink">Dashboard</Link>
+          </li>
+        </ul>
+      </nav>
     <div>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
@@ -63,6 +71,7 @@ const Login = () => {
         Don't have an account? <button onClick={() => navigate('/register')}>Register</button>
       </p>
     </div>
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-// src/components/Comment.jsx
 import React from 'react';
 
 const Comment = ({ comment }) => {

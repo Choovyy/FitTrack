@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,8 +5,8 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token'); // Clear the token from local storage
-        navigate('/login'); // Redirect to login page
+        localStorage.removeItem('token'); 
+        navigate('/login'); 
     };
 
     return (
@@ -19,6 +18,9 @@ const Home = () => {
                     </li>
                     <li className="navLogworkout">
                         <Link to="/log-workout" className="navLink">Log Workout</Link>
+                    </li>
+                    <li className="navAddPost">
+                        <Link to="/add-post" className="navLink">Add Post</Link>
                     </li>
                     <li className="navLogout">
                         <button onClick={handleLogout} className="navLink">Logout</button>
@@ -34,3 +36,4 @@ const Home = () => {
 };
 
 export default Home;
+

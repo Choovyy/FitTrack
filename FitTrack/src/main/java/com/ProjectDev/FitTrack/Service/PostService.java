@@ -5,6 +5,7 @@ import com.ProjectDev.FitTrack.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class PostService {
     private PostRepository postRepository;
 
     public Post savePost(Post post) {
+        post.setTimestamp(LocalDateTime.now());
         return postRepository.save(post);
     }
 
@@ -28,5 +30,9 @@ public class PostService {
 
     public void deletePost(Integer id) {
         postRepository.deleteById(id);
+    }
+
+    public Post updatePost(Post post) {
+        return postRepository.save(post);
     }
 }
