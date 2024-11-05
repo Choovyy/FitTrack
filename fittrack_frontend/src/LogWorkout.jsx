@@ -50,7 +50,7 @@ const LogWorkout = () => {
         <div className="formGroup">
           <label>Exercise Type:</label>
           <input 
-            type="text" 
+            type="text" className='textBox' 
             value={exerciseType} 
             onChange={(e) => setExerciseType(e.target.value)} 
           />
