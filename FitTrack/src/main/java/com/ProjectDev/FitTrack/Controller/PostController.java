@@ -3,13 +3,14 @@ package com.ProjectDev.FitTrack.Controller;
 import com.ProjectDev.FitTrack.Entity.Post;
 import com.ProjectDev.FitTrack.Service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PostController {
 
     @Autowired
@@ -17,6 +18,7 @@ public class PostController {
 
     @PostMapping
     public Post createPost(@RequestBody Post post) {
+        post.setTimestamp(LocalDateTime.now());
         return postService.savePost(post);
     }
 
@@ -26,33 +28,20 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable Integer id) {
-        return postService.getPostById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Integer id, @RequestBody Post post) {
-        return postService.getPostById(id)
-                .map(existingPost -> {
-                    existingPost.setContent(post.getContent());
-                    existingPost.setTimestamp(post.getTimestamp());
-                    existingPost.setType(post.getType());
-                    existingPost.setLikeCount(post.getLikeCount());
-                    Post updatedPost = postService.savePost(existingPost);
-                    return ResponseEntity.ok(updatedPost);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public Post getPostById(@PathVariable Integer id) {
+        return postService.getPostById(id).orElse(null);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable Integer id) {
-        if (postService.getPostById(id).isPresent()) {
-            postService.deletePost(id);
-            return ResponseEntity.ok("Post with ID " + id + " has been successfully deleted.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String deletePost(@PathVariable Integer id) {
+        postService.deletePost(id);
+        return "Post deleted successfully.";
+    }
+
+    @PutMapping("/{id}")
+    public Post updatePost(@PathVariable Integer id, @RequestBody Post post) {
+        post.setPostID(id); 
+        post.setTimestamp(LocalDateTime.now()); 
+        return postService.updatePost(post);
     }
 }
