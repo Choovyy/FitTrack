@@ -1,11 +1,13 @@
 package com.ProjectDev.FitTrack.Entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 
-import java.util.Date;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 public class Workout {
@@ -18,7 +20,9 @@ public class Workout {
     private String exerciseType;
     private int duration;
     private int caloriesBurned;
-    private Date workoutDate;
+    @CreationTimestamp
+    @Column(name = "workout_date", updatable = false)
+    private LocalDateTime workoutDate;
 
     // Getters and Setters
     public Long getWorkoutID() {
@@ -61,11 +65,11 @@ public class Workout {
         this.caloriesBurned = caloriesBurned;
     }
 
-    public Date getWorkoutDate() {
+    public LocalDateTime getWorkoutDate() {
         return workoutDate;
     }
 
-    public void setWorkoutDate(Date workoutDate) {
+    public void setWorkoutDate(LocalDateTime workoutDate) {
         this.workoutDate = workoutDate;
     }
 }
