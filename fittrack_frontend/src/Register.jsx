@@ -84,7 +84,7 @@ const Register = () => {
       max-width: 400px;
       background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
     /* Heading */
