@@ -13,7 +13,7 @@ function Dashboard() {
         const workouts = await getAllWorkouts();
         const recent = workouts
           .sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate))
-          .slice(0, 2);
+          .slice(0, 5);
         setRecentWorkouts(recent);
       } catch (error) {
         console.error("Error fetching recent workouts:", error);
@@ -22,22 +22,20 @@ function Dashboard() {
 
     fetchRecentWorkouts();
 
-    // Handle scroll to hide or show navbar
     const handleScroll = () => {
       if (window.scrollY > 50) {
-        setIsNavbarVisible(false);  // Hide navbar
+        setIsNavbarVisible(false);
       } else {
-        setIsNavbarVisible(true);  // Show navbar
+        setIsNavbarVisible(true);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup the scroll event listener on component unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [recentWorkouts]);
+  }, []);
 
   return (
     <>
@@ -53,39 +51,45 @@ function Dashboard() {
             <Link to="/workout-goals" className="navLink">Workout Goal</Link>
           </li>
         </ul>
+        <img src="/src/assets/FitTrack Logo.png" alt="Logo" />
       </nav>
 
       <div className="dashboard-page">
         <header className="dashboard-header">
-          <h2>Dashboard</h2>
+          <h2>Welcome John,</h2>
         </header>
 
         <div className="dashboard-controls">
-          <Link to="/log-workout" className="btn">Log Workout</Link>
-          <Link to="/workout-goals" className="btn">Set Goals</Link>
+          <Link to="/log-workout" className="btn">Log a workout</Link>
+          <Link to="/workout-goals" className="btn">Add goal</Link>
+          <Link to="/post" className="btn">View Posts</Link>
           <Link to="/workout-dashboard" className="btn">View History</Link>
         </div>
 
-        <div className="dashboard-content">
-          <div className="recent-workouts">
-            <h3>Recent Workouts</h3>
-            {recentWorkouts.length > 0 ? (
-              recentWorkouts.map((workout) => (
-                <p key={workout.workoutID}>
-                  {workout.exerciseType} - {workout.duration} mins - {workout.caloriesBurned} cal
-                </p>
-              ))
-            ) : (
-              <p>No recent workouts found.</p>
-            )}
-          </div>
-
-          <div className="analytics-section">
-            <h3>Analytics</h3>
-            <p>[Analytics will be displayed here]</p>
-          </div>
+        <div className="did-you-know">
+          <h3>Did you know?</h3>
+          <p>"Fitness isn’t about being better than someone else. It’s about being better than you used to be."</p>
         </div>
-        <Link to="/post" className="view-past-link">View Post</Link>
+
+        <div className="recent-workouts">
+          <h3>Recent Workout</h3>
+          <div className="workout-labels">
+            <span>Exercise Type</span>
+            <span>Duration</span>
+            <span>Calories Burned</span>
+          </div>
+          {recentWorkouts.length > 0 ? (
+            recentWorkouts.map((workout) => (
+              <div className="workout-item" key={workout.workoutID}>
+                <div>{workout.exerciseType}</div>
+                <div>{workout.duration} minutes</div>
+                <div>{workout.caloriesBurned} cal</div>
+              </div>
+            ))
+          ) : (
+            <p>No recent workouts found.</p>
+          )}
+        </div>
       </div>
     </>
   );
