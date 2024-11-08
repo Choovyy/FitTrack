@@ -10,6 +10,7 @@ import JoinUs from './JoinUs';
 import Login from './Login';
 import Register from './Register'; // Import Register component
 import WorkoutDashboard from './WorkoutDashboard';
+import Dashboard from './Dashboard';
 
 import './App.css';
 
