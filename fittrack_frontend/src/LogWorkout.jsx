@@ -43,7 +43,7 @@ const LogWorkout = () => {
       <nav className="navbar">
         <ul className="navList">
           <li className="navDashboard">
-            <Link to="/home" className="navLink">Dashboard</Link>
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
           <li className="navLogworkout">
             <Link to="/log-workout" className="navLink">Log Workout</Link>

@@ -5,13 +5,12 @@ import './Style/Dashboard.css';
 
 function Dashboard() {
   const [recentWorkouts, setRecentWorkouts] = useState([]);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
-  // Fetch recent workouts on component load and after a new workout is logged
   useEffect(() => {
     const fetchRecentWorkouts = async () => {
       try {
         const workouts = await getAllWorkouts();
-        // Sort by date and get the latest 2 workouts
         const recent = workouts
           .sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate))
           .slice(0, 2);
@@ -22,14 +21,30 @@ function Dashboard() {
     };
 
     fetchRecentWorkouts();
-  }, [recentWorkouts]); // Update when recent workouts change
+
+    // Handle scroll to hide or show navbar
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsNavbarVisible(false);  // Hide navbar
+      } else {
+        setIsNavbarVisible(true);  // Show navbar
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup the scroll event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [recentWorkouts]);
 
   return (
     <>
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
         <ul className="navList">
           <li className="navDashboard">
-            <Link to="/home" className="navLink">Dashboard</Link>
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
           <li className="navLogworkout">
             <Link to="/log-workout" className="navLink">Log Workout</Link>
