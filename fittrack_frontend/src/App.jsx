@@ -11,6 +11,7 @@ import Login from './Login';
 import Register from './Register'; // Import Register component
 import WorkoutDashboard from './WorkoutDashboard';
 import Dashboard from './Dashboard';
+import UpdateWorkout from './UpdateWorkout';
 
 import './App.css';
 
@@ -28,6 +29,8 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
                 <Route path="/workout-dashboard" element={<WorkoutDashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/update-workout/:workoutID" element={<UpdateWorkout />} />
                 <Route path="/" element={<Navigate to="/join-us" />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
