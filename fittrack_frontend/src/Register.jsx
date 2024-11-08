@@ -39,11 +39,6 @@ const Register = () => {
     <>
       <style>
         {`
-          .register-navbar {
-            background-color: #333;
-            padding: 10px 0;
-            color: white;
-          }
 
           .register-navList {
             list-style: none;
@@ -78,7 +73,7 @@ const Register = () => {
             margin: auto;
             background-color: #f9f9f9;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
           }
 
           .register-heading {
@@ -150,9 +145,7 @@ const Register = () => {
 
       <nav className="register-navbar">
         <ul className="register-navList">
-          <li className="register-navItem">
-            <a href="/" className="register-navLink">Dashboard</a>
-          </li>
+          
         </ul>
       </nav>
 

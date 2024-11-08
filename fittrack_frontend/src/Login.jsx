@@ -34,11 +34,7 @@ const Login = () => {
     <>
       <style>
         {`
-          .login-navbar {
-            background-color: #333;
-            padding: 10px 0;
-            color: white;
-          }
+          
 
           .login-navList {
             list-style: none;
@@ -73,7 +69,7 @@ const Login = () => {
             margin: auto;
             background-color: #f9f9f9;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
           }
 
           .login-heading {
@@ -145,9 +141,6 @@ const Login = () => {
 
       <nav className="login-navbar">
         <ul className="login-navList">
-          <li className="login-navItem">
-            <Link to="/" className="navLink">Dashboard</Link>
-          </li>
         </ul>
       </nav>
 

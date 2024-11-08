@@ -27,7 +27,7 @@ const LogWorkout = () => {
       };
       await createWorkout(workoutData);
       alert('Workout saved!');
-      navigate('/dashboard');
+      navigate('/ dashboard');
     } catch (error) {
       console.error('Full error details:', error.response ? error.response.data : error.message);
       alert('Failed to save workout. Please try again.');
