@@ -34,3 +34,23 @@ export const deleteWorkout = async (workoutId) => {
     throw error; // Rethrow the error for handling in the component
   }
 };
+
+export const getWorkoutById = async (workoutId) => {
+  try {
+    const response = await axios.get(`${API_URL}/${workoutId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching workout by ID:", error);
+    throw error; // Rethrow the error for handling in the component
+  }
+};
+
+export const updateWorkout = async (workoutId, workoutData) => {
+  try {
+    const response = await axios.put(`${API_URL}/${workoutId}`, workoutData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating workout:", error);
+    throw error; // Rethrow the error for handling in the component
+  }
+};
