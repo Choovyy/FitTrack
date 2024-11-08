@@ -1,4 +1,3 @@
-/* UpdateWorkout.css */
 
 .update-workout-container {
     width: 100%;
@@ -38,7 +37,7 @@
   
   .saveButton,
   .cancelButton {
-    width: 100%;
+    width: 35%;
     padding: 10px;
     font-size: 1rem;
     border: none;
