@@ -157,13 +157,33 @@ const Login = () => {
           }
 
           .login-linkButton {
-            background: none;
-            border: none;
-            color: #3498db;
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 14px;
-          }
+  background: none;
+  border: none;
+  color: #3498db;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 12px; /* Add some padding for a more clickable feel */
+  border-radius: 4px; /* Slight rounded corners for a more modern look */
+  transition: all 0.3s ease; /* Smooth transition for hover and focus effects */
+}
+
+.login-linkButton:hover {
+  color: #2980b9; /* Darken the color on hover */
+  text-decoration: none; /* Remove the underline on hover */
+  background-color: rgba(52, 152, 219, 0.1); /* Light background on hover for emphasis */
+}
+
+.login-linkButton:focus {
+  outline: none; /* Remove the default outline for a custom focus style */
+  border: 2px solid #3498db; /* Add a blue border when focused */
+  background-color: rgba(52, 152, 219, 0.15); /* Subtle background change on focus */
+}
+
+.login-linkButton:active {
+  background-color: rgba(52, 152, 219, 0.2); /* Darker background on click for active state */
+}
+
 
           /* Responsive Design */
           @media (max-width: 600px) {
