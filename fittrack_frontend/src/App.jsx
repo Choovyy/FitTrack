@@ -36,7 +36,6 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />
                 <Route path="/add-post" element={<AddPost addPost={addPost} />} /> 
-                {/* <Route path="/workout-goals/list" element={<WorkoutGoalList />} /> */}
                 <Route path="/post" element={<Post />} />
                 <Route path="/workout-goals" element={<WorkoutGoalPage />} />
                 <Route path="/workout-goals/new" element={<WorkoutGoalForm />} />
