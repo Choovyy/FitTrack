@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { getAllWorkouts, deleteWorkout } from './LogWorkoutService';
 import { Link, useNavigate } from 'react-router-dom';
 import './Style/WorkoutHistory.css';
-
+ 
 function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdateModal, setIsUpdateModal] = useState(false);  // New state for update confirmation
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
-  const [workoutToUpdate, setWorkoutToUpdate] = useState(null);  // State to store workout to update
-  const navigate = useNavigate();  // To navigate after delete
-
+  const navigate = useNavigate(); // For navigating after delete
+ 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
@@ -25,29 +23,29 @@ function WorkoutHistory() {
         console.error('Error fetching workouts:', error);
       }
     };
-
+ 
     fetchWorkouts();
-
+ 
     const handleScroll = () => {
       setIsNavbarVisible(window.scrollY <= 50);
     };
-
+ 
     window.addEventListener('scroll', handleScroll);
-
+ 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+ 
   const filteredWorkouts = workouts.filter((workout) =>
     workout.exerciseType.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+ 
   const handleDelete = async (workoutID) => {
     setWorkoutToDelete(workoutID);
     setIsModalOpen(true);
   };
-
+ 
   const confirmDelete = async () => {
     try {
       await deleteWorkout(workoutToDelete);
@@ -55,35 +53,24 @@ function WorkoutHistory() {
         prevWorkouts.filter((workout) => workout.workoutID !== workoutToDelete)
       );
       setIsModalOpen(false);
-      navigate('/workout-history');  // Redirect after delete
+      navigate('/workout-history'); // Redirect after delete
     } catch (error) {
       console.error('Error deleting workout:', error);
       alert('Failed to delete workout');
     }
   };
-
+ 
   const handleCancelDelete = () => {
     setIsModalOpen(false);
     setWorkoutToDelete(null);
   };
-
+ 
+  // Update workout function
   const handleUpdate = (workoutID) => {
-    setWorkoutToUpdate(workoutID);
-    setIsUpdateModal(true);  // Open the update confirmation modal
+    // Navigate to the update page (replace '/update-workout' with your actual route)
+    navigate(`/update-workout/${workoutID}`);
   };
-
-  const confirmUpdate = () => {
-    // Logic to handle workout update goes here
-    // After confirming, navigate to update page or perform update action
-    setIsUpdateModal(false);
-    navigate(`/update-workout/${workoutToUpdate}`);  // Navigate to update workout page
-  };
-
-  const handleCancelUpdate = () => {
-    setIsUpdateModal(false);
-    setWorkoutToUpdate(null);
-  };
-
+ 
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -99,9 +86,10 @@ function WorkoutHistory() {
           </li>
         </ul>
       </nav>
-      
+ 
       <div className="workout-dashboard">
         <h2>Workout Logs</h2>
+ 
         <div className="search-container">
           <input
             type="text"
@@ -111,13 +99,13 @@ function WorkoutHistory() {
             className="search-input"
           />
         </div>
-
-        <div className="workout-list">
+ 
+        <div className="workoutLogsContainer">
           {filteredWorkouts.length === 0 ? (
             <p>No workouts found. Start logging your workouts!</p>
           ) : (
             filteredWorkouts.map((workout) => (
-              <div key={workout.workoutID} className="workout-card">
+              <div key={workout.workoutID} className="workoutLogItem">
                 <h3>{workout.exerciseType}</h3>
                 <p><strong>Duration:</strong> {workout.duration} minutes</p>
                 <p><strong>Calories Burned:</strong> {workout.caloriesBurned}</p>
@@ -131,7 +119,7 @@ function WorkoutHistory() {
           )}
         </div>
       </div>
-
+ 
       {/* Delete Confirmation Modal */}
       {isModalOpen && (
         <div className="modalOverlay">
@@ -145,21 +133,8 @@ function WorkoutHistory() {
           </div>
         </div>
       )}
-
-      {/* Update Confirmation Modal */}
-      {isUpdateModal && (
-        <div className="modalOverlay">
-          <div className="modalContent">
-            <h3>Are you sure you want to update this workout?</h3>
-            <div className="modalButtons">
-              <button onClick={confirmUpdate} className="saveButton">Yes</button>
-              <button onClick={handleCancelUpdate} className="cancelButton">Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
-
+ 
 export default WorkoutHistory;
