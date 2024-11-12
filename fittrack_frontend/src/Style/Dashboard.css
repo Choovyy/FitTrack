@@ -28,15 +28,6 @@
   max-width: 1300px; /* Set a max width for the text to avoid overflow */
 }
 
-/* Logo size adjustments */
-.navbar img {
-  width: 180px; /* Reduced size */
-  height: 130px; /* Adjusted height */
-  position: absolute;
-  top: -23px;
-  right: 20px;
-}
-
 /* Recent Workouts Section */
 .recent-workouts {
   position: absolute;
@@ -84,7 +75,7 @@
 .btn {
   width: 193.89px;
   height: 41.66px;
-  background-color: #FFCA28;
+  background-color: #009688;
   color: black;
   font-size: 18px;
   font-weight: 600;
@@ -99,5 +90,5 @@
 }
 
 .btn:hover {
-  background-color: #f4b400;
+  background-color: #000000;
 }

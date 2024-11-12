@@ -1,145 +1,109 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { getAllWorkouts, deleteWorkout } from './LogWorkoutService';
+import { Link } from 'react-router-dom';
+import './Style/WorkoutHistory.css';
 
-const WorkoutHistory = () => {
-    const [workouts, setWorkouts] = useState([]);
-    const [editingWorkout, setEditingWorkout] = useState(null);
-    const [workoutData, setWorkoutData] = useState({
-        userID: '',
-        exerciseType: '',
-        duration: '',
-        caloriesBurned: '',
-        workoutDate: '',
-    });
+function WorkoutDashboard() {
+  const [workouts, setWorkouts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // Add searchQuery state
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
-    useEffect(() => {
-        fetchWorkouts();
-    }, []);
-
+  useEffect(() => {
     const fetchWorkouts = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/api/workouts');
-            setWorkouts(response.data);
-        } catch (error) {
-            console.error("Error fetching workouts:", error);
-        }
+      try {
+        const workoutData = await getAllWorkouts();
+        // Sort workouts by date in descending order
+        const sortedWorkouts = workoutData.sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate));
+        setWorkouts(sortedWorkouts);
+      } catch (error) {
+        console.error('Error fetching workouts:', error);
+      }
     };
 
-    const deleteWorkout = async (id) => {
-        try {
-            await axios.delete(`http://localhost:8080/api/workouts/${id}`);
-            setWorkouts(workouts.filter(workout => workout.id !== id));
-        } catch (error) {
-            console.error("Error deleting workout:", error);
-        }
+    fetchWorkouts();
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsNavbarVisible(false);
+      } else {
+        setIsNavbarVisible(true);
+      }
     };
 
-    const handleEditClick = (workout) => {
-        setEditingWorkout(workout.id);
-        setWorkoutData({
-            userID: workout.userID,
-            exerciseType: workout.exerciseType,
-            duration: workout.duration,
-            caloriesBurned: workout.caloriesBurned,
-            workoutDate: workout.workoutDate,
-        });
-    };
+    window.addEventListener('scroll', handleScroll);
 
-    const updateWorkout = async (id) => {
-        try {
-            await axios.put(`http://localhost:8080/api/workouts/${id}`, workoutData);
-            setEditingWorkout(null);
-            fetchWorkouts(); 
-        } catch (error) {
-            console.error("Error updating workout:", error);
-        }
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setWorkoutData(prevData => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+  // Filter workouts based on the search query
+  const filteredWorkouts = workouts.filter(workout => 
+    workout.exerciseType.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-    return (
-        <div>
-            <h2>Workout History</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Exercise Type</th>
-                        <th>Duration</th>
-                        <th>Calories Burned</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {workouts.map((workout) => (
-                        <tr key={workout.id}>
-                            <td>{editingWorkout === workout.id ? (
-                                <input
-                                    type="text"
-                                    name="userID"
-                                    value={workoutData.userID}
-                                    onChange={handleChange}
-                                />
-                            ) : workout.userID}</td>
-                            <td>{editingWorkout === workout.id ? (
-                                <input
-                                    type="text"
-                                    name="exerciseType"
-                                    value={workoutData.exerciseType}
-                                    onChange={handleChange}
-                                />
-                            ) : workout.exerciseType}</td>
-                            <td>{editingWorkout === workout.id ? (
-                                <input
-                                    type="text"
-                                    name="duration"
-                                    value={workoutData.duration}
-                                    onChange={handleChange}
-                                />
-                            ) : workout.duration}</td>
-                            <td>{editingWorkout === workout.id ? (
-                                <input
-                                    type="text"
-                                    name="caloriesBurned"
-                                    value={workoutData.caloriesBurned}
-                                    onChange={handleChange}
-                                />
-                            ) : workout.caloriesBurned}</td>
-                            <td>{editingWorkout === workout.id ? (
-                                <input
-                                    type="date"
-                                    name="workoutDate"
-                                    value={workoutData.workoutDate}
-                                    onChange={handleChange}
-                                />
-                            ) : workout.workoutDate}</td>
-                            <td>
-                                {editingWorkout === workout.id ? (
-                                    <>
-                                        <button onClick={() => updateWorkout(workout.id)}>Save</button>
-                                        <button onClick={() => setEditingWorkout(null)}>Cancel</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button onClick={() => handleEditClick(workout)}>Edit</button>
-                                        <button onClick={() => deleteWorkout(workout.id)}>Delete</button>
-                                    </>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+  const handleDelete = async (workoutID) => {
+    try {
+      await deleteWorkout(workoutID);
+      setWorkouts(workouts.filter(workout => workout.workoutID !== workoutID));
+      alert('Workout deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting workout:', error);
+      alert('Failed to delete workout');
+    }
+  };
+
+  return (
+    <>
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
+          </li>
+          <li className="navLogworkout">
+            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          </li>
+          <li className="navWorkoutGoal">
+            <Link to="/workout-goals" className="navLink">Workout Goal</Link>
+          </li>
+        </ul>
+      </nav>
+      <div className="workout-dashboard">
+        <h2>Workout Logs</h2>
+
+        {/* Search Input Field (on the right side) */}
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by exercise type"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
+            className="search-input"
+          />
         </div>
-    );
-};
 
-export default WorkoutHistory;
+        {/* Workout Logs List */}
+        <div className="workout-list">
+          {filteredWorkouts.length === 0 ? (
+            <p>No workouts found. Start logging your workouts!</p>
+          ) : (
+            filteredWorkouts.map((workout) => (
+              <div key={workout.workoutID} className="workout-card">
+                <h3>{workout.exerciseType}</h3>
+                <p><strong>Duration:</strong> {workout.duration} minutes</p>
+                <p><strong>Calories Burned:</strong> {workout.caloriesBurned}</p>
+                <p><strong>Date:</strong> {new Date(workout.workoutDate).toLocaleString('en-PH', { timeZone: 'Asia/Manila' })}</p>
+                <div className="workout-actions">
+                  <Link to={`/update-workout/${workout.workoutID}`} className="update-btn">Update</Link>
+                  <button onClick={() => handleDelete(workout.workoutID)} className="delete-btn">Delete</button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
 
+export default WorkoutDashboard;

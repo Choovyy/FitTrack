@@ -41,7 +41,6 @@ const WorkoutGoalPage = () => {
       <Link to="/log-workout" className="navLink">Log Workout</Link>
     </li>
   </ul>
-  <img src="/src/assets/FitTrack Logo.png" alt="FitTrack Logo" className="navbar-logo" />
 </nav>
 
       <div className="goals-header">

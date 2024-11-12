@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllWorkouts } from './LogWorkoutService';
 import './Style/Dashboard.css';
+import './App.css';
 
 function Dashboard() {
   const [recentWorkouts, setRecentWorkouts] = useState([]);
@@ -51,7 +52,6 @@ function Dashboard() {
             <Link to="/workout-goals" className="navLink">Workout Goal</Link>
           </li>
         </ul>
-        <img src="/src/assets/FitTrack Logo.png" alt="Logo" />
       </nav>
 
       <div className="dashboard-page">
@@ -63,7 +63,7 @@ function Dashboard() {
           <Link to="/log-workout" className="btn">Log a workout</Link>
           <Link to="/workout-goals" className="btn">Add goal</Link>
           <Link to="/post" className="btn">View Posts</Link>
-          <Link to="/workout-dashboard" className="btn">View History</Link>
+          <Link to="/workout-history" className="btn">View History</Link>
         </div>
 
         <div className="did-you-know">
