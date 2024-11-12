@@ -124,7 +124,9 @@ button {
   min-width: 120px;
   border-radius: 10px;
 }
-
+.save-button:hover{
+  background-color: #000000;
+}
 .cancel-button {
   background-color: red;
   color: rgb(255, 255, 255);

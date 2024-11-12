@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { getAllWorkouts, deleteWorkout } from './LogWorkoutService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Style/WorkoutHistory.css';
 
-function WorkoutDashboard() {
+function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(''); // Add searchQuery state
+  const [searchQuery, setSearchQuery] = useState('');
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdateModal, setIsUpdateModal] = useState(false);  // New state for update confirmation
+  const [workoutToDelete, setWorkoutToDelete] = useState(null);
+  const [workoutToUpdate, setWorkoutToUpdate] = useState(null);  // State to store workout to update
+  const navigate = useNavigate();  // To navigate after delete
 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
         const workoutData = await getAllWorkouts();
-        // Sort workouts by date in descending order
-        const sortedWorkouts = workoutData.sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate));
+        const sortedWorkouts = workoutData.sort(
+          (a, b) => new Date(b.workoutDate) - new Date(a.workoutDate)
+        );
         setWorkouts(sortedWorkouts);
       } catch (error) {
         console.error('Error fetching workouts:', error);
@@ -23,11 +29,7 @@ function WorkoutDashboard() {
     fetchWorkouts();
 
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsNavbarVisible(false);
-      } else {
-        setIsNavbarVisible(true);
-      }
+      setIsNavbarVisible(window.scrollY <= 50);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -37,20 +39,49 @@ function WorkoutDashboard() {
     };
   }, []);
 
-  // Filter workouts based on the search query
-  const filteredWorkouts = workouts.filter(workout => 
+  const filteredWorkouts = workouts.filter((workout) =>
     workout.exerciseType.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleDelete = async (workoutID) => {
+    setWorkoutToDelete(workoutID);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
     try {
-      await deleteWorkout(workoutID);
-      setWorkouts(workouts.filter(workout => workout.workoutID !== workoutID));
-      alert('Workout deleted successfully!');
+      await deleteWorkout(workoutToDelete);
+      setWorkouts((prevWorkouts) =>
+        prevWorkouts.filter((workout) => workout.workoutID !== workoutToDelete)
+      );
+      setIsModalOpen(false);
+      navigate('/workout-history');  // Redirect after delete
     } catch (error) {
       console.error('Error deleting workout:', error);
       alert('Failed to delete workout');
     }
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
+    setWorkoutToDelete(null);
+  };
+
+  const handleUpdate = (workoutID) => {
+    setWorkoutToUpdate(workoutID);
+    setIsUpdateModal(true);  // Open the update confirmation modal
+  };
+
+  const confirmUpdate = () => {
+    // Logic to handle workout update goes here
+    // After confirming, navigate to update page or perform update action
+    setIsUpdateModal(false);
+    navigate(`/update-workout/${workoutToUpdate}`);  // Navigate to update workout page
+  };
+
+  const handleCancelUpdate = () => {
+    setIsUpdateModal(false);
+    setWorkoutToUpdate(null);
   };
 
   return (
@@ -68,21 +99,19 @@ function WorkoutDashboard() {
           </li>
         </ul>
       </nav>
+      
       <div className="workout-dashboard">
         <h2>Workout Logs</h2>
-
-        {/* Search Input Field (on the right side) */}
         <div className="search-container">
           <input
             type="text"
             placeholder="Search by exercise type"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"
           />
         </div>
 
-        {/* Workout Logs List */}
         <div className="workout-list">
           {filteredWorkouts.length === 0 ? (
             <p>No workouts found. Start logging your workouts!</p>
@@ -94,7 +123,7 @@ function WorkoutDashboard() {
                 <p><strong>Calories Burned:</strong> {workout.caloriesBurned}</p>
                 <p><strong>Date:</strong> {new Date(workout.workoutDate).toLocaleString('en-PH', { timeZone: 'Asia/Manila' })}</p>
                 <div className="workout-actions">
-                  <Link to={`/update-workout/${workout.workoutID}`} className="update-btn">Update</Link>
+                  <button onClick={() => handleUpdate(workout.workoutID)} className="update-btn">Update</button>
                   <button onClick={() => handleDelete(workout.workoutID)} className="delete-btn">Delete</button>
                 </div>
               </div>
@@ -102,8 +131,35 @@ function WorkoutDashboard() {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {isModalOpen && (
+        <div className="modalOverlay">
+          <div className="modalContent">
+            <h3>Are you sure you want to delete this workout?</h3>
+            <p>This action cannot be undone.</p>
+            <div className="modalButtons">
+              <button onClick={confirmDelete} className="saveButton">Yes</button>
+              <button onClick={handleCancelDelete} className="cancelButton">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Update Confirmation Modal */}
+      {isUpdateModal && (
+        <div className="modalOverlay">
+          <div className="modalContent">
+            <h3>Are you sure you want to update this workout?</h3>
+            <div className="modalButtons">
+              <button onClick={confirmUpdate} className="saveButton">Yes</button>
+              <button onClick={handleCancelUpdate} className="cancelButton">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
-export default WorkoutDashboard;
+export default WorkoutHistory;

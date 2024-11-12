@@ -44,9 +44,10 @@
     min-width: 100px;
 }
 
+
 /* Removed hover font color */
 .add-goal-button:hover {
-    color: #FFFFFF;
+    background-color: #000000;
 }
 
 .goals-container {
