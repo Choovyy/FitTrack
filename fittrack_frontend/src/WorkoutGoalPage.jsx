@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getAllWorkoutGoals, deleteWorkoutGoal } from './WorkoutGoalService';
 import './Style/WorkoutGoalPage.css';
 import './App.css';
-import FitTrackLogo from '/src/assets/FitTrack Logo.png'; // Import the logo image
 
 const WorkoutGoalPage = () => {
   const [workoutGoals, setWorkoutGoals] = useState([]);

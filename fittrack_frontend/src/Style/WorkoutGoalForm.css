@@ -115,20 +115,21 @@ button {
   font-size: 1em;
   padding: 12px 24px;
   border: none;
-  border-radius: 12px;
   cursor: pointer;
 }
 
 .save-button {
-  background-color: #009688;
-  color: #FFFFFF;
+  background-color: #FFCA28;
+  color: #090909;
   min-width: 120px;
+  border-radius: 10px;
 }
 
 .cancel-button {
-  background-color: #263238;
-  color: #FFFFFF;
+  background-color: red;
+  color: black;
   min-width: 120px;
+  border-radius: 10px;
 }
 
 .navbar-logo {

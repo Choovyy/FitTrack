@@ -31,7 +31,6 @@ function App() {
                 <Route path="/workout-dashboard" element={<WorkoutDashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/update-workout/:workoutID" element={<UpdateWorkout />} />
-
                 <Route path="/" element={<Navigate to="/join-us" />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/log-workout" element={<LogWorkout />} />

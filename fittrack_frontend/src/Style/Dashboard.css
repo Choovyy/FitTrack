@@ -1,117 +1,103 @@
-/* General Dashboard Page Styling */
-.dashboard-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Header Section */
-  .dashboard-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-header h2 {
-    font-size: 32px;
-    color: #333;
-  }
-  
-  /* Controls Section (Buttons) */
-  .dashboard-controls {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .btn {
-    padding: 12px 24px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Main Content Section */
-  .dashboard-content {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    max-width: 1200px; /* Optional: Set max width for better readability on larger screens */
-  }
-  
-  /* Recent Workouts Section */
-  .recent-workouts {
-    flex: 1;
-    padding: 20px;
-    margin: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .recent-workouts h3 {
-    margin-bottom: 15px;
-    font-size: 22px;
-    color: #333;
-  }
-  
-  .recent-workouts p {
-    margin: 8px 0;
-    font-size: 16px;
-    color: #555;
-  }
-  
-  /* Link to View Past Workouts */
-  .view-past-link {
-    display: inline-block;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #007bff;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  .view-past-link:hover {
-    color: #0056b3;
-  }
-  
-  /* Analytics Section */
-  .analytics-section {
-    flex: 0.4;
-    padding: 20px;
-    margin: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .analytics-section h3 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 15px;
-  }
-  
-  .analytics-section p {
-    font-size: 16px;
-    color: #555;
-    margin-top: 20px;
-    font-style: italic;
-    opacity: 0.7;
-  }
-  
+/* Adjusting font sizes for better readability */
+.dashboard-header {
+  position: absolute;
+  top: 150px; /* Move up slightly */
+  left: 105px; /* Move a bit to the left */
+  font-size: 24px; /* Increase font size */
+  font-weight: 700;
+  color: black;
+}
+
+.dashboard-controls {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  top: 210px; /* Move up slightly */
+  left: 105px; /* Move a bit to the left */
+}
+
+/* Styling for the 'Did you know?' section */
+.did-you-know {
+  position: absolute;
+  top: 390px; /* Position below the controls */
+  left: 105px;
+  font-size: 18px; /* Adjust font size */
+  color: #333;
+  font-weight: 500;
+  margin-top: 20px;
+  max-width: 1300px; /* Set a max width for the text to avoid overflow */
+}
+
+/* Logo size adjustments */
+.navbar img {
+  width: 180px; /* Reduced size */
+  height: 130px; /* Adjusted height */
+  position: absolute;
+  top: -23px;
+  right: 20px;
+}
+
+/* Recent Workouts Section */
+.recent-workouts {
+  position: absolute;
+  top: 510px; /* Move up slightly */
+  left: 105px; /* Move a bit to the left */
+  width: 1205px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.recent-workouts h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.workout-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 1px solid #ddd;
+}
+
+.workout-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #E8E8E8;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.workout-item div {
+  font-size: 18px; /* Adjust font size for better readability */
+  font-weight: 500;
+  color: black;
+}
+.btn {
+  width: 193.89px;
+  height: 41.66px;
+  background-color: #FFCA28;
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #f4b400;
+}
