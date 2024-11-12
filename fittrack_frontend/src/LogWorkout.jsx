@@ -8,17 +8,33 @@ const LogWorkout = () => {
   const [exerciseType, setExerciseType] = useState('');
   const [duration, setDuration] = useState('');
   const [caloriesBurned, setCaloriesBurned] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
 
-  const handleSave = async (e) => {
-    e.preventDefault(); // Prevent form submission to handle validation
+  const handleExerciseTypeChange = (e) => {
+    let input = e.target.value;
+    if (/\d/.test(input)) { // Check if input contains any digit
+      setErrorMessage('Exercise type cannot contain numbers');
+    } else {
+      setErrorMessage('');
+      // Capitalize the first letter of the input
+      input = input.charAt(0).toUpperCase() + input.slice(1);
+      setExerciseType(input);
+    }
+  };
 
-    // Check if all fields are filled out
+  const handleSaveClick = (e) => {
+    e.preventDefault();
     if (!exerciseType || !duration || !caloriesBurned) {
       alert('Please fill out all fields!');
       return;
     }
+    setIsModalOpen(true);
+  };
 
+  const handleConfirmSave = async () => {
     try {
       const workoutData = {
         exerciseType,
@@ -26,7 +42,11 @@ const LogWorkout = () => {
         caloriesBurned: parseInt(caloriesBurned, 10),
       };
       await createWorkout(workoutData);
-      alert('Workout saved!');
+
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 3000);
+
+      setIsModalOpen(false);
       navigate('/dashboard');
     } catch (error) {
       console.error('Full error details:', error.response ? error.response.data : error.message);
@@ -55,16 +75,17 @@ const LogWorkout = () => {
       </nav>
       <div className="container">
         <h2>Log Your Workout</h2>
-        <form onSubmit={handleSave}>
+        <form onSubmit={handleSaveClick}>
           <div className="formGroup">
             <label>Exercise Type:</label>
             <input 
               type="text" 
               className="textBox" 
               value={exerciseType} 
-              onChange={(e) => setExerciseType(e.target.value)} 
-              required // This ensures the field is required
+              onChange={handleExerciseTypeChange} 
+              required
             />
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </div>
           <div className="formGroup">
             <label>Duration (minutes):</label>
@@ -72,7 +93,7 @@ const LogWorkout = () => {
               type="number" 
               value={duration} 
               onChange={(e) => setDuration(e.target.value)} 
-              required // This ensures the field is required
+              required
             />
           </div>
           <div className="formGroup">
@@ -81,13 +102,34 @@ const LogWorkout = () => {
               type="number" 
               value={caloriesBurned} 
               onChange={(e) => setCaloriesBurned(e.target.value)} 
-              required // This ensures the field is required
+              required
             />
           </div>
           <button type="submit" className="saveButton">Save</button>
-        <button onClick={handleCancel} className="cancelButton">Cancel</button>
+          <button onClick={handleCancel} className="cancelButton">Cancel</button>
         </form>
       </div>
+
+      {/* Confirmation Modal */}
+      {isModalOpen && (
+        <div className="modalOverlay">
+          <div className="modalContent">
+            <h3>Do you want to save this workout?</h3>
+            <p>This action will save your workout data.</p>
+            <div className="modalButtons">
+              <button onClick={handleConfirmSave} className="saveButton">Save</button>
+              <button onClick={() => setIsModalOpen(false)} className="cancelButton">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <div className="success-message">
+          Workout saved!
+        </div>
+      )}
     </>
   );
 };

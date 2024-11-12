@@ -5,13 +5,16 @@ import './Style/WorkoutDashboard.css';
 
 function WorkoutDashboard() {
   const [workouts, setWorkouts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(''); // Add searchQuery state
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
         const workoutData = await getAllWorkouts();
-        setWorkouts(workoutData);
+        // Sort workouts by date in descending order
+        const sortedWorkouts = workoutData.sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate));
+        setWorkouts(sortedWorkouts);
       } catch (error) {
         console.error('Error fetching workouts:', error);
       }
@@ -33,6 +36,11 @@ function WorkoutDashboard() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Filter workouts based on the search query
+  const filteredWorkouts = workouts.filter(workout => 
+    workout.exerciseType.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleDelete = async (workoutID) => {
     try {
@@ -62,11 +70,24 @@ function WorkoutDashboard() {
       </nav>
       <div className="workout-dashboard">
         <h2>Workout Logs</h2>
+
+        {/* Search Input Field (on the right side) */}
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by exercise type"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} // Update the search query
+            className="search-input"
+          />
+        </div>
+
+        {/* Workout Logs List */}
         <div className="workout-list">
-          {workouts.length === 0 ? (
+          {filteredWorkouts.length === 0 ? (
             <p>No workouts found. Start logging your workouts!</p>
           ) : (
-            workouts.map((workout) => (
+            filteredWorkouts.map((workout) => (
               <div key={workout.workoutID} className="workout-card">
                 <h3>{workout.exerciseType}</h3>
                 <p><strong>Duration:</strong> {workout.duration} minutes</p>
