@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { getAllWorkouts, deleteWorkout } from './LogWorkoutService';
 import { Link, useNavigate } from 'react-router-dom';
 import './Style/WorkoutHistory.css';
- 
+
 function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
-  const navigate = useNavigate(); // For navigating after delete
- 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
@@ -23,29 +23,29 @@ function WorkoutHistory() {
         console.error('Error fetching workouts:', error);
       }
     };
- 
+
     fetchWorkouts();
- 
+
     const handleScroll = () => {
       setIsNavbarVisible(window.scrollY <= 50);
     };
- 
+
     window.addEventListener('scroll', handleScroll);
- 
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
- 
+
   const filteredWorkouts = workouts.filter((workout) =>
     workout.exerciseType.toLowerCase().includes(searchQuery.toLowerCase())
   );
- 
+
   const handleDelete = async (workoutID) => {
     setWorkoutToDelete(workoutID);
     setIsModalOpen(true);
   };
- 
+
   const confirmDelete = async () => {
     try {
       await deleteWorkout(workoutToDelete);
@@ -53,23 +53,22 @@ function WorkoutHistory() {
         prevWorkouts.filter((workout) => workout.workoutID !== workoutToDelete)
       );
       setIsModalOpen(false);
-      navigate('/workout-history'); // Redirect after delete
+      navigate('/workout-history');
     } catch (error) {
       console.error('Error deleting workout:', error);
       alert('Failed to delete workout');
     }
   };
- 
+
   const handleCancelDelete = () => {
     setIsModalOpen(false);
     setWorkoutToDelete(null);
   };
 
   const handleUpdate = (workoutID) => {
-    // Navigate to the update page (replace '/update-workout' with your actual route)
     navigate(`/update-workout/${workoutID}`);
   };
- 
+
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -85,40 +84,37 @@ function WorkoutHistory() {
           </li>
         </ul>
       </nav>
-      
-      <div className="workout-dashboard">
-        <h2>Workout Logs</h2>
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search by exercise type"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
-        </div>
 
-        <div className="workout-list">
-          {filteredWorkouts.length === 0 ? (
-            <p>No workouts found. Start logging your workouts!</p>
-          ) : (
+      <div className="workout-history-page">
+        <h2>Workout History</h2>
+
+        <div className="workout-history-container">
+          <div className="workout-labels">
+            <span>Exercise Type</span>
+            <span>Duration (minutes)</span>
+            <span>Calories Burned</span>
+            <span>Date</span>
+            <span>Actions</span> {/* This will hold the buttons */}
+          </div>
+          {filteredWorkouts.length > 0 ? (
             filteredWorkouts.map((workout) => (
-              <div key={workout.workoutID} className="workoutLogItem">
-                <h3>{workout.exerciseType}</h3>
-                <p><strong>Duration:</strong> {workout.duration} minutes</p>
-                <p><strong>Calories Burned:</strong> {workout.caloriesBurned}</p>
-                <p><strong>Date:</strong> {new Date(workout.workoutDate).toLocaleString('en-PH', { timeZone: 'Asia/Manila' })}</p>
+              <div key={workout.workoutID} className="workout-item">
+                <div>{workout.exerciseType}</div>
+                <div>{workout.duration} minutes</div>
+                <div>{workout.caloriesBurned} cal</div>
+                <div>{new Date(workout.workoutDate).toLocaleDateString()}</div>
                 <div className="workout-actions">
                   <button onClick={() => handleUpdate(workout.workoutID)} className="update-btn">Update</button>
                   <button onClick={() => handleDelete(workout.workoutID)} className="delete-btn">Delete</button>
                 </div>
               </div>
             ))
+          ) : (
+            <p>No workouts found. Start logging your workouts!</p>
           )}
         </div>
       </div>
- 
-      {/* Delete Confirmation Modal */}
+
       {isModalOpen && (
         <div className="modalOverlay">
           <div className="modalContent">
@@ -134,5 +130,5 @@ function WorkoutHistory() {
     </>
   );
 }
- 
+
 export default WorkoutHistory;

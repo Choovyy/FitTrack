@@ -1,30 +1,78 @@
-.workout-list {
-  padding: 40px;
-  max-width: 800px; /* Center the workout logs */
-  margin: auto;
-  margin-top: 30px;
+.workout-history-page {
+  margin: 80px auto 40px;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.workout-history-page h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333333;
+  text-align: left;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #009688;
+  padding-bottom: 10px;
+}
+
+.workout-history-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.workout-labels {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 150px; /* Adjust columns */
+  font-weight: bold;
+  font-size: 18px;
+  color: #009688;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.workout-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 150px; /* Adjust columns for uniformity */
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-top: 15px;
+  font-size: 18px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.workout-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.workout-actions {
   display: flex;
-  justify-content: space-between;
-  width: 100%; /* Buttons should fill the width of the container */
-  gap: 10px; /* Spacing between buttons */
+  gap: 10px;
+  justify-self: end; /* Align buttons to the right */
 }
 
-h2 {
-  margin-bottom: 20px; /* Add some space below the header */
-}
-
-.search-container {
-  position: fixed; /* Fixed positioning to keep the search bar on the right */
-  right: 20px; /* Position it to the right edge */
-  top: 80px; /* Adjust top position to prevent overlap with navbar */
-  z-index: 100; /* Ensure it stays on top of other content */
-}
-
-.search-input {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 5px;
+.update-btn, .delete-btn {
+  padding: 8px 12px;
+  border: none;
   cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.update-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #FF5252;
+  color: white;
 }
 
 .modalOverlay {
@@ -39,7 +87,7 @@ h2 {
   justify-content: center;
   z-index: 1000;
 }
- 
+
 .modalContent {
   background: #242526;
   padding: 20px;
@@ -48,69 +96,9 @@ h2 {
   text-align: center;
   width: 300px;
 }
- 
+
 .modalButtons {
   display: flex;
   justify-content: space-around;
   margin-top: 15px;
 }
-
-.workout-list {
-  display: flex;
-  flex-direction: column; /* Stack the workout cards vertically */
-  gap: 15px;
-  flex-grow: 1; /* Allow the workout logs to take up available space */
-}
-
-.workout-card {
-  width: 100%; /* Make each card take up full width */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 30px;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
-}
-
-.workout-card h3 {
-  margin-top: 0;
-}
-
-.workout-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.update-btn, .delete-btn {
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.update-btn {
-  background-color: #4CAF50;
-  color: #FFFFFF;
-}
-
-.delete-btn {
-  background-color: #FF5252;
-  color: #FFFFFF;
-}
-
-.saveButton {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-}
-
-.cancelButton {
-  background-color: #FF5252;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-}
- 
