@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllWorkouts, deleteWorkout } from './LogWorkoutService';
 import { Link, useNavigate } from 'react-router-dom';
 import './Style/WorkoutHistory.css';
-
+ 
 function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -10,7 +10,7 @@ function WorkoutHistory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
   const navigate = useNavigate(); // For navigating after delete
-
+ 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
@@ -23,29 +23,29 @@ function WorkoutHistory() {
         console.error('Error fetching workouts:', error);
       }
     };
-
+ 
     fetchWorkouts();
-
+ 
     const handleScroll = () => {
       setIsNavbarVisible(window.scrollY <= 50);
     };
-
+ 
     window.addEventListener('scroll', handleScroll);
-
+ 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+ 
   const filteredWorkouts = workouts.filter((workout) =>
     workout.exerciseType.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+ 
   const handleDelete = async (workoutID) => {
     setWorkoutToDelete(workoutID);
     setIsModalOpen(true);
   };
-
+ 
   const confirmDelete = async () => {
     try {
       await deleteWorkout(workoutToDelete);
@@ -59,18 +59,17 @@ function WorkoutHistory() {
       alert('Failed to delete workout');
     }
   };
-
+ 
   const handleCancelDelete = () => {
     setIsModalOpen(false);
     setWorkoutToDelete(null);
   };
 
-  // Update workout function
   const handleUpdate = (workoutID) => {
     // Navigate to the update page (replace '/update-workout' with your actual route)
     navigate(`/update-workout/${workoutID}`);
   };
-
+ 
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -86,10 +85,9 @@ function WorkoutHistory() {
           </li>
         </ul>
       </nav>
-
+      
       <div className="workout-dashboard">
         <h2>Workout Logs</h2>
-
         <div className="search-container">
           <input
             type="text"
@@ -100,7 +98,7 @@ function WorkoutHistory() {
           />
         </div>
 
-        <div className="workoutLogsContainer">
+        <div className="workout-list">
           {filteredWorkouts.length === 0 ? (
             <p>No workouts found. Start logging your workouts!</p>
           ) : (
@@ -119,7 +117,7 @@ function WorkoutHistory() {
           )}
         </div>
       </div>
-
+ 
       {/* Delete Confirmation Modal */}
       {isModalOpen && (
         <div className="modalOverlay">
@@ -136,5 +134,5 @@ function WorkoutHistory() {
     </>
   );
 }
-
+ 
 export default WorkoutHistory;

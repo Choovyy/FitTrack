@@ -11,13 +11,6 @@ const JoinUs = () => {
 
   return (
     <>
-    <nav className="navbar">
-        <ul className="navList">
-          <li className="navDashboard">
-            <Link to="/" className="navLink">Dashboard</Link>
-          </li>
-        </ul>
-      </nav>
     <div className="app-container">
       <style>
         {`
