@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getAllWorkouts, deleteWorkout } from './LogWorkoutService';
 import { Link, useNavigate } from 'react-router-dom';
+import { TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import './Style/WorkoutHistory.css';
 
 function WorkoutHistory() {
@@ -88,13 +90,35 @@ function WorkoutHistory() {
       <div className="workout-history-page">
         <h2>Workout History</h2>
 
+        {/* Search Bar with Material-UI */}
+        <div className="search-bar">
+          <TextField
+            variant="outlined"
+            placeholder="Search workout"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              width: '100%',
+              maxWidth: '400px',
+              marginBottom: '20px',
+            }}
+          />
+        </div>
+
         <div className="workout-history-container">
           <div className="workout-labels">
             <span>Exercise Type</span>
             <span>Duration (minutes)</span>
             <span>Calories Burned</span>
             <span>Date</span>
-            <span>Actions</span> {/* This will hold the buttons */}
+            <span>Actions</span>
           </div>
           {filteredWorkouts.length > 0 ? (
             filteredWorkouts.map((workout) => (
