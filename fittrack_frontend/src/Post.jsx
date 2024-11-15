@@ -71,11 +71,11 @@ const Post = ({ onDelete, onUpdate }) => {
           <li className="navDashboard">
             <Link to="/home" className="navLink">Dashboard</Link>
           </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navAddPost">
-            <Link to="/add-post" className="navLink">Add Post</Link>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
           </li>
         </ul>
       </nav>

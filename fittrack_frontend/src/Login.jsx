@@ -22,7 +22,7 @@ const Login = () => {
         const { token } = response.data; // Token received
         localStorage.setItem('token', token); // Store token
         setMessage('Login successful!');
-        navigate('/home'); // Redirect after successful login
+        navigate('/aboutus'); // Redirect after successful login
       }
     } catch (error) {
       console.error('Login error:', error);

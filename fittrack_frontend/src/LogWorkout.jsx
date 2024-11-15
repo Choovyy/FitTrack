@@ -65,11 +65,11 @@ const LogWorkout = () => {
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navWorkoutGoal">
-            <Link to="/workout-goals" className="navLink">Workout Goal</Link>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
           </li>
         </ul>
       </nav>
