@@ -7,7 +7,7 @@ const JoinUs = () => {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleJoinClick = () => {
-    navigate('/login'); // Redirect to the Login page
+    navigate('/register'); 
   };
 
   const handleLoginClick = () => {
