@@ -42,7 +42,7 @@ public class WorkoutController {
     public ResponseEntity<Workout> updateWorkout(@PathVariable Long id, @RequestBody Workout workout) {
         return workoutService.getWorkoutById(id)
                 .map(existingWorkout -> {
-                    existingWorkout.setUserID(workout.getUserID());
+                    existingWorkout.setUser(workout.getUser());
                     existingWorkout.setExerciseType(workout.getExerciseType());
                     existingWorkout.setDuration(workout.getDuration());
                     existingWorkout.setCaloriesBurned(workout.getCaloriesBurned());

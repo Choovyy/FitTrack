@@ -1,10 +1,6 @@
 package com.ProjectDev.FitTrack.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,18 +11,20 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentID;
     private Integer postID;
-    private Integer userID;
     private String commentText;
     private LocalDateTime timeStamp;
 
-    // Constructors
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Comment() {}
 
-    public Comment(Integer postID, Integer userID, String commentText, LocalDateTime timeStamp) {
+    public Comment(Integer postID, String commentText, LocalDateTime timeStamp, User user) {
         this.postID = postID;
-        this.userID = userID;
         this.commentText = commentText;
         this.timeStamp = timeStamp;
+        this.user = user;
     }
 
     // Getters and Setters
@@ -46,14 +44,6 @@ public class Comment {
         this.postID = postID;
     }
 
-    public Integer getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-    }
-
     public String getCommentText() {
         return commentText;
     }
@@ -68,5 +58,13 @@ public class Comment {
 
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
