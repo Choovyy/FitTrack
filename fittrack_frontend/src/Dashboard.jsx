@@ -4,6 +4,7 @@ import { getAllWorkouts } from './LogWorkoutService';
 import { FaDumbbell, FaBullseye, FaHistory, FaClipboardList } from 'react-icons/fa';
 import './Style/Dashboard.css';
 import './App.css';
+import logo from './assets/FitTrack Logo.png'; // Correct path
 
 function Dashboard() {
   const [recentWorkouts, setRecentWorkouts] = useState([]);
@@ -43,15 +44,18 @@ function Dashboard() {
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+        <div className="navbar-logo">
+          <img src={logo} alt="FitTrack Logo" className="logo" />
+        </div>
         <ul className="navList">
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navWorkoutGoal">
-            <Link to="/workout-goals" className="navLink">Workout Goal</Link>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
           </li>
         </ul>
       </nav>

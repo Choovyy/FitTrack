@@ -73,19 +73,24 @@ function WorkoutHistory() {
 
   return (
     <>
-      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-        <ul className="navList">
-          <li className="navDashboard">
-            <Link to="/dashboard" className="navLink">Dashboard</Link>
-          </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
-          </li>
-          <li className="navWorkoutGoal">
-            <Link to="/workout-goals" className="navLink">Workout Goal</Link>
-          </li>
-        </ul>
-      </nav>
+<nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+  <div className="navbar-logo">
+    {/* Logo section */}
+    <img src="/path-to-your-logo.png" alt="Logo" className="logo" />
+  </div>
+  <ul className="navList">
+    {/* Navigation links */}
+    <li className="navDashboard">
+      <Link to="/dashboard" className="navLink">Dashboard</Link>
+    </li>
+    <li className="navHistory">
+      <Link to="/workout-history" className="navLink">History</Link>
+    </li>
+    <li className="navAboutUs">
+      <Link to="/aboutus" className="navLink">About Us</Link>
+    </li>
+  </ul>
+</nav>
 
       <div className="workout-history-page">
         <h2>Workout History</h2>

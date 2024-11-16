@@ -40,7 +40,8 @@
 .read-the-docs {
   color: #888;
 }
-/* src/App.css */
+
+/* General reset */
 * {
   margin: 0;
   padding: 0;
@@ -83,6 +84,7 @@ body {
 .header a:hover {
   color: #FFFFFF;
 }
+
 /* Navbar styles */
 .navbar {
   position: fixed;
@@ -90,34 +92,70 @@ body {
   left: 0;
   right: 0;
   background-color: #263238;
-  padding: 15px;
+  padding: 15px 20px; /* Horizontal padding for better spacing */
   border-bottom: 1px solid #ccc;
   z-index: 1000;
   display: flex;
+  align-items: center;
   height: 60px;
+  justify-content: space-between; /* Separates logo and links */
+}
+
+/* Logo section on the left */
+.navbar-logo {
+  display: flex;
   align-items: center;
 }
+
+/* Fix for logo visibility */
+.logo {
+  height: 40px; /* Adjust the logo size */
+  width: auto;
+  object-fit: contain; /* Maintain aspect ratio */
+  display: block; /* Block element */
+  margin-left: 10px; /* Optional margin */
+}
+
+/* Navigation links on the right */
 .navList {
+  display: flex;
   list-style-type: none;
   display: flex;
   padding: 0;
-}
-.navLogworkout{
-  margin-left: 0;
-  margin-right: 10px;
-}
-
-.navDashboard {
-  margin-right: 20px;
-  margin-left: 50px;
-}
-.navWorkoutGoal{
-  margin-left: 0;
+  margin: 0;
+  gap: 20px; /* Uniform spacing between links */
 }
 
 .navLink {
   text-decoration: none;
   color: #fdfdfd;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navLink:hover {
+  color: #009688; /* Highlight effect on hover */
+}
+.navLogout button {
+  background: none; /* Remove background from the button */
+  border: none; /* Remove border */
+  color: white; /* Set text color to white */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  font-size: 16px; /* Set button text size */
+  padding: 10px 15px; /* Add padding for spacing */
+}
+
+/* Specific link adjustments */
+.navAboutUs {
+  margin-right: 0; /* Removed unnecessary left margin */
+}
+
+.navDashboard {
+  margin-left: 0; /* Removed unnecessary right margin */
+}
+
+.navHistory {
+  margin-left: 0; /* Removed unnecessary left margin */
 }
 
 .container {
@@ -135,26 +173,23 @@ body {
   padding: 5px 5px;
   cursor: pointer;
 }
-.joinButton{
+
+.joinButton {
   background-color: #28a745;
   color: white;
   border: none;
   padding: 10px 15px;
   cursor: pointer;
 }
-.cancelButton{
+
+.cancelButton {
   background-color: #ddd;
   color: #333;
   margin-left: 20px;
 }
 
+/* Navbar visibility animations */
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #333;
-  z-index: 1000;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -167,4 +202,3 @@ body {
   transform: translateY(0);
   opacity: 1;
 }
-
