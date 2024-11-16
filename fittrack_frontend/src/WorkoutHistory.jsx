@@ -118,7 +118,6 @@ function WorkoutHistory() {
             <span>Duration (minutes)</span>
             <span>Calories Burned</span>
             <span>Date</span>
-            <span>Actions</span>
           </div>
           {filteredWorkouts.length > 0 ? (
             filteredWorkouts.map((workout) => (
