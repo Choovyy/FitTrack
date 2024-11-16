@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
 import './Style/Workout.css';
+import logImage from './assets/logimage.jpg';
 import { createWorkout } from './LogWorkoutService';
 
 const LogWorkout = () => {
@@ -74,40 +75,48 @@ const LogWorkout = () => {
         </ul>
       </nav>
       <div className="container">
-        <h2>Log Your Workout</h2>
-        <form onSubmit={handleSaveClick}>
-          <div className="formGroup">
-            <label>Exercise Type:</label>
-            <input 
-              type="text" 
-              className="textBox" 
-              value={exerciseType} 
-              onChange={handleExerciseTypeChange} 
-              required
-            />
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-          </div>
-          <div className="formGroup">
-            <label>Duration (minutes):</label>
-            <input 
-              type="number" 
-              value={duration} 
-              onChange={(e) => setDuration(e.target.value)} 
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label>Calories Burned:</label>
-            <input 
-              type="number" 
-              value={caloriesBurned} 
-              onChange={(e) => setCaloriesBurned(e.target.value)} 
-              required
-            />
-          </div>
-          <button type="submit" className="saveButton">Save</button>
-          <button onClick={handleCancel} className="cancelButton">Cancel</button>
-        </form>
+        {/* Image on the left side */}
+        <div className="imageContainer">
+          <img src={logImage} alt="Workout" className="workoutImage" />
+        </div>
+
+        {/* Form to log workout */}
+        <div className="formContainer">
+          <h2>Log Your Workout</h2>
+          <form onSubmit={handleSaveClick}>
+            <div className="formGroup">
+              <label>Exercise Type:</label>
+              <input 
+                type="text" 
+                className="textBox" 
+                value={exerciseType} 
+                onChange={handleExerciseTypeChange} 
+                required
+              />
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+            </div>
+            <div className="formGroup">
+              <label>Duration (minutes):</label>
+              <input 
+                type="number" 
+                value={duration} 
+                onChange={(e) => setDuration(e.target.value)} 
+                required
+              />
+            </div>
+            <div className="formGroup">
+              <label>Calories Burned:</label>
+              <input 
+                type="number" 
+                value={caloriesBurned} 
+                onChange={(e) => setCaloriesBurned(e.target.value)} 
+                required
+              />
+            </div>
+            <button type="submit" className="saveButton">Save</button>
+            <button onClick={handleCancel} className="cancelButton">Cancel</button>
+          </form>
+        </div>
       </div>
 
       {/* Confirmation Modal */}
