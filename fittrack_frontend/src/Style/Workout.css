@@ -1,82 +1,88 @@
-/* Container styles */
+/* Container styles for layout */
 .container {
-  max-width: 400px;
-  margin: 80px auto 0; 
+  display: flex;
+  align-items: center; /* Vertically align items */
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 800px; /* Wider container for side-by-side layout */
+  margin: 80px auto 0;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
+/* Image container */
+.imageContainer {
+  flex: 1;
+  max-width: 50%; /* Ensure it takes half the container width */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center image vertically */
+}
+
+/* Square image styling */
+.workoutImage {
+  width: 100%; /* Full width of the container */
+  height: auto;
+  max-height: 500p;
+  aspect-ratio: 1; /* Ensures the image stays square */
+  border-radius: 8px; /* Rounded corners */
+  object-fit: cover; /* Cropped to fill the square */
+}
+
+/* Form container */
+.formContainer {
+  flex: 1;
+  max-width: 50%; /* Ensure it takes half the container width */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align form to the top */
+}
+
+/* Title styling */
+.formContainer h2 {
+  margin-bottom: 20px;
+}
+
+/* Form group styling */
+.formGroup {
   margin-bottom: 15px;
 }
 
-.saveButton,
-  .cancelButton {
-    width: 35%;
-    padding: 10px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-.textBox{
-  max-width: 400px;
-  padding: 20px;
+.textBox {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 2px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  border-radius: 4px;
 }
 
-.modalContent {
-  background: #242526;
-  padding: 20px;
-  border-radius: 8px;
-  color: white;
-  text-align: center;
-  width: 300px;
-}
-
-.modalButtons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
-}
-
-.cancelButton,
-.saveButton {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+/* Button styling */
+button {
+  padding: 10px 15px;
+  font-size: 16px;
   cursor: pointer;
+  border-radius: 5px;
+}
+
+.saveButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
 }
 
 .cancelButton {
-  background-color: #3a3b3c;
+  background-color: #f44336;
   color: white;
+  border: none;
+  margin-left: 10px;
 }
 
-.saveButton {
-  background-color: #2374e1;
+.success-message {
+  text-align: center;
+  padding: 10px;
+  background-color: #4CAF50;
   color: white;
+  border-radius: 5px;
 }
-.error-message {
-  color: red;
-  font-size: 0.9em;
-  margin-top: 5px;
-}
-

@@ -66,14 +66,14 @@ function Dashboard() {
         </header>
 
         <div className="dashboard-controls">
-          <Link to="/log-workout" className="btn">
-            <FaDumbbell className="icon" /> Log a workout
+          <Link to="/post" className="btn">
+            <FaClipboardList className="icon" /> View Posts
           </Link>
           <Link to="/workout-goals" className="btn">
             <FaBullseye className="icon" /> Add goal
           </Link>
-          <Link to="/post" className="btn">
-            <FaClipboardList className="icon" /> View Posts
+          <Link to="/log-workout" className="btn">
+            <FaDumbbell className="icon" /> Log a workout
           </Link>
           <Link to="/workout-history" className="btn">
             <FaHistory className="icon" /> View History
