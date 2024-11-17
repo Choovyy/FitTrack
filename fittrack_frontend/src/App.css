@@ -161,27 +161,6 @@ body {
   margin-bottom: 15px;
 }
 
-.saveButton {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 5px 5px;
-  cursor: pointer;
-}
-
-.joinButton {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-
-.cancelButton {
-  background-color: #ddd;
-  color: #333;
-  margin-left: 20px;
-}
 
 /* Navbar visibility animations */
 .navbar {

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './Style/WorkoutHistory.css';
+import './App.css';
 
 function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);

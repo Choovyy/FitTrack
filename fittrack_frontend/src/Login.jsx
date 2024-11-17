@@ -25,7 +25,7 @@ const Login = () => {
         const { token } = response.data;
         localStorage.setItem("token", token);
         setMessage("Login successful!");
-        navigate("/aboutus");
+        navigate("/dashboard");
       }
     } catch (error) {
       console.error("Login error:", error);

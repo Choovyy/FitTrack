@@ -74,7 +74,7 @@ input[type="date"] {
 /* Adjusted textarea for description */
 textarea {
   width: 100%;             /* Full width */
-  height: 100%;           /* Make it take full height of parent */
+  height: 320px;           /* Make it take full height of parent */
   padding: 15px;          /* Internal padding */
   border: 2px solid black; /* Border style */
   border-radius: 4px;     /* Rounded corners */
@@ -103,36 +103,44 @@ textarea {
   margin-bottom: 20px;  /* Space below the deadline field */
 }
 
-/* Button container */
+/* Common button styles for both Save and Cancel */
+.save-button-form,
+.cancel-button-form {
+  width: 150px;          /* Fixed width for consistent button size */
+  height: 40px;          /* Fixed height for consistent button size */
+  padding: 10px;         /* Padding for consistent button spacing */
+  font-size: 16px;       /* Font size */
+  text-align: center;    /* Center text */
+  border-radius: 4px;    /* Rounded corners */
+  border: none;          /* Remove default border */
+  cursor: pointer;       /* Pointer cursor on hover */
+  display: flex;         /* Allow flexbox properties */
+  justify-content: center; /* Center the button text */
+  align-items: center;   /* Vertically center the text */
+}
+
+.save-button-form {
+  background-color: #4CAF50; /* Green background for save */
+  color: white;
+}
+
+.cancel-button-form {
+  background-color: #f44336; /* Red background for cancel */
+  color: white;
+}
+
+/* Button hover effects */
+.save-button-form:hover {
+  background-color: #45a049;
+}
+
+.cancel-button-form:hover {
+  background-color: #d32f2f;
+}
+
+/* Ensure the button container layout does not affect the button sizes */
 .button-container {
   display: flex;
   justify-content: center; /* Center the buttons */
   gap: 15px;
-  margin-top: 20px;       /* Add space above buttons */
-}
-
-button {
-  font-size: 1em;
-  padding: 12px 24px;
-  border: none;
-  cursor: pointer;
-}
-
-.save-button {
-  background-color: #4CAF50;
-  color: #FFFFFF;
-  min-width: 120px;
-  border-radius: 10px;
-}
-.save-button:hover{
-  background-color: #45a049;
-}
-.cancel-button {
-  background-color: red;
-  color: rgb(255, 255, 255);
-  min-width: 120px;
-  border-radius: 10px;
-}
-.cancel-button:hover{
-  background-color: #d32f2f;
 }

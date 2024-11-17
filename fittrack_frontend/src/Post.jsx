@@ -74,7 +74,7 @@ const Post = ({ onDelete, onUpdate }) => {
         <img src="/src/assets/FitTrack Logo.png" alt="Logo" className="logo" />
         <ul className="navList">
           <li className="navDashboard">
-            <Link to="/home" className="navLink">Dashboard</Link>
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
           <li className="navHistory">
             <Link to="/workout-history" className="navLink">History</Link>

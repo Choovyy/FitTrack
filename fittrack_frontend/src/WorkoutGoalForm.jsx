@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createWorkoutGoal } from './WorkoutGoalService';
 import './Style/WorkoutGoalForm.css';
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClipboard, faFireAlt, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 const WorkoutGoalForm = () => {
   const [goalDescription, setGoalDescription] = useState('');
@@ -61,7 +63,9 @@ const WorkoutGoalForm = () => {
               {/* Left Column */}
               <div className="left-column">
                 <div className="form-group">
-                  <label htmlFor="goalDescription">Goal Description:</label>
+                  <label htmlFor="goalDescription">
+                    <FontAwesomeIcon icon={faClipboard} className="form-icon" /> Goal Description:
+                  </label>
                   <textarea
                     id="goalDescription"
                     value={goalDescription}
@@ -77,7 +81,9 @@ const WorkoutGoalForm = () => {
               {/* Right Column */}
               <div className="right-column">
                 <div className="form-group">
-                  <label htmlFor="targetCalories">Target Calories:</label>
+                  <label htmlFor="targetCalories">
+                    <FontAwesomeIcon icon={faFireAlt} className="form-icon" /> Target Calories:
+                  </label>
                   <input
                     type="number"
                     id="targetCalories"
@@ -89,7 +95,9 @@ const WorkoutGoalForm = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="targetDuration">Target Duration (minutes):</label>
+                  <label htmlFor="targetDuration">
+                    <FontAwesomeIcon icon={faClock} className="form-icon" /> Target Duration (minutes):
+                  </label>
                   <input
                     type="number"
                     id="targetDuration"
@@ -101,7 +109,9 @@ const WorkoutGoalForm = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="deadline">Deadline:</label>
+                  <label htmlFor="deadline">
+                    <FontAwesomeIcon icon={faCalendarAlt} className="form-icon" /> Deadline:
+                  </label>
                   <input
                     type="date"
                     id="deadline"
@@ -112,8 +122,8 @@ const WorkoutGoalForm = () => {
                 </div>
 
                 <div className="button-container">
-                  <button type="submit" className="save-button">SAVE</button>
-                  <button type="button" className="cancel-button" onClick={handleCancel}>CANCEL</button>
+                  <button type="submit" className="save-button-form">SAVE</button>
+                  <button type="button" className="cancel-button-form" onClick={handleCancel}>CANCEL</button>
                 </div>
               </div>
             </div>

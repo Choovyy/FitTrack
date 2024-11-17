@@ -4,12 +4,10 @@ import { getAllWorkouts } from './LogWorkoutService';
 import { FaDumbbell, FaBullseye, FaHistory, FaClipboardList } from 'react-icons/fa';
 import './Style/Dashboard.css';
 import './App.css';
-import logo from './assets/FitTrack Logo.png'; // Correct path
 
 function Dashboard() {
   const [recentWorkouts, setRecentWorkouts] = useState([]);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const userName = "John"; // Replace with dynamic user name
 
   useEffect(() => {
     const fetchRecentWorkouts = async () => {
@@ -44,9 +42,6 @@ function Dashboard() {
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-        <div className="navbar-logo">
-          <img src={logo} alt="FitTrack Logo" className="logo" />
-        </div>
         <ul className="navList">
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
@@ -62,7 +57,7 @@ function Dashboard() {
 
       <div className="dashboard-page">
         <header className="dashboard-header">
-          <h2>Hello, {userName}</h2>
+          <h2>Welcome back!</h2>
         </header>
 
         <div className="dashboard-controls">
