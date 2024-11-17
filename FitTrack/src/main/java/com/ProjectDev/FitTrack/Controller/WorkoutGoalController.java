@@ -47,7 +47,7 @@ public class WorkoutGoalController {
     public ResponseEntity<WorkoutGoal> updateWorkoutGoal(@PathVariable Long id, @RequestBody WorkoutGoal workoutGoal) {
         return workoutGoalService.getWorkoutGoalById(id)
                 .map(existingGoal -> {
-                    existingGoal.setUserID(workoutGoal.getUserID());
+                    existingGoal.setUser(workoutGoal.getUser());
                     existingGoal.setGoalDescription(workoutGoal.getGoalDescription());
                     existingGoal.setTargetCalories(workoutGoal.getTargetCalories());
                     existingGoal.setTargetDuration(workoutGoal.getTargetDuration());

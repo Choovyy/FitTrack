@@ -1,6 +1,9 @@
 package com.ProjectDev.FitTrack.Entity;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonBackReference;
+=======
+>>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,6 +18,7 @@ public class Comment {
 
     @Column(name = "postID", nullable = false)
     private Integer postID;
+<<<<<<< HEAD
 
     @Column(name = "userID", nullable = false)
     private Integer userID;
@@ -35,6 +39,22 @@ public class Comment {
         if (this.timestamp == null) {
             this.timestamp = LocalDateTime.now();
         }
+=======
+    private String commentText;
+    private LocalDateTime timeStamp;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Comment() {}
+
+    public Comment(Integer postID, String commentText, LocalDateTime timeStamp, User user) {
+        this.postID = postID;
+        this.commentText = commentText;
+        this.timeStamp = timeStamp;
+        this.user = user;
+>>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
     }
 
     public Integer getCommentID() {
@@ -53,6 +73,7 @@ public class Comment {
         this.postID = postID;
     }
 
+<<<<<<< HEAD
     public Integer getUserID() {
         return userID;
     }
@@ -63,6 +84,10 @@ public class Comment {
 
     public String getContent() {
         return content;
+=======
+    public String getCommentText() {
+        return commentText;
+>>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
     }
 
     public void setContent(String content) {
@@ -83,5 +108,13 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

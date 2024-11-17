@@ -1,13 +1,8 @@
 package com.ProjectDev.FitTrack.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDateTime;
-
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class Workout {
@@ -15,14 +10,26 @@ public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long workoutID;
-
-    private Long userID;
     private String exerciseType;
     private int duration;
     private int caloriesBurned;
+
     @CreationTimestamp
     @Column(name = "workout_date", updatable = false)
     private LocalDateTime workoutDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Workout() {}
+
+    public Workout(String exerciseType, int duration, int caloriesBurned, User user) {
+        this.exerciseType = exerciseType;
+        this.duration = duration;
+        this.caloriesBurned = caloriesBurned;
+        this.user = user;
+    }
 
     // Getters and Setters
     public Long getWorkoutID() {
@@ -31,14 +38,6 @@ public class Workout {
 
     public void setWorkoutID(Long workoutID) {
         this.workoutID = workoutID;
-    }
-
-    public Long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Long userID) {
-        this.userID = userID;
     }
 
     public String getExerciseType() {
@@ -71,5 +70,13 @@ public class Workout {
 
     public void setWorkoutDate(LocalDateTime workoutDate) {
         this.workoutDate = workoutDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

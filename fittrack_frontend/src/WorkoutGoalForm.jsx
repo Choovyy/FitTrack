@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createWorkoutGoal } from './WorkoutGoalService';
 import './Style/WorkoutGoalForm.css';
 import './App.css';
-import FitTrackLogo from '/src/assets/FitTrack Logo.png'; // Import the logo image
 
 const WorkoutGoalForm = () => {
   const [goalDescription, setGoalDescription] = useState('');
@@ -45,11 +44,13 @@ const WorkoutGoalForm = () => {
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
           </li>
         </ul>
-        <img src={FitTrackLogo} alt="FitTrack Logo" className="navbar-logo" />
       </nav>
       <div className="workout-goal-form-page">
         <div className="workout-goal-form-container">

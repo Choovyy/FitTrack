@@ -73,10 +73,15 @@ const Post = ({ onDelete, onUpdate }) => {
       <nav className="navbar">
         <img src="/src/assets/FitTrack Logo.png" alt="Logo" className="logo" />
         <ul className="navList">
-          <li className="navItem"><Link to="/home" className="navLink">Home</Link></li>
-          <li className="navItem"><Link to="/log-workout" className="navLink">Log Workout</Link></li>
-          <li className="navItem"><Link to="/workout-goals" className="navLink">Goals</Link></li>
-          <li className="navItem"><Link to="/post" className="navLink">Social</Link></li>
+          <li className="navDashboard">
+            <Link to="/home" className="navLink">Dashboard</Link>
+          </li>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
         </ul>
       </nav>
 

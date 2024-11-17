@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllWorkoutGoals, deleteWorkoutGoal } from './WorkoutGoalService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrash, faBullseye, faFire, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import './Style/WorkoutGoalPage.css';
 import './App.css';
 
@@ -33,31 +35,46 @@ const WorkoutGoalPage = () => {
   return (
     <div className="workout-goal-page">
       <nav className="navbar">
-  <ul className="navList">
-    <li className="navDashboard">
-      <Link to="/dashboard" className="navLink">Dashboard</Link>
-    </li>
-    <li className="navLogWorkout">
-      <Link to="/log-workout" className="navLink">Log Workout</Link>
-    </li>
-  </ul>
-  <img src="/src/assets/FitTrack Logo.png" alt="FitTrack Logo" className="navbar-logo" />
-</nav>
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
+          </li>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+        </ul>
+      </nav>
 
       <div className="goals-header">
         <h2 className="goals-title">Your Goals</h2>
-        <Link to="/workout-goals/new" className="add-goal-button">Add Goal</Link>
+        <Link to="/workout-goals/new" className="add-goal-button">
+          <FontAwesomeIcon icon={faPlus} /> Add Goal
+        </Link>
       </div>
+      
       <div className="goals-container">
         {workoutGoals.map(goal => (
           <div key={goal.workoutID} className="goal-card">
             <div className="goal-details">
-              <p className="goal-description">Description: {goal.goalDescription}</p>
-              <p className="goal-target-calories">Target Calories: {goal.targetCalories} calories</p>
-              <p className="goal-target-duration">Target Duration: {goal.targetDuration} minutes</p>
-              <p className="goal-deadline">Deadline: {goal.deadline}</p>
+              <p className="goal-description">
+                <FontAwesomeIcon icon={faBullseye} className="icon" /> Description: {goal.goalDescription}
+              </p>
+              <p className="goal-target-calories">
+                <FontAwesomeIcon icon={faFire} className="icon" /> Target Calories: {goal.targetCalories} calories
+              </p>
+              <p className="goal-target-duration">
+                <FontAwesomeIcon icon={faClock} className="icon" /> Target Duration: {goal.targetDuration} minutes
+              </p>
+              <p className="goal-deadline">
+                <FontAwesomeIcon icon={faCalendarAlt} className="icon" /> Deadline: {goal.deadline}
+              </p>
             </div>
-            <button onClick={() => handleDelete(goal.workoutID)} className="delete-button">Delete</button>
+            <button onClick={() => handleDelete(goal.workoutID)} className="delete-button">
+              <FontAwesomeIcon icon={faTrash} /> Delete
+            </button>
           </div>
         ))}
       </div>

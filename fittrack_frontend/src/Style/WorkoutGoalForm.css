@@ -119,21 +119,17 @@ button {
 }
 
 .save-button {
-  background-color: #FFCA28;
-  color: #090909;
+  background-color: #009688;
+  color: #FFFFFF;
   min-width: 120px;
   border-radius: 10px;
 }
-
+.save-button:hover{
+  background-color: #000000;
+}
 .cancel-button {
   background-color: red;
-  color: black;
+  color: rgb(255, 255, 255);
   min-width: 120px;
   border-radius: 10px;
-}
-
-.navbar-logo {
-  height: 50px; /* Adjust to a smaller size */
-  margin-left: auto;
-  width: 50px;
 }
