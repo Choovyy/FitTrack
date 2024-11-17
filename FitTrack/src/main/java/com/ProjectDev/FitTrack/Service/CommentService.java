@@ -10,13 +10,8 @@ import java.util.Optional;
 
 @Service
 public class CommentService {
-
     @Autowired
     private CommentRepository commentRepository;
-
-    public Comment saveComment(Comment comment) {
-        return commentRepository.save(comment);
-    }
 
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
@@ -24,6 +19,20 @@ public class CommentService {
 
     public Optional<Comment> getCommentById(Integer id) {
         return commentRepository.findById(id);
+    }
+
+    public Comment saveComment(Comment comment) {
+        return commentRepository.save(comment);
+    }
+
+    public Comment updateComment(Integer id, Comment updatedComment) {
+        Optional<Comment> commentOptional = commentRepository.findById(id);
+        if (commentOptional.isPresent()) {
+            Comment existingComment = commentOptional.get();
+            existingComment.setContent(updatedComment.getContent());
+            return commentRepository.save(existingComment);
+        }
+        return null;
     }
 
     public void deleteComment(Integer id) {

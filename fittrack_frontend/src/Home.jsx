@@ -19,9 +19,6 @@ const Home = () => {
                     <li className="navLogworkout">
                         <Link to="/log-workout" className="navLink">Log Workout</Link>
                     </li>
-                    <li className="navAddPost">
-                        <Link to="/add-post" className="navLink">Add Post</Link>
-                    </li>
                     <li className="navLogout">
                         <button onClick={handleLogout} className="navLink">Logout</button>
                     </li>

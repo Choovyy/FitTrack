@@ -1,10 +1,7 @@
 package com.ProjectDev.FitTrack.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,23 +10,33 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentID")
     private Integer commentID;
+
+    @Column(name = "postID", nullable = false)
     private Integer postID;
+
+    @Column(name = "userID", nullable = false)
     private Integer userID;
-    private String commentText;
-    private LocalDateTime timeStamp;
 
-    // Constructors
-    public Comment() {}
+    @Column(name = "content", nullable = false)
+    private String content;
 
-    public Comment(Integer postID, Integer userID, String commentText, LocalDateTime timeStamp) {
-        this.postID = postID;
-        this.userID = userID;
-        this.commentText = commentText;
-        this.timeStamp = timeStamp;
+    @Column(name = "timestamp", nullable = false)
+    private LocalDateTime timestamp;
+
+    @ManyToOne
+    @JoinColumn(name = "postID", insertable = false, updatable = false)
+    @JsonBackReference 
+    private Post post;
+
+    @PrePersist
+    public void setTimestamp() {
+        if (this.timestamp == null) {
+            this.timestamp = LocalDateTime.now();
+        }
     }
 
-    // Getters and Setters
     public Integer getCommentID() {
         return commentID;
     }
@@ -54,19 +61,27 @@ public class Comment {
         this.userID = userID;
     }
 
-    public String getCommentText() {
-        return commentText;
+    public String getContent() {
+        return content;
     }
 
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

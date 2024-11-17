@@ -1,10 +1,6 @@
 package com.ProjectDev.FitTrack.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "likes")
@@ -12,19 +8,19 @@ public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "likeID")
     private Integer likeID;
+
+    @Column(name = "postID", nullable = false)
     private Integer postID;
+
+    @Column(name = "userID", nullable = false)
     private Integer userID;
 
-    // Constructors
-    public Like() {}
+    @ManyToOne
+    @JoinColumn(name = "postID", insertable = false, updatable = false)
+    private Post post;
 
-    public Like(Integer postID, Integer userID) {
-        this.postID = postID;
-        this.userID = userID;
-    }
-
-    // Getters and Setters
     public Integer getLikeID() {
         return likeID;
     }
@@ -47,5 +43,13 @@ public class Like {
 
     public void setUserID(Integer userID) {
         this.userID = userID;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

@@ -2,23 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Comment from './Comment';
 import LikeButton from './LikeButton';
-import axios from 'axios';
+import './Style/Post.css';
 
 const Post = ({ onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [content, setContent] = useState('');
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [editingPostID, setEditingPostID] = useState(null);
+  const [updatedContent, setUpdatedContent] = useState('');
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/posts");
-      setPosts(response.data);
+      const response = await fetch('http://localhost:8080/posts');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch posts: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setPosts(data);
+      } else {
+        console.error('API did not return an array:', data);
+      }
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      console.error('Error fetching posts:', error);
+      alert('There was an error fetching the posts. Please try again later.');
     }
   };
 
@@ -26,106 +34,99 @@ const Post = ({ onDelete, onUpdate }) => {
     fetchPosts();
   }, []);
 
-  const handleDeletePost = (postID) => {
-    axios.delete(`http://localhost:8080/api/posts/${postID}`)
-      .then(() => {
-        alert("Post deleted successfully.");
-        fetchPosts();
-        if (onDelete) onDelete(postID);
-      })
-      .catch((error) => console.error("Error deleting post:", error));
+  const handleDeletePost = async (postID) => {
+    try {
+      await fetch(`http://localhost:8080/posts/${postID}`, { method: 'DELETE' });
+      setPosts((prevPosts) => prevPosts.filter((post) => post.postID !== postID));
+      alert('Post deleted successfully.');
+      if (onDelete) onDelete(postID);
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Failed to delete the post. Please try again.');
+    }
   };
 
-  const handleUpdatePost = (postID) => {
-    const updatedPost = { ...selectedPost, content };
-    axios.put(`http://localhost:8080/api/posts/${postID}`, updatedPost)
-      .then(response => {
-        alert("Post updated successfully.");
-        setIsEditing(false);
-        setSelectedPost(null);
-        fetchPosts();
-        if (onUpdate) onUpdate(response.data);
-      })
-      .catch((error) => console.error("Error updating post:", error));
-  };
-
-  const handleAddComment = (postID) => {
-    if (newComment.trim() === "") return;
-
-    const newCommentObj = {
-      commentID: Date.now(),
-      postID: postID,
-      userID: 1,
-      username: "Current User",
-      commentText: newComment,
-      timestamp: new Date().toISOString(),
-    };
-    setComments([...comments, newCommentObj]);
-    setNewComment("");
+  const handleUpdatePost = async (postID) => {
+    const updatedPost = { content: updatedContent };
+    try {
+      await fetch(`http://localhost:8080/posts/${postID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedPost),
+      });
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.postID === postID ? { ...post, content: updatedContent } : post
+        )
+      );
+      alert('Post updated successfully.');
+      if (onUpdate) onUpdate(updatedPost);
+      setEditingPostID(null);
+    } catch (error) {
+      console.error('Error updating post:', error);
+      alert('Failed to update the post. Please try again.');
+    }
   };
 
   return (
-    <div className="post">
+    <div className="post-container">
       <nav className="navbar">
+        <img src="/src/assets/FitTrack Logo.png" alt="Logo" className="logo" />
         <ul className="navList">
-          <li className="navDashboard">
-            <Link to="/home" className="navLink">Dashboard</Link>
-          </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
-          </li>
-          <li className="navAddPost">
-            <Link to="/add-post" className="navLink">Add Post</Link>
-          </li>
+          <li className="navItem"><Link to="/home" className="navLink">Home</Link></li>
+          <li className="navItem"><Link to="/log-workout" className="navLink">Log Workout</Link></li>
+          <li className="navItem"><Link to="/workout-goals" className="navLink">Goals</Link></li>
+          <li className="navItem"><Link to="/post" className="navLink">Social</Link></li>
         </ul>
       </nav>
 
       {posts.length === 0 ? (
-        <div>No posts available</div>
+        <div className="no-posts">No posts available</div>
       ) : (
         posts.map((post) => (
-          <div key={post.postID}>
-            <h3>{post.username}</h3>
-            {isEditing && selectedPost?.postID === post.postID ? (
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
+          <div key={post.postID} className="post-box">
+            <h3 className="post-username">{post.userID}</h3>
+            {editingPostID === post.postID ? (
+              <>
+                <textarea
+                  value={updatedContent}
+                  onChange={(e) => setUpdatedContent(e.target.value)}
+                  rows="4"
+                  className="edit-textarea"
+                />
+                <button className="save-button" onClick={() => handleUpdatePost(post.postID)}>
+                  Save Changes
+                </button>
+              </>
             ) : (
-              <p>{post.content}</p>
+              <p className="post-content">{post.content}</p>
             )}
-            <span>{new Date(post.timestamp).toLocaleString()}</span>
-            <div>
+            <span className="post-timestamp">{new Date(post.timestamp).toLocaleString()}</span>
+            <div className="like-section">
               <LikeButton postID={post.postID} initialCount={post.likeCount} />
             </div>
-            <div>
+
+            <div className="comment-section">
               <h4>Comments</h4>
-              {comments.map((comment) => (
-                <Comment key={comment.commentID} comment={comment} />
-              ))}
-              <input
-                type="text"
-                placeholder="Add a comment..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <button onClick={() => handleAddComment(post.postID)}>Comment</button>
+              <Comment postID={post.postID} />
             </div>
 
-            {isEditing && selectedPost?.postID === post.postID ? (
-              <button onClick={() => handleUpdatePost(post.postID)}>Save</button>
-            ) : (
-              <button onClick={() => { 
-                setIsEditing(true); 
-                setSelectedPost(post); 
-                setContent(post.content); 
-              }}>Edit</button>
-            )}
-            <button onClick={() => handleDeletePost(post.postID)}>Delete</button>
-            <button onClick={() => navigate('/add-post')}>New Post</button>
+            <div className="action-buttons">
+              <button className="delete-button" onClick={() => handleDeletePost(post.postID)}>Delete</button>
+              {!editingPostID && (
+                <button className="edit-button" onClick={() => {
+                  setEditingPostID(post.postID);
+                  setUpdatedContent(post.content);
+                }}>Edit</button>
+              )}
+            </div>
           </div>
         ))
       )}
+
+      <div className="floating-button">
+        <button onClick={() => navigate('/add-post')}>Add Post</button>
+      </div>
     </div>
   );
 };

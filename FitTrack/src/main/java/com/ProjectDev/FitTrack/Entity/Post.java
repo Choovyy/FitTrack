@@ -1,36 +1,43 @@
 package com.ProjectDev.FitTrack.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.List;
 
 @Entity
+@Table(name = "post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "postID")
     private Integer postID;
+
+    @Column(name = "userID", nullable = false)
     private Integer userID;
-    private String username;
+
+    @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
-    private Integer likeCount;
 
-    // Default Constructor
-    public Post() {}
+    @Column(name = "type")
+    private String type;
 
-    // Parameterized Constructor
-    public Post(Integer userID, String username, String content, LocalDateTime timestamp, Integer likeCount) {
-        this.userID = userID;
-        this.username = username;
-        this.content = content;
-        this.timestamp = timestamp;
-        this.likeCount = likeCount;
-    }
+    @Column(name = "likeCount")
+    private Integer likeCount = 0;
 
-    // Getters and Setters
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference 
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes;
+
+    // Getters and setters
+
     public Integer getPostID() {
         return postID;
     }
@@ -45,14 +52,6 @@ public class Post {
 
     public void setUserID(Integer userID) {
         this.userID = userID;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getContent() {
@@ -71,6 +70,14 @@ public class Post {
         this.timestamp = timestamp;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Integer getLikeCount() {
         return likeCount;
     }
@@ -79,15 +86,19 @@ public class Post {
         this.likeCount = likeCount;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "postID=" + postID +
-                ", userID=" + userID +
-                ", username='" + username + '\'' +
-                ", content='" + content + '\'' +
-                ", timestamp=" + timestamp +
-                ", likeCount=" + likeCount +
-                '}';
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
     }
 }
