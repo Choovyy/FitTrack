@@ -47,8 +47,8 @@ INDEX VERSION 1.134+D:\BSIT3\321\finalFitTrack\FitTrack\.metadata\.plugins\org.e
 2149375335.index
 710917652.index
 1947293938.index
-2529593296.index
 3840868402.index
+2529593296.index
 3404018902.index
 2824530398.index
 360070828.index
@@ -65,7 +65,6 @@ INDEX VERSION 1.134+D:\BSIT3\321\finalFitTrack\FitTrack\.metadata\.plugins\org.e
 3619345425.index
 1865797976.index
 1379066226.index
-3254782968.index
 1289546403.index
 1464245383.index
 2315832039.index

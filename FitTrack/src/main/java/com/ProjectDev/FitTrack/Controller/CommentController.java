@@ -3,54 +3,59 @@ package com.ProjectDev.FitTrack.Controller;
 import com.ProjectDev.FitTrack.Entity.Comment;
 import com.ProjectDev.FitTrack.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/comments")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
     @PostMapping
-    public Comment createComment(@RequestBody Comment comment) {
-        return commentService.saveComment(comment);
-    }
-
-    @GetMapping
-    public List<Comment> getAllComments() {
-        return commentService.getAllComments();
+    public ResponseEntity<Comment> createOrUpdateComment(@RequestBody Comment comment) {
+        if (comment.getContent() == null || comment.getContent().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        comment.setTimestamp(LocalDateTime.now());
+        Comment savedComment = commentService.saveComment(comment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Comment> getCommentById(@PathVariable Integer id) {
-        return commentService.getCommentById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Comment> getComment(@PathVariable Integer id) {
+        Optional<Comment> optionalComment = commentService.getCommentById(id); // Returns Optional<Comment>
+        return optionalComment
+                .map(ResponseEntity::ok) // If present, return 200 OK with the Comment
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)); // If not present, return 404 Not Found
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Comment>> getAllComments() {
+        List<Comment> comments = commentService.getAllComments();
+        return ResponseEntity.ok(comments.isEmpty() ? List.of() : comments);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateComment(@PathVariable Integer id, @RequestBody Comment comment) {
-        return commentService.getCommentById(id)
-                .map(existingComment -> {
-                    existingComment.setCommentText(comment.getCommentText());
-                    existingComment.setTimeStamp(comment.getTimeStamp());
-                    Comment updatedComment = commentService.saveComment(existingComment);
-                    return ResponseEntity.ok(updatedComment);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Comment> updateComment(@PathVariable Integer id, @RequestBody Comment updatedComment) {
+        Comment updated = commentService.updateComment(id, updatedComment);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteComment(@PathVariable Integer id) {
-        if (commentService.getCommentById(id).isPresent()) {
-            commentService.deleteComment(id);
-            return ResponseEntity.ok("Comment with ID " + id + " has been successfully deleted.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteComment(@PathVariable Integer id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -8,11 +8,10 @@ import WorkoutGoalForm from './WorkoutGoalForm';
 import WorkoutGoalPage from './WorkoutGoalPage';
 import JoinUs from './JoinUs';
 import Login from './Login';
-import Register from './Register'; // Import Register component
+import Register from './Register'; 
 import WorkoutHistory from './WorkoutHistory';
 import Dashboard from './Dashboard';
 import UpdateWorkout from './UpdateWorkout';
-
 import './App.css';
 
 function App() {

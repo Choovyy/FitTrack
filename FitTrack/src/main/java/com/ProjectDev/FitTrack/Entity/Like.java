@@ -8,8 +8,21 @@ public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "likeID")
     private Integer likeID;
+
+    @Column(name = "postID", nullable = false)
     private Integer postID;
+<<<<<<< HEAD
+
+    @Column(name = "userID", nullable = false)
+    private Integer userID;
+
+    @ManyToOne
+    @JoinColumn(name = "postID", insertable = false, updatable = false)
+    private Post post;
+
+=======
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -23,6 +36,7 @@ public class Like {
     }
 
     // Getters and Setters
+>>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
     public Integer getLikeID() {
         return likeID;
     }
@@ -45,5 +59,13 @@ public class Like {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
