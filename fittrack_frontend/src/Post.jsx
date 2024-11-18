@@ -82,10 +82,12 @@ const Post = ({ onDelete, onUpdate }) => {
 
   return (
     <div className="post-container">
-      {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-logo">
-          <img src={logo} alt="FitTrack Logo" />
+          {/* Wrapping the logo with a Link to make it clickable */}
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
         </div>
         <ul className="navList">
           <li className="navDashboard">

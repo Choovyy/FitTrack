@@ -94,9 +94,9 @@ body {
   justify-content: space-between;
 }
 
-.navbar-logo img {
-  height: 40px;
-  width: auto;
+.navbar-logo img {  
+  width: 100%;
+  max-width: 100px;
   display: block;
 }
 

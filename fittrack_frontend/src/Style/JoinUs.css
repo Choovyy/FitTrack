@@ -1,0 +1,100 @@
+/* Full-page background styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* Keep video in the background */
+  }
+  
+  .join-us-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .logo {
+    position: absolute;
+    top: -5px;
+    left: 30px;
+    width: 100%;
+    max-width: 170px;
+    height: auto;
+    max-height: 100px;
+    padding: 0;
+    z-index: 2; /* Ensure logo stays above the video */
+  }
+  
+  .login-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #009688;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 2; /* Ensure it appears above the video */
+  }
+  
+  .login-buttons:hover {
+    transform: scale(1.1);
+    background-color: #00796b;
+  }
+  
+  .headline {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #009688;
+    margin-bottom: 10px;
+    text-align: center;
+    z-index: 1;
+    text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.4);
+  }
+  
+  .subtext {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 20px;
+    text-align: #009688;
+    z-index: 1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  }
+  
+  .join-button {
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #009688;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 1;
+  }
+  
+  .join-button:hover {
+    transform: scale(1.1);
+    background-color: #00796b;
+  }
+  

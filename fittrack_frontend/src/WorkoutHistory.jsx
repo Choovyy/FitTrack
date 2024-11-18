@@ -76,8 +76,10 @@ function WorkoutHistory() {
   return (
     <>
 <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-<div className="navbar-logo">
-    <img src={logo} alt="FitTrack Logo" />
+  <div className="navbar-logo">
+    <Link to="/dashboard">
+      <img src={logo} alt="FitTrack Logo" />
+    </Link>
   </div>
   <ul className="navList">
     {/* Navigation links */}
@@ -92,6 +94,7 @@ function WorkoutHistory() {
     </li>
   </ul>
 </nav>
+
 <div class="footer">
             © 2024 || <a href="#">FitTrack</a>
             </div>

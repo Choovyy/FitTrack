@@ -43,22 +43,24 @@ function Dashboard() {
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-  <div className="navbar-logo">
-    <img src={logo} alt="FitTrack Logo" />
-  </div>
-  <ul className="navList">
-    <li className="navDashboard">
-      <Link to="/dashboard" className="navLink">Dashboard</Link>
-    </li>
-    <li className="navHistory">
-      <Link to="/workout-history" className="navLink">History</Link>
-    </li>
-    <li className="navAboutUs">
-      <Link to="/aboutus" className="navLink">About Us</Link>
-    </li>
-  </ul>
-</nav>
-
+        <div className="navbar-logo">
+          {/* Wrap the logo with Link to avoid page refresh */}
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
+          </li>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+        </ul>
+      </nav>
 
       <div className="dashboard-page">
         <header className="dashboard-header">
@@ -80,12 +82,12 @@ function Dashboard() {
           </Link>
         </div>
 
-          <div class="footer">
-            © 2024 || <a href="#">FitTrack</a>
-            </div>
+        <div className="footer">
+          © 2024 || <a href="#">FitTrack</a>
+        </div>
 
         <div className="recent-workouts">
-          <h3>Recent Workout</h3>
+          <h3>Recent Workouts</h3>
           <div className="workout-labels">
             <span>Exercise Type</span>
             <span>Duration (minutes)</span>
