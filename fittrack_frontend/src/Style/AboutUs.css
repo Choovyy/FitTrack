@@ -5,9 +5,31 @@
 }
 
 .about-us-heading {
-    font-size: 64px;
+    font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 60px; /* Further moved it downward */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden;    /* Hide anything beyond the container */
+    border-right: 3px solid rgba(0, 0, 0, 0.75); /* Cursor effect */
+    width: fit-content;
+    animation: typing 2.5s steps(30) forwards, removeCursor 2.5s forwards; /* Remove cursor after typing */
+    margin-bottom: 30px; /* Add bottom margin */
+}
+
+/* Typing animation */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Remove cursor after typing */
+@keyframes removeCursor {
+    to {
+        border-right: transparent; /* Remove the cursor */
+    }
 }
 
 .team-members {
@@ -60,4 +82,3 @@
     width: 100%; /* Allow full-width usage */
     text-align: center; /* Center the text horizontally */
 }
-

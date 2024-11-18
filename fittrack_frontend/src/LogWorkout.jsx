@@ -63,9 +63,11 @@ const LogWorkout = () => {
   return (
     <>
       <nav className="navbar">
-      <div className="navbar-logo">
-    <img src={logo} alt="FitTrack Logo" />
-  </div>
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
         <ul className="navList">
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>

@@ -1,6 +1,9 @@
 package com.ProjectDev.FitTrack.Entity;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonBackReference;
+=======
+>>>>>>> 9c17f7337b638bb328c15824228377928d379fea
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,8 +13,8 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "commentID")
     private Integer commentID;
+<<<<<<< HEAD
 
     @ManyToOne
     @JsonBackReference
@@ -38,6 +41,28 @@ public class Comment {
 
     public Integer getCommentID() { 
         return commentID; 
+=======
+    private Integer postID;
+    private String commentText;
+    private LocalDateTime timeStamp;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Comment() {}
+
+    public Comment(Integer postID, String commentText, LocalDateTime timeStamp, User user) {
+        this.postID = postID;
+        this.commentText = commentText;
+        this.timeStamp = timeStamp;
+        this.user = user;
+    }
+
+    // Getters and Setters
+    public Integer getCommentID() {
+        return commentID;
+>>>>>>> 9c17f7337b638bb328c15824228377928d379fea
     }
 
     public void setCommentID(Integer commentID) { 

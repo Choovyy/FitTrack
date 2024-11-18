@@ -78,21 +78,23 @@ const WorkoutGoalForm = () => {
   return (
     <>
       <nav className="navbar">
-      <div className="navbar-logo">
-    <img src={logo} alt="FitTrack Logo" />
+  <div className="navbar-logo">
+    <Link to="/dashboard">
+      <img src={logo} alt="FitTrack Logo" />
+    </Link>
   </div>
-        <ul className="navList">
-          <li className="navDashboard">
-            <Link to="/dashboard" className="navLink">Dashboard</Link>
-          </li>
-          <li className="navHistory">
-            <Link to="/workout-history" className="navLink">History</Link>
-          </li>
-          <li className="navAboutUs">
-            <Link to="/aboutus" className="navLink">About Us</Link>
-          </li>
-        </ul>
-      </nav>
+  <ul className="navList">
+    <li className="navDashboard">
+      <Link to="/dashboard" className="navLink">Dashboard</Link>
+    </li>
+    <li className="navHistory">
+      <Link to="/workout-history" className="navLink">History</Link>
+    </li>
+    <li className="navAboutUs">
+      <Link to="/aboutus" className="navLink">About Us</Link>
+    </li>
+  </ul>
+</nav>
       
       <div className="footer">
             © 2024 || <a href="#">FitTrack</a>
