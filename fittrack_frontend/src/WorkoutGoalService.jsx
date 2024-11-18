@@ -4,6 +4,13 @@ const API_BASE_URL = 'http://localhost:8080/api/workout-goals';
 
 // Function to create a new workout goal
 export const createWorkoutGoal = async (goalData) => {
+  // Check if the userID is present in goalData
+  const userID = goalData.user?.userID;
+  if (!userID) {
+    console.error('User ID is missing');
+    throw new Error('User ID is required to create a workout goal');
+  }
+
   try {
     const response = await axios.post(API_BASE_URL, goalData); // Use base API URL for creating goals
     return response.data; // Return the response data from the server

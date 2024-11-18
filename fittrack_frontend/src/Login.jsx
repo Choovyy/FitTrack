@@ -22,10 +22,12 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        const { token } = response.data;
-        localStorage.setItem("token", token);
+        const { token } = response.data; // Extract the token from the response
+        localStorage.setItem("token", token); // Save token in localStorage
         setMessage("Login successful!");
-        navigate("/dashboard");
+        navigate("/dashboard"); // Navigate to dashboard or desired page
+      } else {
+        setMessage("Login failed. Please try again.");
       }
     } catch (error) {
       console.error("Login error:", error);

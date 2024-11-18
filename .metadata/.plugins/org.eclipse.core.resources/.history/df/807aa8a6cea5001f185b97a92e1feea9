@@ -1,0 +1,125 @@
+package com.ProjectDev.FitTrack.Controller;
+
+import com.ProjectDev.FitTrack.Entity.User;
+import com.ProjectDev.FitTrack.Service.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from your frontend
+@RequestMapping("/api/users")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    private static final String SECRET_KEY = "your-secret-key"; // Replace with your actual secret key
+
+    // Generate JWT token
+    private String generateToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
+    }
+
+    // Create a new User
+    @PostMapping
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        if (userService.emailExists(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
+        userService.saveUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+    }
+
+    // User Login
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        boolean isAuthenticated = userService.authenticate(email, password);
+
+        if (isAuthenticated) {
+            String token = generateToken(email);  // Generate token
+            return ResponseEntity.ok(new LoginResponse("Login successful", token));  // Send token with response
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+
+    // Get all Users
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+    // Get a User by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Update an existing User
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
+        return userService.getUserById(id)
+                .map(existingUser -> {
+                    existingUser.setName(user.getName());
+                    existingUser.setPassword(user.getPassword());
+                    existingUser.setEmail(user.getEmail());
+                    User updatedUser = userService.saveUser(existingUser);
+                    return ResponseEntity.ok(updatedUser);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Delete a User
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        if (userService.getUserById(id).isPresent()) {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("User with ID " + id + " has been successfully deleted.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Create a DTO class to send the response (LoginResponse)
+    public static class LoginResponse {
+        private String message;
+        private String token;
+
+        public LoginResponse(String message, String token) {
+            this.message = message;
+            this.token = token;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+    }
+}

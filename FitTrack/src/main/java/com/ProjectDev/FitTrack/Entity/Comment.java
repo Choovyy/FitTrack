@@ -1,9 +1,6 @@
 package com.ProjectDev.FitTrack.Entity;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonBackReference;
-=======
->>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,105 +13,66 @@ public class Comment {
     @Column(name = "commentID")
     private Integer commentID;
 
-    @Column(name = "postID", nullable = false)
-    private Integer postID;
-<<<<<<< HEAD
-
-    @Column(name = "userID", nullable = false)
-    private Integer userID;
-
-    @Column(name = "content", nullable = false)
-    private String content;
-
-    @Column(name = "timestamp", nullable = false)
-    private LocalDateTime timestamp;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "postid", referencedColumnName = "postID")
+    private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "postID", insertable = false, updatable = false)
-    @JsonBackReference 
-    private Post post;
+    @JoinColumn(name = "userid", referencedColumnName = "userID")
+    private User user;
+
+    private String content;
+
+    @Column(name = "timestamp", nullable = false) // Adjust to use only one column
+    private LocalDateTime timestamp;
 
     @PrePersist
     public void setTimestamp() {
         if (this.timestamp == null) {
             this.timestamp = LocalDateTime.now();
         }
-=======
-    private String commentText;
-    private LocalDateTime timeStamp;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    public Comment() {}
-
-    public Comment(Integer postID, String commentText, LocalDateTime timeStamp, User user) {
-        this.postID = postID;
-        this.commentText = commentText;
-        this.timeStamp = timeStamp;
-        this.user = user;
->>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
     }
 
-    public Integer getCommentID() {
-        return commentID;
+    // Getters and Setters
+
+    public Integer getCommentID() { 
+        return commentID; 
     }
 
-    public void setCommentID(Integer commentID) {
-        this.commentID = commentID;
+    public void setCommentID(Integer commentID) { 
+        this.commentID = commentID; 
     }
 
-    public Integer getPostID() {
-        return postID;
+    public Post getPost() { 
+        return post; 
     }
 
-    public void setPostID(Integer postID) {
-        this.postID = postID;
+    public void setPost(Post post) { 
+        this.post = post; 
     }
 
-<<<<<<< HEAD
-    public Integer getUserID() {
-        return userID;
+    public User getUser() { 
+        return user; 
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
+    public void setUser(User user) { 
+        this.user = user; 
     }
 
-    public String getContent() {
-        return content;
-=======
-    public String getCommentText() {
-        return commentText;
->>>>>>> d64ad26b10e9c724c05bdb0ef9883d04c851f682
+    public String getContent() { 
+        return content; 
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContent(String content) { 
+        this.content = content; 
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getTimestamp() { 
+        return timestamp; 
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setTimestamp(LocalDateTime timestamp) { 
+        this.timestamp = timestamp; 
     }
 }

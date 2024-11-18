@@ -80,7 +80,7 @@ function Dashboard() {
           </Link>
         </div>
 
-          <div class="footer">
+          <div className="footer">
             © 2024 || <a href="#">FitTrack</a>
             </div>
 

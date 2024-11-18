@@ -52,8 +52,9 @@ const WorkoutGoalForm = () => {
       targetCalories: parseInt(targetCalories, 10),
       targetDuration: parseInt(targetDuration, 10),
       deadline,
-      user: { userID },  // Include the userID in the request payload
+      user: { id: userID },  // Pass the user ID in the correct format
     };
+    
 
     try {
       await createWorkoutGoal(goalData);
@@ -93,7 +94,7 @@ const WorkoutGoalForm = () => {
         </ul>
       </nav>
       
-      <div class="footer">
+      <div className="footer">
             © 2024 || <a href="#">FitTrack</a>
             </div>
       <div className="workout-goal-form-page">

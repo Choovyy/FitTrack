@@ -52,7 +52,7 @@ const WorkoutGoalPage = () => {
           </li>
         </ul>
       </nav>
-      <div class="footer">
+      <div className="footer">
             © 2024 || <a href="#">FitTrack</a>
             </div>
       <div className="goals-header">
