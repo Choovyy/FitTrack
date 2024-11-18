@@ -1,0 +1,63 @@
+.about-us-container {
+    text-align: center;
+    margin-top: 70px; /* Adjust heading position */
+    padding: 0 20px;
+}
+
+.about-us-heading {
+    font-size: 64px;
+    font-weight: bold;
+    margin-bottom: 30px; /* Further moved it downward */
+}
+
+.team-members {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the content horizontally */
+    gap: 20px; /* Add consistent spacing between items */
+}
+
+.team-member {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 20px;
+    width: 250px; /* Consistent size for all containers */
+    height: 350px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.team-member:hover {
+    transform: scale(1.05); /* Add hover effect */
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
+}
+
+.member-image {
+    width: 100%;
+    height: 80%; /* Adjust image size to fit the container */
+    border-radius: 15px 15px 0 0;
+    object-fit: cover; /* Ensure proper image scaling */
+}
+
+.member-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+.member-role {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.66);
+}
+
+.about-us-description {
+    font-size: 20px;
+    margin-top: 40px;
+    line-height: 1.5; /* Keep improved readability */
+    padding: 0; /* Remove side padding */
+    width: 100%; /* Allow full-width usage */
+    text-align: center; /* Center the text horizontally */
+}
+
