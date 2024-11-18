@@ -41,22 +41,23 @@ const AboutUs = () => {
         <>
             {/* Navbar */}
             <nav className="navbar">
-            <div className="navbar-logo">
-    <img src={logo} alt="FitTrack Logo" />
-  </div>
-                <ul className="navList">
-                    <li className="navDashboard">
-                        <Link to="/dashboard" className="navLink">Dashboard</Link>
-                    </li>
-                    <li className="navHistory">
-                        <Link to="/workout-history" className="navLink">History</Link>
-                    </li>
-                    <li className="navAboutUs">
-                        <Link to="/aboutus" className="navLink">About Us</Link>
-                    </li>
-                </ul>
-            </nav>
-
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
+        <ul className="navList">
+          <li className="navDashboard">
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
+          </li>
+          <li className="navHistory">
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li className="navAboutUs">
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+        </ul>
+      </nav>
             <div class="footer">
             © 2024 || <a href="#">FitTrack</a>
             </div>
