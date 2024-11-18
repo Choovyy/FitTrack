@@ -1,26 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './assets/FitTrack Logo.png';
-import backgroundGif from './assets/muscle.gif'; // Import the GIF
+import backgroundGif from './assets/muscle.gif';
 
 const JoinUs = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleJoinClick = () => {
-    navigate('/register'); 
+    navigate('/register');
   };
-  
+
   const handleLoginClick = () => {
-    navigate('/login'); 
+    navigate('/login');
   };
 
   return (
     <>
-
-      <div className="app-container">
+      <div className="join-us-container">
         <style>
           {`
-            /* Apply background GIF to the whole page */
+            /* Full-page background styling */
             body, html {
               margin: 0;
               padding: 0;
@@ -30,63 +29,104 @@ const JoinUs = () => {
               background-size: cover;
             }
 
-            .app-container {
+            .join-us-container {
               height: 100vh;
+              width: 100%;
               display: flex;
-              justify-content: center;
-              align-items: center;
               flex-direction: column;
+              align-items: center;
+              justify-content: center;
               position: relative;
-              z-index: 1; /* Ensure the content is on top of the background */
             }
 
             .logo {
-              width: 250px;
-              height: auto; /* Maintains aspect ratio */
+              position: absolute;
+              top: 5px;
+              left: 15px;
+              padding-left: 20px;
+              width: 100%;
+              max-width: 170px;
+              height: auto;
+              max-height: 100px;
             }
 
-            .loginButton {
-              position: fixed;
-              top: 10px;
-              right: 10px;
+            .login-button {
+              position: absolute;
+              top: 20px;
+              right: 0;
+              padding-right: 20px;
               padding: 10px 20px;
               font-size: 1rem;
-              background-color: green;
+              font-weight: bold;
+              background-color: #e63946;
               color: white;
               border: none;
+              border-radius: 5px;
               cursor: pointer;
-              z-index: 2;
+              transition: transform 0.2s ease;
             }
 
-            .joinButton {
-              padding: 10px 20px;
+            .login-button:hover {
+              transform: scale(1.1);
+              background-color: #d62828;
+            }
+
+            .headline {
+              font-size: 3rem;
+              font-weight: bold;
+              color: white;
+              margin-bottom: 10px;
+              text-align: center;
+            }
+
+            .subtext {
+              font-size: 1.5rem;
+              color: white;
+              margin-bottom: 20px;
+              text-align: center;
+            }
+
+            .join-button {
+              padding: 15px 30px;
               font-size: 1rem;
-              background-color: green;
+              font-weight: bold;
               color: white;
+              background-color: #e63946;
               border: none;
+              border-radius: 5px;
               cursor: pointer;
+              transition: transform 0.2s ease;
             }
 
-            h1, p {
-              color: white;
-              z-index: 2;
+            .join-button:hover {
+              transform: scale(1.1);
+              background-color: #d62828;
+            }
+            .login-button{
+              right: 20px;
+              margin-top: 13px;
             }
           `}
         </style>
+        
+        {/* Centered Content */}
+        <h1 className="headline">Track. Improve. Achieve.</h1>
+<p className="subtext">
+  Stay on top of your fitness with personalized tracking and real-time progress updates.
+</p>
+<button className="join-button" onClick={handleJoinClick}>
+  Join Now
+</button>
 
-        {/* Login button at the top-right */}
-        <button className="loginButton" onClick={handleLoginClick}>
-          LOGIN
-        </button>
-
-        {/* Logo and main content */}
-        <img src={logo} alt="FitTrack Logo" className="logo" />
-        <h1>Join Us</h1>
-        <p>Become a part of our community!</p>
-        <button className="joinButton" onClick={handleJoinClick}>
-          Join Us
-        </button>
       </div>
+
+      {/* Logo Outside Left Side */}
+      <img src={logo} alt="FitTrack Logo" className="logo" />
+
+      {/* Login Button Outside Right Side */}
+      <button className="login-button" onClick={handleLoginClick} class ="login-button">
+        LOGIN
+      </button>
     </>
   );
 };
