@@ -16,7 +16,7 @@ const JoinUs = () => {
 
   return (
     <>
-      <Navbar />
+
       <div className="app-container">
         <style>
           {`
