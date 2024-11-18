@@ -87,38 +87,27 @@ body {
   left: 0;
   right: 0;
   background-color: #263238;
-  padding: 15px 20px; /* Horizontal padding for better spacing */
+  padding: 15px 20px;
   border-bottom: 1px solid #ccc;
   z-index: 1000;
   display: flex;
   align-items: center;
   height: 60px;
-  justify-content: space-between; /* Separates logo and links */
+  justify-content: space-between;
 }
 
-/* Logo section on the left */
-.navbar-logo {
-  display: flex;
-  align-items: center;
-}
-
-/* Fix for logo visibility */
-.logo {
-  height: 40px; /* Adjust the logo size */
+.navbar-logo img {
+  height: 40px;
   width: auto;
-  object-fit: contain; /* Maintain aspect ratio */
-  display: block; /* Block element */
-  margin-left: 10px; /* Optional margin */
+  display: block;
 }
 
-/* Navigation links on the right */
 .navList {
   display: flex;
   list-style-type: none;
-  display: flex;
   padding: 0;
   margin: 0;
-  gap: 20px; /* Uniform spacing between links */
+  gap: 20px;
 }
 
 .navLink {
@@ -129,28 +118,40 @@ body {
 }
 
 .navLink:hover {
-  color: #009688; /* Highlight effect on hover */
+  color: #009688;
 }
+
 .navLogout button {
-  background: none; /* Remove background from the button */
-  border: none; /* Remove border */
-  color: white; /* Set text color to white */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  font-size: 16px; /* Set button text size */
-  padding: 10px 15px; /* Add padding for spacing */
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 15px;
 }
 
-/* Specific link adjustments */
-.navAboutUs {
-  margin-right: 0; /* Removed unnecessary left margin */
+
+/* Footer styles */
+.footer {
+  background-color: #263238;
+  color: #fdfdfd;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 14px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-.navDashboard {
-  margin-left: 0; /* Removed unnecessary right margin */
+.footer a {
+  color: #009688;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.navHistory {
-  margin-left: 0; /* Removed unnecessary left margin */
+.footer a:hover {
+  text-decoration: underline;
 }
 
 .container {
@@ -162,17 +163,4 @@ body {
 }
 
 
-/* Navbar visibility animations */
-.navbar {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
 
-.navbar.hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.navbar.visible {
-  transform: translateY(0);
-  opacity: 1;
-}

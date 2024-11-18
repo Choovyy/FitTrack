@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllWorkouts } from './LogWorkoutService';
 import { FaDumbbell, FaBullseye, FaHistory, FaClipboardList } from 'react-icons/fa';
+import logo from "./assets/FitTrack Logo.png";
 import './Style/Dashboard.css';
 import './App.css';
 
@@ -42,18 +43,22 @@ function Dashboard() {
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-        <ul className="navList">
-          <li className="navDashboard">
-            <Link to="/dashboard" className="navLink">Dashboard</Link>
-          </li>
-          <li className="navHistory">
-            <Link to="/workout-history" className="navLink">History</Link>
-          </li>
-          <li className="navAboutUs">
-            <Link to="/aboutus" className="navLink">About Us</Link>
-          </li>
-        </ul>
-      </nav>
+  <div className="navbar-logo">
+    <img src={logo} alt="FitTrack Logo" />
+  </div>
+  <ul className="navList">
+    <li className="navDashboard">
+      <Link to="/dashboard" className="navLink">Dashboard</Link>
+    </li>
+    <li className="navHistory">
+      <Link to="/workout-history" className="navLink">History</Link>
+    </li>
+    <li className="navAboutUs">
+      <Link to="/aboutus" className="navLink">About Us</Link>
+    </li>
+  </ul>
+</nav>
+
 
       <div className="dashboard-page">
         <header className="dashboard-header">
@@ -74,6 +79,10 @@ function Dashboard() {
             <FaHistory className="icon" /> View History
           </Link>
         </div>
+
+          <div class="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
 
         <div className="recent-workouts">
           <h3>Recent Workout</h3>
