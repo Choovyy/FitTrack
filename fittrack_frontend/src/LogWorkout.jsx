@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
 import './Style/Workout.css';
+import logo from "./assets/FitTrack Logo.png";
 import logImage from './assets/logimage.jpg';
 import { createWorkout } from './LogWorkoutService';
 
@@ -62,6 +63,9 @@ const LogWorkout = () => {
   return (
     <>
       <nav className="navbar">
+      <div className="navbar-logo">
+    <img src={logo} alt="FitTrack Logo" />
+  </div>
         <ul className="navList">
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
@@ -74,6 +78,9 @@ const LogWorkout = () => {
           </li>
         </ul>
       </nav>
+      <div class="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
       <div className="container">
         {/* Image on the left side */}
         <div className="imageContainer">

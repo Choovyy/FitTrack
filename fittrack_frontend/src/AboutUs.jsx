@@ -6,6 +6,7 @@ import JohnG from './assets/JohnG.png';
 import Vincent from './assets/Vincent.png';
 import Tovi from './assets/Tovi.png';
 import './Style/AboutUs.css';
+import logo from "./assets/FitTrack Logo.png";
 
 const teamMembers = [
     {
@@ -40,6 +41,9 @@ const AboutUs = () => {
         <>
             {/* Navbar */}
             <nav className="navbar">
+            <div className="navbar-logo">
+    <img src={logo} alt="FitTrack Logo" />
+  </div>
                 <ul className="navList">
                     <li className="navDashboard">
                         <Link to="/dashboard" className="navLink">Dashboard</Link>
@@ -53,6 +57,9 @@ const AboutUs = () => {
                 </ul>
             </nav>
 
+            <div class="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
             {/* About Us Content */}
             <div className="about-us-container">
                 <h1 className="about-us-heading">Hi there, we are FitTruck!</h1>

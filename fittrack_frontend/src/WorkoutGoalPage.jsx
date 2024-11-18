@@ -4,6 +4,7 @@ import { getAllWorkoutGoals, deleteWorkoutGoal } from './WorkoutGoalService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faBullseye, faFire, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import './Style/WorkoutGoalPage.css';
+import logo from "./assets/FitTrack Logo.png";
 import './App.css';
 
 const WorkoutGoalPage = () => {
@@ -34,7 +35,11 @@ const WorkoutGoalPage = () => {
 
   return (
     <div className="workout-goal-page">
+
       <nav className="navbar">
+      <div className="navbar-logo">
+    <img src={logo} alt="FitTrack Logo" />
+  </div>
         <ul className="navList">
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
@@ -47,7 +52,9 @@ const WorkoutGoalPage = () => {
           </li>
         </ul>
       </nav>
-
+      <div class="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
       <div className="goals-header">
         <h2 className="goals-title">Your Goals</h2>
         <Link to="/workout-goals/new" className="add-goal-button">

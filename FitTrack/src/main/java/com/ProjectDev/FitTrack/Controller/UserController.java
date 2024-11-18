@@ -33,7 +33,6 @@ public class UserController {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
         
-        // Call your service to authenticate the user
         boolean isAuthenticated = userService.authenticate(email, password);
         
         if (isAuthenticated) {

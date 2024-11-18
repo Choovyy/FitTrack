@@ -5,6 +5,7 @@ import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './Style/WorkoutHistory.css';
 import './App.css';
+import logo from "./assets/FitTrack Logo.png";
 
 function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);
@@ -75,9 +76,8 @@ function WorkoutHistory() {
   return (
     <>
 <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-  <div className="navbar-logo">
-    {/* Logo section */}
-    <img src="/path-to-your-logo.png" alt="Logo" className="logo" />
+<div className="navbar-logo">
+    <img src={logo} alt="FitTrack Logo" />
   </div>
   <ul className="navList">
     {/* Navigation links */}
@@ -92,7 +92,9 @@ function WorkoutHistory() {
     </li>
   </ul>
 </nav>
-
+<div class="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
       <div className="workout-history-page">
         <h2>Workout History</h2>
 

@@ -47,6 +47,10 @@ public class UserService {
     // Authenticate user
     public boolean authenticate(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email); // Use Optional
-        return user.isPresent() && user.get().getPassword().equals(password); // Consider using hashed passwords in production
+        if (user.isPresent()) {
+            // In production, consider using hashed passwords instead of plain text comparisons
+            return user.get().getPassword().equals(password); 
+        }
+        return false;
     }
 }

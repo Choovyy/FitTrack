@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createWorkoutGoal } from './WorkoutGoalService';
 import './Style/WorkoutGoalForm.css';
+import logo from "./assets/FitTrack Logo.png";
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboard, faFireAlt, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
@@ -11,15 +12,47 @@ const WorkoutGoalForm = () => {
   const [targetCalories, setTargetCalories] = useState('');
   const [targetDuration, setTargetDuration] = useState('');
   const [deadline, setDeadline] = useState('');
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  // Validate the form data
+  const validateForm = () => {
+    const errors = {};
+    if (!goalDescription.trim()) {
+      errors.goalDescription = 'Goal description is required.';
+    }
+    if (!targetCalories || targetCalories <= 0) {
+      errors.targetCalories = 'Target calories must be a positive number.';
+    }
+    if (!targetDuration || targetDuration <= 0) {
+      errors.targetDuration = 'Target duration must be a positive number.';
+    }
+    if (!deadline || isNaN(Date.parse(deadline))) {
+      errors.deadline = 'Deadline must be a valid date.';
+    }
+    return errors;
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form before proceeding
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return; // Stop form submission if there are errors
+    }
+
+    // Get the user ID from localStorage or context (make sure the user is authenticated)
+    const userID = localStorage.getItem('userID');  // Or get it from your global state if using something like Redux
+
     const goalData = {
       goalDescription,
       targetCalories: parseInt(targetCalories, 10),
       targetDuration: parseInt(targetDuration, 10),
       deadline,
+      user: { userID },  // Include the userID in the request payload
     };
 
     try {
@@ -28,10 +61,12 @@ const WorkoutGoalForm = () => {
       setTargetCalories('');
       setTargetDuration('');
       setDeadline('');
+      setErrors({});
       alert('Workout Goal created successfully!');
       navigate('/workout-goals');
     } catch (error) {
       console.error('Error creating workout goal:', error);
+      alert('Failed to create workout goal.');
     }
   };
 
@@ -42,6 +77,9 @@ const WorkoutGoalForm = () => {
   return (
     <>
       <nav className="navbar">
+      <div className="navbar-logo">
+    <img src={logo} alt="FitTrack Logo" />
+  </div>
         <ul className="navList">
           <li className="navDashboard">
             <Link to="/dashboard" className="navLink">Dashboard</Link>
@@ -54,6 +92,10 @@ const WorkoutGoalForm = () => {
           </li>
         </ul>
       </nav>
+      
+      <div class="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
       <div className="workout-goal-form-page">
         <div className="workout-goal-form-container">
           <h2 className="form-heading">Set Your Goals</h2>
@@ -75,6 +117,7 @@ const WorkoutGoalForm = () => {
                     placeholder="Describe your goal in detail..."
                     required
                   />
+                  {errors.goalDescription && <p className="error-message">{errors.goalDescription}</p>}
                 </div>
               </div>
 
@@ -92,6 +135,7 @@ const WorkoutGoalForm = () => {
                     placeholder="Enter target calories"
                     required
                   />
+                  {errors.targetCalories && <p className="error-message">{errors.targetCalories}</p>}
                 </div>
 
                 <div className="form-group">
@@ -106,6 +150,7 @@ const WorkoutGoalForm = () => {
                     placeholder="Enter duration in minutes"
                     required
                   />
+                  {errors.targetDuration && <p className="error-message">{errors.targetDuration}</p>}
                 </div>
 
                 <div className="form-group">
@@ -119,6 +164,7 @@ const WorkoutGoalForm = () => {
                     onChange={(e) => setDeadline(e.target.value)}
                     required
                   />
+                  {errors.deadline && <p className="error-message">{errors.deadline}</p>}
                 </div>
 
                 <div className="button-container">
