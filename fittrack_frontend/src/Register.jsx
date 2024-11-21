@@ -5,13 +5,16 @@ import "./Style/Register.css";
 import boyIcon from "./assets/boyicon.png";
 import logo from "./assets/FitTrack Logo.png";
 
+// Import Toastify
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,24 +24,49 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setMessage("");
-
+  
+    // Reset any previous toasts
+    toast.dismiss();
+  
     try {
+      // Make POST request to register the user
       const response = await axios.post("http://localhost:8080/api/users", formData);
-
-      if (response.status === 201) {
-        setMessage("Registration successful! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000);
+      
+      // Check if registration was successful
+      if (response.status === 201 && response.data.message) {
+        // Extract the userID from the response
+        const userIDMatch = response.data.message.match(/ID: (\d+)/);
+        if (userIDMatch) {
+          const userID = userIDMatch[1]; // Get the userID from the message
+          localStorage.setItem("userID", userID); // Store the userID in localStorage
+          
+          // Show success toast
+          toast.success(`Registration successful! Your UserID is: ${userID}. Redirecting to login...`);
+  
+          // Wait for the toast duration before redirecting
+          setTimeout(() => {
+            navigate("/login"); // Redirect to login after toast disappears
+          }, 5000); // 5 seconds to match the toast duration
+        } else {
+          toast.error("Registration failed. Invalid response from server.");
+        }
+      } else {
+        toast.error("Registration failed. Please try again.");
       }
     } catch (error) {
       console.error("Registration error:", error);
-      setMessage(
-        error.response
-          ? error.response.data
-          : "Registration failed. Please try again."
-      );
+  
+      if (error.response && error.response.status === 409) {
+        // Handle email conflict
+        toast.error("Email already exists. Please try a different email.");
+      } else {
+        toast.error(
+          error.response ? error.response.data : "Registration failed. Please try again."
+        );
+      }
     }
   };
+  
 
   return (
     <div className="register-page">
@@ -98,10 +126,28 @@ const Register = () => {
             Register
           </button>
           <div className="register-footer">
-            <p>Already have an account? <Link to="/login" className="Rregister-link">Login</Link></p>
+            <p>
+              Already have an account?{" "}
+              <Link to="/login" className="Rregister-link">
+                Login
+              </Link>
+            </p>
           </div>
         </form>
       </div>
+
+      {/* ToastContainer to display toasts */}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000} // Auto close the toast after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

@@ -14,9 +14,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Save a new user
+    // Save a new user and return the saved user (with auto-incremented userID)
     public User saveUser(User user) {
-        return userRepository.save(user);
+        return userRepository.save(user);  // After this, user.getUserID() will be populated
     }
 
     // Check if email exists
@@ -52,5 +52,10 @@ public class UserService {
             return user.get().getPassword().equals(password); 
         }
         return false;
+    }
+
+    // Find user by email
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null); // Return the user if present, else null
     }
 }

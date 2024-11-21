@@ -5,15 +5,21 @@ import "./Style/Login.css";
 import boyIcon from "./assets/boyicon.png";
 import logo from "./assets/FitTrack Logo.png";
 
+// Import Toastify
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
-    setMessage("");
+
+    // Reset any previous messages
+    toast.dismiss();
 
     try {
       const response = await axios.post("http://localhost:8080/api/users/login", {
@@ -21,21 +27,31 @@ const Login = () => {
         password,
       });
 
-      if (response.status === 200) {
-        const { token } = response.data; // Extract the token from the response
-        localStorage.setItem("token", token); // Save token in localStorage
-        setMessage("Login successful!");
-        navigate("/dashboard"); // Navigate to dashboard or desired page
+      if (response.status === 200 && response.data.message) {
+        const message = response.data.message; // Extract message from response
+
+        // Check if message includes UserID
+        const userIDMatch = message.match(/your UserID is: (\d+)/);
+        if (userIDMatch) {
+          const userID = userIDMatch[1]; // Extract UserID from message
+          localStorage.setItem("userID", userID); // Store the userID in localStorage
+          toast.success(message); // Show success toast
+
+          // Wait for the toast duration before redirecting
+          setTimeout(() => {
+            navigate("/dashboard"); // Navigate to dashboard after toast disappears
+          }, 5000); // 5 seconds delay
+        } else {
+          toast.error("Login failed. Please try again.");
+        }
       } else {
-        setMessage("Login failed. Please try again.");
+        toast.error("Login failed. Please check your credentials.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      setMessage(
-        error.response
-          ? error.response.data
-          : "Login failed. Please try again."
-      );
+      toast.error(
+        error.response ? error.response.data.message : "Login failed. Please try again."
+      ); // Show error toast on failure
     }
   };
 
@@ -80,15 +96,6 @@ const Login = () => {
           <button type="submit" className="login-button">
             Login
           </button>
-          {message && (
-            <p
-              className={`login-message ${
-                message === "Login successful!" ? "success" : "error"
-              }`}
-            >
-              {message}
-            </p>
-          )}
         </form>
         <div className="Rregister-link">
           Don’t have an account?{" "}
@@ -97,6 +104,19 @@ const Login = () => {
           </Link>
         </div>
       </div>
+
+      {/* ToastContainer to display toasts */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000} // Auto close the toast after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
