@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;	
@@ -30,22 +29,27 @@ public class WorkoutGoalController {
         return ResponseEntity.ok().build();
     }
 
-    // Create a new Workout Goal for a specific User
     @PostMapping
-    public ResponseEntity<String> createWorkoutGoal(@RequestBody WorkoutGoal workoutGoal) {
-        // Look up the user by ID or email to associate with the goal
-        Optional<User> userOptional = userService.getUserById(workoutGoal.getUser().getUserID()); // Assuming you are using userID
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-
-        // Set the User for the goal
-        workoutGoal.setUser(userOptional.get());
-
-        // Save the workout goal
-        workoutGoalService.saveWorkoutGoal(workoutGoal);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Workout Goal created successfully");
+public ResponseEntity<String> createWorkoutGoal(@RequestBody WorkoutGoal workoutGoal) {
+    // Validate that userID is provided
+    if (workoutGoal.getUser() == null || workoutGoal.getUser().getUserID() == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User ID is required");
     }
+
+    // Look up the user by ID
+    Optional<User> userOptional = userService.getUserById(workoutGoal.getUser().getUserID());
+    if (userOptional.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    }
+
+    // Set the User for the goal
+    workoutGoal.setUser(userOptional.get());
+
+    // Save the workout goal
+    workoutGoalService.saveWorkoutGoal(workoutGoal);
+    return ResponseEntity.status(HttpStatus.CREATED).body("Workout Goal created successfully for User ID: " + workoutGoal.getUser().getUserID());
+}
+
 
     // Get all Workout Goals
     @GetMapping

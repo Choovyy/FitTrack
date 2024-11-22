@@ -36,27 +36,34 @@ const WorkoutGoalForm = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Validate the form before proceeding
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return; // Stop form submission if there are errors
     }
-
-    // Get the user ID from localStorage or context (make sure the user is authenticated)
-    const userID = localStorage.getItem('userID');  // Or get it from your global state if using something like Redux
-
+  
+    // Get the user ID from localStorage
+    const userID = localStorage.getItem('userID');
+    if (!userID) {
+      alert('User is not authenticated. Please log in.');
+      return;
+    }
+  
+    // Prepare the goal data object
     const goalData = {
       goalDescription,
       targetCalories: parseInt(targetCalories, 10),
       targetDuration: parseInt(targetDuration, 10),
       deadline,
-      user: { id: userID },  // Pass the user ID in the correct format
+      user: { userID: parseInt(userID, 10) },  // Ensure userID is included correctly
     };
-    
-
+  
     try {
+      // Log the goal data to check if userID is correct before sending
+      console.log('Submitting goal data:', goalData);
+  
       await createWorkoutGoal(goalData);
       setGoalDescription('');
       setTargetCalories('');
@@ -70,6 +77,8 @@ const WorkoutGoalForm = () => {
       alert('Failed to create workout goal.');
     }
   };
+  
+  
 
   const handleCancel = () => {
     navigate('/workout-goals');
