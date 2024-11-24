@@ -137,6 +137,7 @@ const WorkoutGoalForm = () => {
                     onChange={(e) => setTargetCalories(e.target.value)}
                     placeholder="Enter target calories"
                     required
+                    min='1'
                   />
                   {errors.targetCalories && <p className="error-message">{errors.targetCalories}</p>}
                 </div>

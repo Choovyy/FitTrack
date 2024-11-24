@@ -1,0 +1,5 @@
+package com.ProjectDev.FitTrack.Util;
+
+public class JwtUtil {
+
+}
