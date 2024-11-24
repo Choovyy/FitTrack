@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;	
-
+// ayaw nani pang hilabti
 @RequestMapping("/api/workout-goals")
 @CrossOrigin(origins = "http://localhost:5173") // Allow requests from the frontend
 @RestController
