@@ -11,17 +11,19 @@ const LogWorkout = () => {
   const [duration, setDuration] = useState('');
   const [caloriesBurned, setCaloriesBurned] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
 
+  // Retrieve userID from localStorage
+  const userID = localStorage.getItem('userID');
+
   const handleExerciseTypeChange = (e) => {
     let input = e.target.value;
-    if (/\d/.test(input)) { // Check if input contains any digit
+    if (/\d/.test(input)) {
       setErrorMessage('Exercise type cannot contain numbers');
     } else {
       setErrorMessage('');
-      // Capitalize the first letter of the input
       input = input.charAt(0).toUpperCase() + input.slice(1);
       setExerciseType(input);
     }
@@ -33,6 +35,10 @@ const LogWorkout = () => {
       alert('Please fill out all fields!');
       return;
     }
+    if (!userID) {
+      alert('User not authenticated. Please log in again.');
+      return;
+    }
     setIsModalOpen(true);
   };
 
@@ -42,6 +48,7 @@ const LogWorkout = () => {
         exerciseType,
         duration: parseInt(duration, 10),
         caloriesBurned: parseInt(caloriesBurned, 10),
+        user: { userID },  // Include userID with the request
       };
       await createWorkout(workoutData);
 
@@ -81,15 +88,13 @@ const LogWorkout = () => {
         </ul>
       </nav>
       <div className="footer">
-            © 2024 || <a href="#">FitTrack</a>
-            </div>
+        © 2024 || <a href="#">FitTrack</a>
+      </div>
       <div className="container">
-        {/* Image on the left side */}
         <div className="imageContainer">
           <img src={logImage} alt="Workout" className="workoutImage" />
         </div>
 
-        {/* Form to log workout */}
         <div className="formContainer">
           <h2>Log Your Workout</h2>
           <form onSubmit={handleSaveClick}>
@@ -123,12 +128,11 @@ const LogWorkout = () => {
               />
             </div>
             <button type="submit" className="saveButton">Save</button>
-            <button onClick={handleCancel} className="cancelButton">Cancel</button>
+            <button type="button" onClick={handleCancel} className="cancelButton">Cancel</button>
           </form>
         </div>
       </div>
 
-      {/* Confirmation Modal */}
       {isModalOpen && (
         <div className="modalOverlay">
           <div className="modalContent">
@@ -142,7 +146,6 @@ const LogWorkout = () => {
         </div>
       )}
 
-      {/* Success Message */}
       {showSuccessMessage && (
         <div className="success-message">
           Workout saved!

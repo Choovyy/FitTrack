@@ -1,0 +1,100 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #A9B7C0; /* Light Gray */
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  /* Header Styles */
+  header {
+    background-color: #42464D; /* Dark Blue */
+    color: #FFFFFF; /* White */
+    padding: 10px 20px;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  /* Navigation Styles */
+  nav {
+    background-color: #FFFFFF; /* White */
+    display: flex;
+    border-bottom: 1px solid #A9B7C0; /* Light Gray */
+  }
+  
+  nav button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #FFFFFF; /* White */
+  }
+  
+  nav button:hover {
+    background-color: #00A19A; /* Teal */
+    color: #FFFFFF; /* White */
+  }
+  
+  /* Main Content Styles */
+  main {
+    padding: 20px;
+  }
+  
+  section {
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    color: #42464D; /* Dark Blue */
+  }
+  
+  /* Form Styles */
+  form {
+    display: flex;
+    gap: 20px;
+  }
+  
+  form input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #A9B7C0; /* Light Gray */
+    border-radius: 5px;
+  }
+  
+  form input[type="text"],
+  form input[type="number"],
+  form input[type="email"] {
+    background-color: #FFFFFF; /* White */
+  }
+  
+  /* Profile Image Styles */
+  .profile-img {
+    border-radius: 50%;
+    border: 2px solid #00A19A; /* Teal */
+    width: 100px;
+    height: 100px;
+  }
+  
+  button.change-photo {
+    margin-top: 10px;
+    background-color: #FFC43A; /* Yellow */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  button.go-home {
+    margin-top: 20px;
+    background-color: #00A19A; /* Teal */
+    color: #FFFFFF; /* White */
+    border: none;
+    padding: 10px 20px;
+  }
+  

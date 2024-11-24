@@ -20,21 +20,21 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<Comment> createOrUpdateComment(@RequestBody Comment comment) {
-        if (comment.getContent() == null || comment.getContent().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    public ResponseEntity<String> createOrUpdateComment(@RequestBody Comment comment) {
+        if (comment.getContent() == null || ((String) comment.getContent()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Comment content cannot be empty.");
         }
-        comment.setTimestamp(LocalDateTime.now());
+        comment.setTimeStamp(LocalDateTime.now());
         Comment savedComment = commentService.saveComment(comment);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Comment created successfully with ID: " + savedComment.getCommentID());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Comment> getComment(@PathVariable Integer id) {
-        Optional<Comment> optionalComment = commentService.getCommentById(id); // Returns Optional<Comment>
+        Optional<Comment> optionalComment = commentService.getCommentById(id);
         return optionalComment
-                .map(ResponseEntity::ok) // If present, return 200 OK with the Comment
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)); // If not present, return 404 Not Found
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @GetMapping
@@ -44,18 +44,27 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateComment(@PathVariable Integer id, @RequestBody Comment updatedComment) {
-        Comment updated = commentService.updateComment(id, updatedComment);
-        if (updated != null) {
-            return ResponseEntity.ok(updated);
+    public ResponseEntity<String> updateComment(@PathVariable Integer id, @RequestBody Comment updatedComment) {
+        Optional<Comment> optionalComment = commentService.getCommentById(id);
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            comment.setContent(updatedComment.getContent());
+            comment.setTimeStamp(LocalDateTime.now());
+            commentService.saveComment(comment);
+            return ResponseEntity.ok("Comment updated successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found.");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Integer id) {
-        commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<String> deleteComment(@PathVariable Integer id) {
+        Optional<Comment> optionalComment = commentService.getCommentById(id);
+        if (optionalComment.isPresent()) {
+            commentService.deleteComment(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comment deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found.");
+        }
     }
 }

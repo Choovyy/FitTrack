@@ -1,9 +1,7 @@
 package com.ProjectDev.FitTrack.Entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
 
 @Entity
 @Table(name = "post")
@@ -12,13 +10,13 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "postID")
-    private Integer postID;	
+    private Integer postID; 
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
     private User user;
 
-    private String username; // Optional: if you want to store it separately
+    private String username;
     private String content;
 
     @Column(name = "timestamp", nullable = false)
@@ -27,7 +25,11 @@ public class Post {
     @Column(name = "type")
     private String type;
 
-    // Parameterized Constructor
+    @Column(name = "likeCount", nullable = false)
+    private Integer likeCount;
+
+    public Post() {}
+
     public Post(User user, String username, String content, LocalDateTime timestamp, Integer likeCount) {
         this.user = user;
         this.username = username;
@@ -36,6 +38,7 @@ public class Post {
         this.likeCount = likeCount;
     }
 
+    // Getters and Setters
     public Integer getPostID() {
         return postID;
     }
@@ -50,6 +53,14 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getContent() {
@@ -88,7 +99,7 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "postID=" + postID +
-                ", user=" + user.getName() + // Assuming User has a name field
+                ", user=" + user.getName() + 
                 ", username='" + username + '\'' +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +

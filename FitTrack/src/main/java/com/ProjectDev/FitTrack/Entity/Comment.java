@@ -10,6 +10,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentID;
+
     private Integer postID;
     private String commentText;
     private LocalDateTime timeStamp;
@@ -36,12 +37,28 @@ public class Comment {
         this.commentID = commentID; 
     }
 
-    public Post getPost() { 
-        return post; 
+    public Integer getPostID() {
+        return postID;
     }
 
-    public void setPost(Post post) { 
-        this.post = post; 
+    public void setPostID(Integer postID) { 
+        this.postID = postID; 
+    }
+
+    public String getCommentText() { 
+        return commentText; 
+    }
+
+    public void setCommentText(String commentText) { 
+        this.commentText = commentText; 
+    }
+
+    public LocalDateTime getTimeStamp() { 
+        return timeStamp; 
+    }
+
+    public void setTimeStamp(LocalDateTime timeStamp) { 
+        this.timeStamp = timeStamp; 
     }
 
     public User getUser() { 
@@ -52,19 +69,13 @@ public class Comment {
         this.user = user; 
     }
 
-    public String getContent() { 
-        return content; 
+    public Object getContent() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getContent'");
     }
 
-    public void setContent(String content) { 
-        this.content = content; 
-    }
-
-    public LocalDateTime getTimestamp() { 
-        return timestamp; 
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) { 
-        this.timestamp = timestamp; 
+    public void setContent(Object content) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setContent'");
     }
 }
