@@ -1,83 +1,115 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import Navigate hook for programmatic navigation
-import "./Style/editprofile.css"
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Style/editprofile.css"; // Ensure this file contains the provided CSS
 
 const EditProfile = () => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
+
+  // State to manage the username and password inputs
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Example: Replace this with the actual user ID from context or props
+  const userId = 1;
 
   const handleGoHome = () => {
-    // Use navigate to programmatically go back to Home
     navigate("/");
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      // Make an API call to update the user's profile
+      const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Profile updated successfully!");
+        navigate("/"); 
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to update profile: ${errorData.message || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("An error occurred while updating the profile.");
+    }
+  };
+
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", backgroundColor: "var(--light-gray)", height: "100vh" }}>
+    <div>
       {/* Header */}
-      <header style={{ backgroundColor: "var(--dark-blue)", color: "var(--white)", padding: "10px 20px" }}>
-        <h1 style={{ margin: 0 }}>Edit Profile</h1>
+      <header>
+        <h1>Edit Profile</h1>
       </header>
 
-      {/* Tabs */}
-      <nav style={{ backgroundColor: "var(--white)", display: "flex", borderBottom: "1px solid var(--light-gray)" }}>
-        <button style={{ flex: 1, padding: "10px", backgroundColor: "var(--white)", border: "none" }}>
-          Basic
-        </button>
-        <button style={{ flex: 1, padding: "10px", backgroundColor: "var(--teal)", color: "var(--white)", border: "none" }}>
-          Athletic
-        </button>
-        <button style={{ flex: 1, padding: "10px", backgroundColor: "var(--white)", border: "none" }}>
-          Academic
-        </button>
+      {/* Navigation Bar */}
+      <nav>
+        <button onClick={() => handleNavigate("/")}>Home</button>
+        <button onClick={() => handleNavigate("/profile")}>Profile</button>
+        <button onClick={() => handleNavigate("/settings")}>Settings</button>
+        <button onClick={() => handleNavigate("/logout")}>Logout</button>
       </nav>
 
       {/* Main Content */}
-      <main style={{ padding: "20px" }}>
+      <main>
         {/* Public Info Section */}
-        <section style={{ marginBottom: "20px" }}>
-          <h2 style={{ color: "var(--dark-blue)" }}>Public Info</h2>
-          <form>
-            <div style={{ display: "flex", gap: "20px" }}>
+        <section>
+          <h2>Edit Your Profile</h2>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <div>
               <div>
                 <img
                   src="https://via.placeholder.com/100"
                   alt="Profile"
-                  style={{
-                    borderRadius: "50%",
-                    border: "2px solid var(--teal)",
-                    width: "100px",
-                    height: "100px",
-                  }}
+                  className="profile-img"
                 />
-                <button style={{ marginTop: "10px", backgroundColor: "var(--yellow)", border: "none", padding: "5px 10px" }}>
+                <button type="button" className="change-photo">
                   Change Photo
                 </button>
               </div>
               <div style={{ flex: 1 }}>
-                <label>Name</label>
-                <input type="text" placeholder="Name" style={{ display: "block", width: "100%", marginBottom: "10px" }} />
-                <label>Birth Year</label>
-                <input type="number" placeholder="Birth Year" style={{ display: "block", width: "100%", marginBottom: "10px" }} />
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </div>
           </form>
         </section>
 
-        {/* Contact Section */}
-        <section>
-          <h2 style={{ color: "var(--dark-blue)" }}>Contact</h2>
-          <p style={{ fontSize: "14px" }}>Only verified recruiters will see this information.</p>
-          <form>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-              <input type="text" placeholder="Street" />
-              <input type="email" placeholder="Email" />
-            </div>
-          </form>
-        </section>
-
-        {/* Go Home Button */}
-        <button onClick={handleGoHome} style={{ marginTop: "20px", backgroundColor: "var(--teal)", color: "var(--white)", border: "none", padding: "10px 20px" }}>
-          Go Back to Home
-        </button>
+        {/* Buttons */}
+        <div className="button-group">
+          <button onClick={handleUpdateProfile} className="confirm">
+            Confirm
+          </button>
+          <button onClick={handleGoHome} className="go-home">
+            Go Back to Home
+          </button>
+        </div>
       </main>
     </div>
   );
