@@ -1,20 +1,33 @@
 package com.ProjectDev.FitTrack.Controller;
 
+import com.ProjectDev.FitTrack.Entity.User;
 import com.ProjectDev.FitTrack.Entity.WorkoutGoal;
+import com.ProjectDev.FitTrack.Service.UserService;
 import com.ProjectDev.FitTrack.Service.WorkoutGoalService;
+import com.ProjectDev.FitTrack.Util.JwtUtil;  // Assuming you have a utility class to extract the JWT token
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
+import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173")
-@RestController
 @RequestMapping("/api/workout-goals")
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from the frontend
+@RestController
 public class WorkoutGoalController {
 
     @Autowired
     private WorkoutGoalService workoutGoalService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JwtUtil jwtUtil;  // Utility to handle JWT
 
     // Handle OPTIONS request for CORS preflight
     @RequestMapping(method = RequestMethod.OPTIONS)
@@ -22,10 +35,32 @@ public class WorkoutGoalController {
         return ResponseEntity.ok().build();
     }
 
-    // Create a new Workout Goal
-    @PostMapping("/create")
-    public WorkoutGoal createWorkoutGoal(@RequestBody WorkoutGoal workoutGoal) {
-        return workoutGoalService.saveWorkoutGoal(workoutGoal);
+    // Create a new Workout Goal for a specific User
+    @PostMapping
+    public ResponseEntity<String> createWorkoutGoal(@RequestBody WorkoutGoal workoutGoal, @RequestHeader("Authorization") String token) {
+        try {
+            // Extract the User ID from the JWT token
+            String userIdFromToken = jwtUtil.extractUserId(token);
+
+            if (userIdFromToken == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+            }
+
+            // Look up the user by ID to associate with the goal
+            Optional<User> userOptional = userService.getUserById(Long.parseLong(userIdFromToken)); 
+            if (userOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            // Set the User for the goal
+            workoutGoal.setUser(userOptional.get());
+
+            // Save the workout goal
+            workoutGoalService.saveWorkoutGoal(workoutGoal);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Workout Goal created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating workout goal");
+        }
     }
 
     // Get all Workout Goals

@@ -81,7 +81,6 @@ body {
   left: 0;
   right: 0;
   padding: 15px 20px;
-  border-bottom: 1px solid #ccc;
   background-color: #263238;
   z-index: 1000;
   display: flex;
@@ -130,6 +129,7 @@ body {
   align-items: center;
   gap: 5px;
   font-weight: bold;
+  color: #fdfdfd;
   transition: color 0.3s;
 }
 
@@ -138,24 +138,24 @@ body {
   top: 100%;
   right: 0;
   background-color: #263238;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  min-width: 120px;
 }
 
 .dropdown-item {
-  padding: 15px 20px; /* Adjust padding for alignment */
+  padding: 10px 20px; /* Adjust padding for alignment */
   color: #fdfdfd;
   text-decoration: none;
   display: flex;
   align-items: center; /* Align text properly */
   justify-content: center; /* Center text horizontally */
-  font-size: 16px; /* Larger font for better readability */
+  font-size: 14px; /* Larger font for better readability */
   transition: background-color 0.3s, color 0.3s;
   white-space: nowrap; /* Prevent text wrapping */
-  border-bottom: 1px solid #fff; /* Add a white border */
 }
 
 .dropdown-item:last-child {
