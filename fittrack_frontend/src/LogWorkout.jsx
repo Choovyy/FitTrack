@@ -15,8 +15,8 @@ const LogWorkout = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
 
-  // Retrieve userID from localStorage
-  const userID = localStorage.getItem('userID');
+  // Retrieve userID from sessionStorage
+  const userID = sessionStorage.getItem('userID');
 
   const handleExerciseTypeChange = (e) => {
     let input = e.target.value;

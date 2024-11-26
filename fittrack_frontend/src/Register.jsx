@@ -46,7 +46,7 @@ const Register = () => {
           // Wait for the toast duration before redirecting
           setTimeout(() => {
             navigate("/login"); // Redirect to login after toast disappears
-          }, 5000); // 5 seconds to match the toast duration
+          }, 3000); // 5 seconds to match the toast duration
         } else {
           toast.error("Registration failed. Invalid response from server.");
         }

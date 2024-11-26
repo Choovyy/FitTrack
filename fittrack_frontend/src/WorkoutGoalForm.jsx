@@ -45,7 +45,7 @@ const WorkoutGoalForm = () => {
     }
   
     // Get the user ID from localStorage
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     if (!userID) {
       alert('User is not authenticated. Please log in.');
       return;
