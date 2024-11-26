@@ -1,105 +1,79 @@
-/* Greeting */
+/* Header */
 .dashboard-header {
-  position: absolute;
-  top: 100px;
-  left: 105px;
   font-size: 24px;
-  font-weight: 600;
-  color: black;
+  font-weight: bold;
+  color: #333333;
+  margin: 100px 0 20px; /* Adjusted left margin for alignment */
 }
 
-/* Dashboard Controls (Buttons) */
+/* Controls */
 .dashboard-controls {
-  position: absolute;
-  top: 160px;
-  left: 105px;
   display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  margin-top: 20px;
-  z-index: 10;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px auto;
 }
 
-/* Recent Workouts Section */
-.recent-workouts {
-  margin-top: 260px;
-  left: 105px;
-  width: 1205px;
-  background: #ffffff;
-  padding: 30px;
+.btn {
+  width: 220px;
+  height: 60px;
+  font-size: 18px;
+  background-color: #009688;
+  color: #ffffff;
+  text-align: center;
   border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #00796b;
+  transform: scale(1.05);
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+/* Recent Workouts */
+.recent-workouts {
+  margin: 30px auto;
+  width: 90%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .recent-workouts h3 {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 15px;
   color: #333333;
-  text-align: left;
-  margin-bottom: 20px;
   border-bottom: 2px solid #009688;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
-/* Workout labels */
-.workout-labels {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  font-weight: bold;
-  font-size: 18px;
-  color: #009688;
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  margin-left: 25px;
-}
-
-/* Workout Item Card */
+.workout-labels,
 .workout-item {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  background-color: #f7f7f7;
-  border-radius: 10px;
-  padding: 15px 20px;
-  margin-top: 15px;
-  font-size: 18px;
-  color: #333333;
-  text-align: left;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+.workout-item {
+  background-color: #f9f9f9;
+  margin-top: 10px;
+  border-radius: 8px;
+  padding: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .workout-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* Styling for individual items to align them properly */
-.workout-item div {
-  font-weight: 500;
-  padding-left: 10px; /* Adds space on the left to align content visually */
-}
-
-/* Buttons */
-.btn {
-  width: 180px;
-  height: 45px;
-  background-color: #009688;
-  color: white;
-  font-size: 18px;
-  font-weight: normal;
-  text-align: center;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  text-decoration: none;
-  gap: 10px; /* Space between icon and text */
-}
-
-.icon {
-  font-size: 20px; /* Adjust icon size */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
