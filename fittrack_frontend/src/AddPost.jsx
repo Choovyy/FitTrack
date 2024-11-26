@@ -2,37 +2,40 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const AddPost = ({ userID = 1, username = "Current User" }) => {
+const AddPost = ({ userID = 1 }) => {
   const [content, setContent] = useState('');
   const [postType, setPostType] = useState('general');  
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (content.trim().length < 5) {
       alert("Post content should be at least 5 characters long.");
       return;
     }
-
+  
     const newPost = {
-      userID,
-      username,
+      user: {
+        userID: userID, // Include the userID to fetch the user on the backend
+      },
       content,
-      timestamp: new Date().toISOString(), 
-      type: postType,  
-      likeCount: 0,  
+      type: postType,
     };
-
+  
     try {
-      await axios.post("http://localhost:8080/posts", newPost);  
+      await axios.post("http://localhost:8080/posts", newPost, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       alert("Post created successfully!");
-      navigate('/post');  
+      navigate('/post');
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error creating post:", error.response ? error.response.data : error.message);
       alert("Failed to create post.");
     }
-  };
+  };  
 
   return (
     <div className="add-post">

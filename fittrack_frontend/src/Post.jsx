@@ -5,14 +5,12 @@ import LikeButton from './LikeButton';
 import './Style/Post.css';
 import logo from "./assets/FitTrack Logo.png";
 
-const Post = ({ onDelete, onUpdate }) => {
+const Post = ({ onDelete, onUpdate, userID }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [newComment, setNewComment] = useState('');
   const [editingPostID, setEditingPostID] = useState(null);
   const [updatedContent, setUpdatedContent] = useState('');
 
-  // Fetch posts from the backend
   const fetchPosts = async () => {
     try {
       const response = await fetch('http://localhost:8080/posts');
@@ -21,7 +19,8 @@ const Post = ({ onDelete, onUpdate }) => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        setPosts(data);
+        const validPosts = data.filter((post) => post.postId); // Ensure each post has a postId
+        setPosts(validPosts);
       } else {
         console.error('API did not return an array:', data);
       }
@@ -31,19 +30,17 @@ const Post = ({ onDelete, onUpdate }) => {
     }
   };
 
-  // Fetch posts on component mount
   useEffect(() => {
     fetchPosts();
   }, []);
 
-  // Delete a post
-  const handleDeletePost = async (postID) => {
+  const handleDeletePost = async (postId) => {
     try {
-      const response = await fetch(`http://localhost:8080/posts/${postID}`, { method: 'DELETE' });
+      const response = await fetch(`http://localhost:8080/posts/${postId}`, { method: 'DELETE' });
       if (response.ok) {
-        setPosts((prevPosts) => prevPosts.filter((post) => post.postID !== postID));
+        setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== postId));
         alert('Post deleted successfully.');
-        if (onDelete) onDelete(postID);
+        if (onDelete) onDelete(postId);
       } else {
         throw new Error('Failed to delete the post.');
       }
@@ -53,11 +50,10 @@ const Post = ({ onDelete, onUpdate }) => {
     }
   };
 
-  // Update a post
-  const handleUpdatePost = async (postID) => {
+  const handleUpdatePost = async (postId) => {
     const updatedPost = { content: updatedContent };
     try {
-      const response = await fetch(`http://localhost:8080/posts/${postID}`, {
+      const response = await fetch(`http://localhost:8080/posts/${postId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedPost),
@@ -65,7 +61,7 @@ const Post = ({ onDelete, onUpdate }) => {
       if (response.ok) {
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
-            post.postID === postID ? { ...post, content: updatedContent } : post
+            post.postId === postId ? { ...post, content: updatedContent } : post
           )
         );
         alert('Post updated successfully.');
@@ -81,10 +77,9 @@ const Post = ({ onDelete, onUpdate }) => {
   };
 
   return (
-    <div className="post-container">
+    <div>
       <nav className="navbar">
         <div className="navbar-logo">
-          {/* Wrapping the logo with a Link to make it clickable */}
           <Link to="/dashboard">
             <img src={logo} alt="FitTrack Logo" />
           </Link>
@@ -102,72 +97,72 @@ const Post = ({ onDelete, onUpdate }) => {
         </ul>
       </nav>
 
-      {/* Footer */}
-      <div className="footer">
-        © 2024 || <a href="#">FitTrack</a>
+      {/* Add Post Button Section */}
+      <div className="add-post-container">
+        <button
+          className="add-post-button"
+          onClick={() => navigate('/add-post')}
+        >
+          Add Post
+        </button>
       </div>
 
-      {/* Post List */}
-      {posts.length === 0 ? (
-        <div className="no-posts">No posts available</div>
-      ) : (
-        posts.map((post) => (
-          <div key={post.postID} className="post-box">
-            <h3 className="post-username">{post.userID}</h3>
-
-            {/* Edit Post */}
-            {editingPostID === post.postID ? (
-              <>
-                <textarea
-                  value={updatedContent}
-                  onChange={(e) => setUpdatedContent(e.target.value)}
-                  rows="4"
-                  className="edit-textarea"
-                />
-                <button className="save-button" onClick={() => handleUpdatePost(post.postID)}>
-                  Save Changes
-                </button>
-              </>
-            ) : (
-              <p className="post-content">{post.content}</p>
-            )}
-
-            <span className="post-timestamp">
-              {new Date(post.timestamp).toLocaleString()}
-            </span>
-
-            <div className="like-section">
-              <LikeButton postID={post.postID} initialCount={post.likeCount} />
-            </div>
-
-            <div className="comment-section">
-              <h4>Comments</h4>
-              <Comment postID={post.postID} />
-            </div>
-
-            <div className="action-buttons">
-              <button className="delete-button" onClick={() => handleDeletePost(post.postID)}>
-                Delete
-              </button>
-              {!editingPostID && (
-                <button
-                  className="edit-button"
-                  onClick={() => {
-                    setEditingPostID(post.postID);
-                    setUpdatedContent(post.content);
-                  }}
-                >
-                  Edit
-                </button>
+      {/* Post Container */}
+      <div className="post-container">
+        {posts.length === 0 ? (
+          <div className="no-posts">No posts available</div>
+        ) : (
+          posts.map((post) => (
+            <div key={post.postId} className="post-box">
+              <h3 className="post-username">{post.user?.userID || 'Unknown User'}</h3>
+              {editingPostID === post.postId ? (
+                <>
+                  <textarea
+                    value={updatedContent}
+                    onChange={(e) => setUpdatedContent(e.target.value)}
+                    rows="4"
+                    className="edit-textarea"
+                  />
+                  <button className="save-button" onClick={() => handleUpdatePost(post.postId)}>
+                    Save Changes
+                  </button>
+                </>
+              ) : (
+                <p className="post-content">{post.content || 'No content available'}</p>
               )}
+              <span className="post-timestamp">
+                {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
+              </span>
+              <div className="like-section">
+                <LikeButton postID={post.postId} initialCount={post.likeCount || 0} />
+              </div>
+              <div className="comment-section">
+                <h4>Comments</h4>
+                <Comment postId={post.postId} userID={userID} />
+              </div>
+              <div className="action-buttons">
+                <button className="delete-button" onClick={() => handleDeletePost(post.postId)}>
+                  Delete
+                </button>
+                {!editingPostID && (
+                  <button
+                    className="edit-button"
+                    onClick={() => {
+                      setEditingPostID(post.postId);
+                      setUpdatedContent(post.content || '');
+                    }}
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))
-      )}
+          ))
+        )}
+      </div>
 
-      {/* Add Post Button */}
-      <div className="floating-button">
-        <button onClick={() => navigate('/add-post')}>Add Post</button>
+      <div className="footer">
+        © 2024 || <a href="#">FitTrack</a>
       </div>
     </div>
   );

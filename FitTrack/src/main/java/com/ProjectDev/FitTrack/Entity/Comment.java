@@ -1,9 +1,5 @@
 package com.ProjectDev.FitTrack.Entity;
 
-<<<<<<< HEAD
-import com.fasterxml.jackson.annotation.JsonBackReference;
-=======
->>>>>>> 9c17f7337b638bb328c15824228377928d379fea
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,91 +9,73 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer commentID;
-<<<<<<< HEAD
+    @Column(name = "commentid")
+    private Integer commentId;
 
     @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "postid", referencedColumnName = "postID")
+    @JoinColumn(name = "postid", nullable = false)
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "userid", referencedColumnName = "userID")
+    @JoinColumn(name = "userID", nullable = false)
     private User user;
 
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "timestamp", nullable = false) // Adjust to use only one column
+    @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
-
-    @PrePersist
-    public void setTimestamp() {
-        if (this.timestamp == null) {
-            this.timestamp = LocalDateTime.now();
-        }
-    }
-
-    // Getters and Setters
-
-    public Integer getCommentID() { 
-        return commentID; 
-=======
-    private Integer postID;
-    private String commentText;
-    private LocalDateTime timeStamp;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
     public Comment() {}
 
-    public Comment(Integer postID, String commentText, LocalDateTime timeStamp, User user) {
-        this.postID = postID;
-        this.commentText = commentText;
-        this.timeStamp = timeStamp;
+    public Comment(Post post, User user, String content, LocalDateTime timestamp) {
+        this.post = post;
         this.user = user;
+        this.content = content;
+        this.timestamp = timestamp;
     }
 
-    // Getters and Setters
-    public Integer getCommentID() {
-        return commentID;
->>>>>>> 9c17f7337b638bb328c15824228377928d379fea
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public void setCommentID(Integer commentID) { 
-        this.commentID = commentID; 
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
-    public Post getPost() { 
-        return post; 
+    public Post getPost() {
+        return post;
     }
 
-    public void setPost(Post post) { 
-        this.post = post; 
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    public User getUser() { 
-        return user; 
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(User user) { 
-        this.user = user; 
+    public void setUser(User user) {
+        if (user != null) {
+            this.user = user;
+        } else {
+            throw new IllegalArgumentException("User cannot be null");
+        }
     }
 
-    public String getContent() { 
-        return content; 
+    public String getContent() {
+        return content;
     }
 
-    public void setContent(String content) { 
-        this.content = content; 
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public LocalDateTime getTimestamp() { 
-        return timestamp; 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) { 
-        this.timestamp = timestamp; 
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

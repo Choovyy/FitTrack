@@ -1,12 +1,15 @@
 package com.ProjectDev.FitTrack.Controller;
 
 import com.ProjectDev.FitTrack.Entity.Comment;
+import com.ProjectDev.FitTrack.Entity.Post;
+import com.ProjectDev.FitTrack.Entity.User;
 import com.ProjectDev.FitTrack.Service.CommentService;
+import com.ProjectDev.FitTrack.Service.PostService;
+import com.ProjectDev.FitTrack.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,43 +22,61 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PostService postService;
+
     @PostMapping
-    public ResponseEntity<Comment> createOrUpdateComment(@RequestBody Comment comment) {
-        if (comment.getContent() == null || comment.getContent().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    public ResponseEntity<Comment> createComment(@RequestBody Comment commentRequest) {
+        if (commentRequest.getUser() == null || commentRequest.getPost() == null) {
+            return ResponseEntity.badRequest().build();  
         }
-        comment.setTimestamp(LocalDateTime.now());
-        Comment savedComment = commentService.saveComment(comment);
+
+        Optional<User> existingUser = userService.getUserById(commentRequest.getUser().getUserID());
+        Optional<Post> existingPost = postService.getPostById(commentRequest.getPost().getPostId());
+
+        if (!existingUser.isPresent()) {
+            return ResponseEntity.badRequest().body(null); 
+        }
+
+        if (!existingPost.isPresent()) {
+            return ResponseEntity.badRequest().body(null);  
+        }
+
+        commentRequest.setUser(existingUser.get());
+        commentRequest.setPost(existingPost.get());
+        commentRequest.setTimestamp(LocalDateTime.now());
+
+        Comment savedComment = commentService.saveComment(commentRequest);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Comment> getComment(@PathVariable Integer id) {
-        Optional<Comment> optionalComment = commentService.getCommentById(id); // Returns Optional<Comment>
-        return optionalComment
-                .map(ResponseEntity::ok) // If present, return 200 OK with the Comment
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)); // If not present, return 404 Not Found
+    @GetMapping("/{postId}")
+    public List<Comment> getCommentsByPostId(@PathVariable("postId") Long postId) {
+        return commentService.getCommentsByPostId(postId); 
     }
 
-    @GetMapping
-    public ResponseEntity<List<Comment>> getAllComments() {
-        List<Comment> comments = commentService.getAllComments();
-        return ResponseEntity.ok(comments.isEmpty() ? List.of() : comments);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateComment(@PathVariable Integer id, @RequestBody Comment updatedComment) {
-        Comment updated = commentService.updateComment(id, updatedComment);
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Comment> updateComment(@PathVariable("commentId") Integer commentId, @RequestBody Comment updatedComment) {
+        Comment updated = commentService.updateComment(commentId, updatedComment);
         if (updated != null) {
-            return ResponseEntity.ok(updated);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.ok(updated);  
         }
+        throw new IllegalArgumentException("Comment not found");  
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Integer id) {
-        commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable("commentId") Integer commentId) {
+        Optional<Comment> commentOptional = commentService.getCommentById(commentId);
+
+        if (!commentOptional.isPresent()) {
+            return ResponseEntity.notFound().build();  
+        }
+
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();  
     }
 }

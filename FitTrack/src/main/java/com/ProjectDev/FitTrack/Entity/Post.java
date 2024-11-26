@@ -1,47 +1,58 @@
 package com.ProjectDev.FitTrack.Entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
+import com.ProjectDev.FitTrack.Serializer.UserSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "post")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "postID")
-    private Integer postID;	
+    @Column(name = "postid")
+    private Integer postId;
 
-    @ManyToOne
-    @JoinColumn(name = "userid", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userID", nullable = false)
+    @JsonSerialize(using = UserSerializer.class)
     private User user;
 
-    private String username; // Optional: if you want to store it separately
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "timestamp", nullable = false)
+    @Column(name = "timestamp", nullable = false, updatable = false)
     private LocalDateTime timestamp;
 
     @Column(name = "type")
     private String type;
 
-    // Parameterized Constructor
-    public Post(User user, String username, String content, LocalDateTime timestamp, Integer likeCount) {
+    @Column(name = "like_count", nullable = false)
+    private Integer likeCount = 0;
+
+    public Post() {}
+
+    public Post(User user, String content, String type, Integer likeCount) {
         this.user = user;
-        this.username = username;
         this.content = content;
-        this.timestamp = timestamp;
+        this.type = type;
         this.likeCount = likeCount;
     }
 
-    public Integer getPostID() {
-        return postID;
+    @PrePersist
+    protected void onCreate() {
+        this.timestamp = LocalDateTime.now();
+    }
+    
+    public Integer getPostId() {
+        return postId;
     }
 
-    public void setPostID(Integer postID) {
-        this.postID = postID;
+    public void setPostId(Integer postId) {
+        this.postId = postId;
     }
 
     public User getUser() {
@@ -87,11 +98,11 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "postID=" + postID +
-                ", user=" + user.getName() + // Assuming User has a name field
-                ", username='" + username + '\'' +
+                "postId=" + postId +
+                ", user=" + (user != null ? user.getName() : "null") +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
+                ", type='" + type + '\'' +
                 ", likeCount=" + likeCount +
                 '}';
     }

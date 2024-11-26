@@ -18,8 +18,8 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post getPostById(Integer id) {
-        return postRepository.findById(id).orElse(null);
+    public Optional<Post> getPostById(Integer id) {
+        return postRepository.findById(id);
     }
 
     public Post savePost(Post post) {
@@ -42,7 +42,7 @@ public class PostService {
     }
 
     public void incrementLikeCount(Integer postId) {
-        Post post = getPostById(postId);
+        Post post = postRepository.findById(postId).orElse(null);
         if (post != null) {
             post.setLikeCount(post.getLikeCount() + 1);
             postRepository.save(post);
