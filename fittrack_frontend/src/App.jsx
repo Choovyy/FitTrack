@@ -13,6 +13,7 @@ import WorkoutHistory from './WorkoutHistory';
 import Dashboard from './Dashboard';
 import UpdateWorkout from './UpdateWorkout';
 import './App.css';
+import EditProfile from './editprofile';
 
 function App() {
     const [posts, setPosts] = useState([]);
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/join-us" element={<JoinUs />} />
                 <Route path="/login" element={<Login />} /> 
                 <Route path="/register" element={<Register />} /> 
+                <Route path="/edit-profile" element={<EditProfile />} />
             </Routes>
         </Router>
     );

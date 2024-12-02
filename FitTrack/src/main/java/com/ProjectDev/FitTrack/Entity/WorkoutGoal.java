@@ -21,7 +21,7 @@ public class WorkoutGoal {
     private LocalDate deadline;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     @JsonBackReference  // Add this annotation to prevent infinite recursion
     private User user;
 

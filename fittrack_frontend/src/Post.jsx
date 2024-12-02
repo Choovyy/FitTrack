@@ -19,8 +19,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        const validPosts = data.filter((post) => post.postId); // Ensure each post has a postId
-        setPosts(validPosts);
+        setPosts(data.filter((post) => post.postId)); // Filter posts with valid postId
       } else {
         console.error('API did not return an array:', data);
       }
@@ -97,7 +96,6 @@ const Post = ({ onDelete, onUpdate, userID }) => {
         </ul>
       </nav>
 
-      {/* Add Post Button Section */}
       <div className="add-post-container">
         <button
           className="add-post-button"
@@ -107,7 +105,6 @@ const Post = ({ onDelete, onUpdate, userID }) => {
         </button>
       </div>
 
-      {/* Post Container */}
       <div className="post-container">
         {posts.length === 0 ? (
           <div className="no-posts">No posts available</div>
@@ -137,7 +134,6 @@ const Post = ({ onDelete, onUpdate, userID }) => {
                 <LikeButton postID={post.postId} initialCount={post.likeCount || 0} />
               </div>
               <div className="comment-section">
-                <h4>Comments</h4>
                 <Comment postId={post.postId} userID={userID} />
               </div>
               <div className="action-buttons">

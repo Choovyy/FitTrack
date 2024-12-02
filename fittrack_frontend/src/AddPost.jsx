@@ -17,7 +17,7 @@ const AddPost = ({ userID = 1 }) => {
   
     const newPost = {
       user: {
-        userID: userID, // Include the userID to fetch the user on the backend
+        userID: userID, 
       },
       content,
       type: postType,
