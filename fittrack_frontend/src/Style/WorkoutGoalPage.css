@@ -98,3 +98,108 @@
 .add-goal-button svg {
     fill: #009688; /* Green color to match the add goal button */
 }
+/* Modal overlay styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal overlay styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal content styles */
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .modal-confirm-btn, .modal-cancel-btn {
+    padding: 12px 4px;   /* Same padding for both buttons */
+    font-size: 16px;       /* Same font size */
+    cursor: pointer;
+    border-radius: 5px;
+    width: 35%;            /* Make both buttons the same width */
+    border: none;          /* Remove border */
+  }
+  
+  .modal-confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .modal-cancel-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .modal-confirm-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .modal-cancel-btn:hover {
+    background-color: #e53935;
+  }
+  
+  /* Error message */
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .goal-info-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;  /* Space between this section and the goals */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.goal-info-image {
+    width: 120px;  /* Size of the image */
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.goal-info-text h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.goal-info-text p {
+    font-size: 16px;
+    color: #000000;
+}

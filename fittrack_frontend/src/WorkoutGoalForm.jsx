@@ -45,7 +45,7 @@ const WorkoutGoalForm = () => {
     }
   
     // Get the user ID from localStorage
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     if (!userID) {
       alert('User is not authenticated. Please log in.');
       return;
@@ -146,6 +146,7 @@ const WorkoutGoalForm = () => {
                     onChange={(e) => setTargetCalories(e.target.value)}
                     placeholder="Enter target calories"
                     required
+                    min='1'
                   />
                   {errors.targetCalories && <p className="error-message">{errors.targetCalories}</p>}
                 </div>

@@ -89,10 +89,10 @@
 }
 
 .modalContent {
-  background: #242526;
+  background: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  color: white;
+  color: rgb(0, 0, 0);
   text-align: center;
   width: 300px;
 }

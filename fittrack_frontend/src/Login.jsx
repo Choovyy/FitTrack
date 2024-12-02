@@ -34,13 +34,13 @@ const Login = () => {
         const userIDMatch = message.match(/your UserID is: (\d+)/);
         if (userIDMatch) {
           const userID = userIDMatch[1]; // Extract UserID from message
-          localStorage.setItem("userID", userID); // Store the userID in localStorage
+          sessionStorage.setItem("userID", userID); // Store the userID in sessionStorage
           toast.success(message); // Show success toast
 
           // Wait for the toast duration before redirecting
           setTimeout(() => {
             navigate("/dashboard"); // Navigate to dashboard after toast disappears
-          }, 5000); // 5 seconds delay
+          }, 3000); // 5 seconds delay
         } else {
           toast.error("Login failed. Please try again.");
         }
@@ -108,7 +108,7 @@ const Login = () => {
       {/* ToastContainer to display toasts */}
       <ToastContainer
         position="top-right"
-        autoClose={5000} // Auto close the toast after 5 seconds
+        autoClose={2000} // Auto close the toast after 5 seconds
         hideProgressBar={false} // Show progress bar
         newestOnTop={false}
         closeOnClick
