@@ -6,6 +6,7 @@ import logo from './assets/FitTrack Logo.png';
 import './Style/Dashboard.css';
 import './App.css';
 
+
 function Dashboard() {
   const [recentWorkouts, setRecentWorkouts] = useState([]);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
