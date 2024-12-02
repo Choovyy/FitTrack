@@ -8,6 +8,7 @@ import './Style/WorkoutGoalPage.css';
 import logo from "./assets/FitTrack Logo.png";
 import goalImage from './assets/goalpic.jpg'; // Importing the image
 import './App.css';
+import { FaUser } from 'react-icons/fa';
 
 const WorkoutGoalPage = () => {
   const [workoutGoals, setWorkoutGoals] = useState([]);
@@ -15,6 +16,9 @@ const WorkoutGoalPage = () => {
   const [goalToDelete, setGoalToDelete] = useState(null);  // Goal to delete
   const [loading, setLoading] = useState(false);  // Loading state
   const [error, setError] = useState(null);  // Error state
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
+
 
   useEffect(() => {
     const fetchGoals = async () => {
@@ -45,27 +49,50 @@ const WorkoutGoalPage = () => {
       }
     }
   };
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
 
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
   return (
     <div className="workout-goal-page">
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
         <div className="navbar-logo">
           <Link to="/dashboard">
             <img src={logo} alt="FitTrack Logo" />
           </Link>
         </div>
         <ul className="navList">
-          <li className="navDashboard">
+          <li>
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navHistory">
+          <li>
             <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navAboutUs">
+          <li>
             <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>
+
 
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>

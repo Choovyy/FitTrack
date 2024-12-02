@@ -4,12 +4,17 @@ import Comment from './Comment';
 import LikeButton from './LikeButton';
 import './Style/Post.css';
 import logo from "./assets/FitTrack Logo.png";
+import './App.css';
+import { FaUser } from 'react-icons/fa';
+
 
 const Post = ({ onDelete, onUpdate, userID }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [editingPostID, setEditingPostID] = useState(null);
   const [updatedContent, setUpdatedContent] = useState('');
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
 
   const fetchPosts = async () => {
     try {
@@ -74,24 +79,47 @@ const Post = ({ onDelete, onUpdate, userID }) => {
       alert('Failed to update the post. Please try again.');
     }
   };
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
 
   return (
     <div>
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
         <div className="navbar-logo">
           <Link to="/dashboard">
             <img src={logo} alt="FitTrack Logo" />
           </Link>
         </div>
         <ul className="navList">
-          <li className="navDashboard">
+          <li>
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navHistory">
+          <li>
             <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navAboutUs">
+          <li>
             <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>

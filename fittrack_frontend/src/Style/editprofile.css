@@ -126,8 +126,7 @@
 }
 
 /* Error Message */
-.error-message {
-  background-color: #ffcc00;
+.error-messageEP {
   color: #fff;
   padding: 10px;
   border-radius: 5px;

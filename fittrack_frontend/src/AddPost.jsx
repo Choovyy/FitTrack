@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { FaUser } from 'react-icons/fa';
+import './App.css';
+import logo from "./assets/FitTrack Logo.png";
 
 const AddPost = ({ userID = 1 }) => {
   const [content, setContent] = useState('');
   const [postType, setPostType] = useState('general');  
   const navigate = useNavigate();
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,20 +40,55 @@ const AddPost = ({ userID = 1 }) => {
       console.error("Error creating post:", error.response ? error.response.data : error.message);
       alert("Failed to create post.");
     }
+    
   };  
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
 
   return (
     <div className="add-post">
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
         <ul className="navList">
-          <li className="navDashboard">
+          <li>
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          <li>
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li>
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>
+      <div className="footer">
+            © 2024 || <a href="#">FitTrack</a>
+            </div>
       <h2>Add a New Post</h2>
       <form onSubmit={handleSubmit}>
         <textarea

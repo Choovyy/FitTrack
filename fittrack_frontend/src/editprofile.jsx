@@ -157,7 +157,7 @@ const EditProfile = () => {
             <img src={TheRoad} alt="Motivational workout" />
           </div>
         </section>
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="error-messageEP">{error}</div>}
 
         <footer className="footer">
           © 2024 || <a href="#">FitTrack</a>

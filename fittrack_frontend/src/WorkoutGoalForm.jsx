@@ -4,6 +4,7 @@ import { createWorkoutGoal } from './WorkoutGoalService';
 import './Style/WorkoutGoalForm.css';
 import logo from "./assets/FitTrack Logo.png";
 import './App.css';
+import { FaUser } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboard, faFireAlt, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,6 +12,8 @@ const WorkoutGoalForm = () => {
   const [goalDescription, setGoalDescription] = useState('');
   const [targetCalories, setTargetCalories] = useState('');
   const [targetDuration, setTargetDuration] = useState('');
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const [deadline, setDeadline] = useState('');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -83,27 +86,51 @@ const WorkoutGoalForm = () => {
   const handleCancel = () => {
     navigate('/workout-goals');
   };
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
 
   return (
     <>
-      <nav className="navbar">
-  <div className="navbar-logo">
-    <Link to="/dashboard">
-      <img src={logo} alt="FitTrack Logo" />
-    </Link>
-  </div>
-  <ul className="navList">
-    <li className="navDashboard">
-      <Link to="/dashboard" className="navLink">Dashboard</Link>
-    </li>
-    <li className="navHistory">
-      <Link to="/workout-history" className="navLink">History</Link>
-    </li>
-    <li className="navAboutUs">
-      <Link to="/aboutus" className="navLink">About Us</Link>
-    </li>
-  </ul>
-</nav>
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
+        <ul className="navList">
+          <li>
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li>
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
+          </li>
+        </ul>
+      </nav>
+
       
       <div className="footer">
             © 2024 || <a href="#">FitTrack</a>
