@@ -15,24 +15,30 @@ const EditProfile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const userID = localStorage.getItem('userID');
+  const userID = sessionStorage.getItem('userID');
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
-        const { name, email } = response.data;
-        setUser({ name, email });
-        setIsLoading(false);
-      } catch (err) {
-        console.error('Error fetching user data:', err);
-        setError('Failed to load user data. Please try again later.');
-        setIsLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
+      const { name, email } = response.data;
+      setUser({ name, email });
+      setIsLoading(false);
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      setError('Failed to load user data. Please try again later.');
+      setIsLoading(false);
+    }
+  };
 
+  if (userID) {
     fetchUserData();
-  }, [userID]);
+  } else {
+    setError('User ID is not available. Please log in again.');
+    setIsLoading(false);
+  }
+}, [userID]);
+
 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
@@ -173,7 +179,7 @@ const EditProfile = () => {
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h2>Edit Your Profile</h2>
             <form onSubmit={handleSubmit}>
-              <div className="form-group">
+              <div className="Form-group">
                 <label htmlFor="name">Name:</label>
                 <input
                   type="text"
@@ -184,7 +190,7 @@ const EditProfile = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="Form-group">
                 <label htmlFor="email">Email:</label>
                 <input
                   type="email"
@@ -195,7 +201,7 @@ const EditProfile = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="Form-group">
                 <label htmlFor="password">Password:</label>
                 <input
                   type="password"
