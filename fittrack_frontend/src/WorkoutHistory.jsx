@@ -6,6 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import './Style/WorkoutHistory.css';
 import './App.css';
 import logo from "./assets/FitTrack Logo.png";
+import { FaUser } from 'react-icons/fa';
+
 
 function WorkoutHistory() {
   const [workouts, setWorkouts] = useState([]);
@@ -13,6 +15,7 @@ function WorkoutHistory() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,28 +75,49 @@ function WorkoutHistory() {
   const handleUpdate = (workoutID) => {
     navigate(`/update-workout/${workoutID}`);
   };
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
 
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
   return (
     <>
 <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
-  <div className="navbar-logo">
-    <Link to="/dashboard">
-      <img src={logo} alt="FitTrack Logo" />
-    </Link>
-  </div>
-  <ul className="navList">
-    {/* Navigation links */}
-    <li className="navDashboard">
-      <Link to="/dashboard" className="navLink">Dashboard</Link>
-    </li>
-    <li className="navHistory">
-      <Link to="/workout-history" className="navLink">History</Link>
-    </li>
-    <li className="navAboutUs">
-      <Link to="/aboutus" className="navLink">About Us</Link>
-    </li>
-  </ul>
-</nav>
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
+        <ul className="navList">
+          <li>
+            <Link to="/dashboard" className="navLink">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/workout-history" className="navLink">History</Link>
+          </li>
+          <li>
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
+          </li>
+        </ul>
+      </nav>
 
 <div class="footer">
             © 2024 || <a href="#">FitTrack</a>

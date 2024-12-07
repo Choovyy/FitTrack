@@ -5,15 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/posts/{postId}/like")
+@RequestMapping("/posts/{postId}")
 @CrossOrigin(origins = "http://localhost:5173")
 public class LikeController {
 
     @Autowired
     private PostService postService;
 
-    @PutMapping
+    @PutMapping("/like")
     public void likePost(@PathVariable Integer postId) {
         postService.incrementLikeCount(postId);
+    }
+    
+    @PutMapping("/unlike")
+    public void unlikePost(@PathVariable Integer postId) {
+        postService.decrementLikeCount(postId);
     }
 }

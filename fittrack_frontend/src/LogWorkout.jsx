@@ -5,6 +5,7 @@ import './Style/Workout.css';
 import logo from "./assets/FitTrack Logo.png";
 import logImage from './assets/logimage.jpg';
 import { createWorkout } from './LogWorkoutService';
+import { FaUser } from 'react-icons/fa';
 
 const LogWorkout = () => {
   const [exerciseType, setExerciseType] = useState('');
@@ -13,6 +14,8 @@ const LogWorkout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);  // Add this line to declare the state
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const navigate = useNavigate();
 
   // Retrieve userID from sessionStorage
@@ -67,29 +70,51 @@ const LogWorkout = () => {
     navigate('/dashboard');
   };
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
+
   return (
     <>
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
         <div className="navbar-logo">
           <Link to="/dashboard">
             <img src={logo} alt="FitTrack Logo" />
           </Link>
         </div>
         <ul className="navList">
-          <li className="navDashboard">
+          <li>
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navHistory">
+          <li>
             <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navAboutUs">
+          <li>
             <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>
-      <div className="footer">
-        © 2024 || <a href="#">FitTrack</a>
-      </div>
+
       <div className="container">
         <div className="imageContainer">
           <img src={logImage} alt="Workout" className="workoutImage" />
@@ -151,6 +176,9 @@ const LogWorkout = () => {
           Workout saved!
         </div>
       )}
+      <div className="footer">
+        © 2024 || <a href="#">FitTrack</a>
+      </div>
     </>
   );
 };

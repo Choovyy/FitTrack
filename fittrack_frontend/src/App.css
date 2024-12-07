@@ -105,7 +105,6 @@ body {
 .navLink {
   text-decoration: none;
   color: #fdfdfd;
-  font-weight: bold;
   transition: color 0.3s;
   display: flex;
   align-items: center;

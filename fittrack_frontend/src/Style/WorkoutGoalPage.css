@@ -33,7 +33,8 @@
     gap: 8px; /* Space between icon and text */
 }
 .add-goal-button:hover{
-    background-color: #00796b;
+  background-color: #4cae4c;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .goals-container {
@@ -92,6 +93,9 @@
     display: flex;
     align-items: center;
     gap: 8px; /* Space between icon and text */
+}
+.delete-button:hover{
+  background-color: #d32f2f;
 }
 
 .delete-button svg,

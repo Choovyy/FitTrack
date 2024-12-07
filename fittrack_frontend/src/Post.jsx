@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
-import Comment from './Comment';
+import React, { useEffect, useState } from 'react';
+import logo from './assets/FitTrack Logo.png';
+import { FaUser } from 'react-icons/fa';
 import LikeButton from './LikeButton';
+import Comment from './Comment';
 import './Style/Post.css';
-import logo from "./assets/FitTrack Logo.png";
+import './App.css';
 
 const Post = ({ onDelete, onUpdate, userID }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [editingPostID, setEditingPostID] = useState(null);
   const [updatedContent, setUpdatedContent] = useState('');
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
 
   const fetchPosts = async () => {
     try {
@@ -19,7 +25,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        setPosts(data.filter((post) => post.postId)); // Filter posts with valid postId
+        setPosts(data.filter((post) => post.postId)); 
       } else {
         console.error('API did not return an array:', data);
       }
@@ -75,34 +81,55 @@ const Post = ({ onDelete, onUpdate, userID }) => {
     }
   };
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
+
   return (
     <div>
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
         <div className="navbar-logo">
           <Link to="/dashboard">
             <img src={logo} alt="FitTrack Logo" />
           </Link>
         </div>
         <ul className="navList">
-          <li className="navDashboard">
+          <li>
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navHistory">
+          <li>
             <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navAboutUs">
+          <li>
             <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>
 
       <div className="add-post-container">
-        <button
-          className="add-post-button"
-          onClick={() => navigate('/add-post')}
-        >
-          Add Post
-        </button>
+        <Link to="/add-post" className="add-post-button">
+          <FontAwesomeIcon icon={faPlus} />  Add Post
+        </Link>
       </div>
 
       <div className="post-container">
@@ -111,36 +138,18 @@ const Post = ({ onDelete, onUpdate, userID }) => {
         ) : (
           posts.map((post) => (
             <div key={post.postId} className="post-box">
-              <h3 className="post-username">{post.user?.userID || 'Unknown User'}</h3>
-              {editingPostID === post.postId ? (
-                <>
-                  <textarea
-                    value={updatedContent}
-                    onChange={(e) => setUpdatedContent(e.target.value)}
-                    rows="4"
-                    className="edit-textarea"
-                  />
-                  <button className="save-button" onClick={() => handleUpdatePost(post.postId)}>
-                    Save Changes
-                  </button>
-                </>
-              ) : (
-                <p className="post-content">{post.content || 'No content available'}</p>
-              )}
-              <span className="post-timestamp">
-                {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
-              </span>
-              <div className="like-section">
-                <LikeButton postID={post.postId} initialCount={post.likeCount || 0} />
-              </div>
-              <div className="comment-section">
-                <Comment postId={post.postId} userID={userID} />
-              </div>
-              <div className="action-buttons">
-                <button className="delete-button" onClick={() => handleDeletePost(post.postId)}>
-                  Delete
-                </button>
-                {!editingPostID && (
+              <div className="post-header">
+                <div className="profile-picture">
+                  <FaUser className="user-icon" />
+                  <div className="post-info">
+                    <span className="post-username">{post.user?.userID || 'Unknown User'}</span>
+                    <span className="post-timestamp">
+                      {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
+                    </span>
+                    <span className="post-type">{post.type || 'No type available'}</span>
+                  </div>
+                </div>
+                <div className="action-buttons">
                   <button
                     className="edit-button"
                     onClick={() => {
@@ -150,7 +159,37 @@ const Post = ({ onDelete, onUpdate, userID }) => {
                   >
                     Edit
                   </button>
-                )}
+                  <button className="delete-button" onClick={() => handleDeletePost(post.postId)}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+              {editingPostID === post.postId ? (
+                <>
+                  <textarea
+                    value={updatedContent}
+                    onChange={(e) => setUpdatedContent(e.target.value)}
+                    className="edit-textarea"
+                  />
+                  <button
+                    onClick={() => handleUpdatePost(post.postId)}
+                    className="save-button"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditingPostID(null)} 
+                    className="cancel-button"
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <div className="post-content">{post.content || 'No content available'}</div>
+              )}
+              <div className="like-comment-container">
+                <LikeButton postID={post.postId} initialCount={post.likeCount || 0} />
+                <Comment postId={post.postId} userID={userID} />
               </div>
             </div>
           ))

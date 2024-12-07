@@ -1,9 +1,11 @@
-// UpdateWorkout.js
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getWorkoutById, updateWorkout } from './LogWorkoutService';
 import { Link } from 'react-router-dom';
 import './Style/UpdateWorkout.css';
+import logo from './assets/FitTrack Logo.png';
+import './App.css';
+import { FaUser } from 'react-icons/fa';
 
 const UpdateWorkout = () => {
   const { workoutID } = useParams();
@@ -12,6 +14,8 @@ const UpdateWorkout = () => {
   const [exerciseType, setExerciseType] = useState('');
   const [duration, setDuration] = useState('');
   const [caloriesBurned, setCaloriesBurned] = useState('');
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);  // Add this line to declare the state
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);  // Define the missing state
 
   useEffect(() => {
     // Fetch the workout data by ID
@@ -51,55 +55,85 @@ const UpdateWorkout = () => {
     navigate('/dashboard');
   };
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  };
+
   return (
     <>
-      <nav className="navbar">
+      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+        <div className="navbar-logo">
+          <Link to="/dashboard">
+            <img src={logo} alt="FitTrack Logo" />
+          </Link>
+        </div>
         <ul className="navList">
-          <li className="navDashboard">
+          <li>
             <Link to="/dashboard" className="navLink">Dashboard</Link>
           </li>
-          <li className="navLogworkout">
-            <Link to="/log-workout" className="navLink">Log Workout</Link>
+          <li>
+            <Link to="/workout-history" className="navLink">History</Link>
           </li>
-          <li className="navWorkoutGoal">
-            <Link to="/workout-goals" className="navLink">Workout Goal</Link>
+          <li>
+            <Link to="/aboutus" className="navLink">About Us</Link>
+          </li>
+          <li className="navProfile">
+            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+              <FaUser className="profile-icon" /> Profile
+            </button>
+            {isProfileDropdownVisible && (
+              <div className="profile-dropdown">
+                <button className="dropdown-item" onClick={() => navigate('/edit-profile')}>
+                  Edit Profile
+                </button>
+                <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>
-    <div className="update-workout-container">
-      <h2>Update Workout</h2>
-      <form onSubmit={handleUpdate}>
-        <div className="formGroup">
-          <label>Exercise Type:</label>
-          <input
-            type="text"
-            value={exerciseType}
-            onChange={(e) => setExerciseType(e.target.value)}
-            required
-          />
-        </div>
-        <div className="formGroup">
-          <label>Duration (minutes):</label>
-          <input
-            type="number"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            required
-          />
-        </div>
-        <div className="formGroup">
-          <label>Calories Burned:</label>
-          <input
-            type="number"
-            value={caloriesBurned}
-            onChange={(e) => setCaloriesBurned(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="saveButton">Update</button>
-        <button onClick={handleCancel} className="cancelButton">Cancel</button>
-      </form>
-    </div>
+
+      <div className="update-workout-container">
+        <h2>Update Workout</h2>
+        <form onSubmit={handleUpdate}>
+          <div className="formGroup">
+            <label>Exercise Type:</label>
+            <input
+              type="text"
+              value={exerciseType}
+              onChange={(e) => setExerciseType(e.target.value)}
+              required
+            />
+          </div>
+          <div className="formGroup">
+            <label>Duration (minutes):</label>
+            <input
+              type="number"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              required
+            />
+          </div>
+          <div className="formGroup">
+            <label>Calories Burned:</label>
+            <input
+              type="number"
+              value={caloriesBurned}
+              onChange={(e) => setCaloriesBurned(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="saveButton">Update</button>
+          <button onClick={handleCancel} className="cancelButton">Cancel</button>
+        </form>
+      </div>
     </>
   );
 };

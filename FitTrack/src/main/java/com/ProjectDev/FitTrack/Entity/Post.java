@@ -17,7 +17,7 @@ public class Post {
     private Integer postId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "userID",referencedColumnName = "userID", nullable = false)
     @JsonSerialize(using = UserSerializer.class)
     private User user;
 

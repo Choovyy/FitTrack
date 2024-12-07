@@ -48,4 +48,12 @@ public class PostService {
             postRepository.save(post);
         }
     }
+
+    public void decrementLikeCount(Integer postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post != null && post.getLikeCount() > 0) { 
+            post.setLikeCount(post.getLikeCount() - 1);
+            postRepository.save(post);
+        }
+    }
 }
