@@ -15,13 +15,13 @@ export const createWorkout = async (workoutData) => {
 };
 
 // Function to get all workouts (if needed)
-export const getAllWorkouts = async () => {
+export const getAllWorkouts = async (userID) => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(`http://localhost:8080/api/workouts/user/${userID}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching workouts:", error);
-    throw error; // Rethrow the error for handling in the component
+    console.error('Error fetching workouts:', error);
+    throw error;
   }
 };
 

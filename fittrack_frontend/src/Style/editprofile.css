@@ -117,8 +117,9 @@
   cursor: pointer;
   position: absolute;
   top: 50; /* Move slightly lower */
-  right: 60px;
+  right: 165px;
   z-index: 9999;
+  
 }
 
 .edit-profile-btn:hover {

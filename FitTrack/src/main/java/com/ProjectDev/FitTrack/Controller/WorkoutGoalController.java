@@ -57,6 +57,12 @@ public ResponseEntity<String> createWorkoutGoal(@RequestBody WorkoutGoal workout
         return workoutGoalService.getAllWorkoutGoals();
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<WorkoutGoal>> getWorkoutGoalsByUserId(@PathVariable Integer userId) {
+        List<WorkoutGoal> workoutGoals = workoutGoalService.getWorkoutGoalsByUserId(userId);
+        return ResponseEntity.ok(workoutGoals);
+    }
+
     // Get a Workout Goal by ID
     @GetMapping("/{id}")
     public ResponseEntity<WorkoutGoal> getWorkoutGoalById(@PathVariable Long id) {

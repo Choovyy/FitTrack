@@ -17,11 +17,11 @@ function WorkoutHistory() {
   const [workoutToDelete, setWorkoutToDelete] = useState(null);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const navigate = useNavigate();
-
+  const userID = sessionStorage.getItem('userID');  
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const workoutData = await getAllWorkouts();
+        const workoutData = await getAllWorkouts(userID); // Pass userID to the function
         const sortedWorkouts = workoutData.sort(
           (a, b) => new Date(b.workoutDate) - new Date(a.workoutDate)
         );
@@ -119,7 +119,7 @@ function WorkoutHistory() {
         </ul>
       </nav>
 
-<div class="footer">
+<div className="footer">
             © 2024 || <a href="#">FitTrack</a>
             </div>
       <div className="workout-history-page">

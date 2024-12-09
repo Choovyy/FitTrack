@@ -33,4 +33,8 @@ public class WorkoutService {
     public void deleteWorkout(Long id) {
         workoutRepository.deleteById(id);
     }
+
+    public List<Workout> getWorkoutsByUserId(Integer userId) {
+        return workoutRepository.findByUser_UserID(userId);
+    }
 }

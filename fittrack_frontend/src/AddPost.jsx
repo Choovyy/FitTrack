@@ -6,22 +6,23 @@ import './Style/AddPost.css';
 import axios from 'axios';
 import './App.css';
 
-const AddPost = ({ userID = 1 }) => {
+const AddPost = () => {
+  const userID = sessionStorage.getItem('userID');
   const [content, setContent] = useState('');
   const [postType, setPostType] = useState('general');  
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
 
+  
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/users/${userID}`);
+        const response = await axios.get(`http://localhost:8080/api/users/${userID}`); // get user by id
         setUser(response.data); 
       } catch (error) {
         console.error('Error fetching user data:', error);
-        setUser(null); 
       }
     };
 
@@ -103,7 +104,7 @@ const AddPost = ({ userID = 1 }) => {
         <h2 className="create-post-title">Create Post</h2> 
         <div className="post-header">
           <FaUser className="user-iconn" />
-          <span className="post-usernamee">{user?.userID || 'Unknown User'}</span>
+          <span className="post-usernamee">{user?.name || 'Unknown User'}</span>
           <select
             id="postType"
             className="post-type-dropdown"

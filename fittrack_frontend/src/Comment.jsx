@@ -3,14 +3,15 @@ import { FaRegComment } from 'react-icons/fa';
 import axios from 'axios';
 import './Style/Post.css';
 
-const Comment = ({ postId, userID }) => {
+
+const Comment = ({ postId }) => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const commentBoxRef = useRef(null);
-
+  const userID = sessionStorage.getItem('userID');
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -35,7 +36,7 @@ const Comment = ({ postId, userID }) => {
       alert('Comment cannot be empty.');
       return;
     }
-
+    
     const commentData = {
       content: trimmedComment,
       user: { userID: userID },

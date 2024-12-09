@@ -9,13 +9,14 @@ import Comment from './Comment';
 import './Style/Post.css';
 import './App.css';
 
-const Post = ({ onDelete, onUpdate, userID }) => {
+const Post = ({ onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [editingPostID, setEditingPostID] = useState(null);
   const [updatedContent, setUpdatedContent] = useState('');
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
+  const userID = sessionStorage.getItem('userID');
 
   const fetchPosts = async () => {
     try {
@@ -40,6 +41,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
   }, []);
 
   const handleDeletePost = async (postId) => {
+    console.log("Attempting to delete post with ID:", postId); // Debugging
     try {
       const response = await fetch(`http://localhost:8080/posts/${postId}`, { method: 'DELETE' });
       if (response.ok) {
@@ -47,13 +49,16 @@ const Post = ({ onDelete, onUpdate, userID }) => {
         alert('Post deleted successfully.');
         if (onDelete) onDelete(postId);
       } else {
-        throw new Error('Failed to delete the post.');
+        const errorMsg = await response.text();
+        throw new Error(`Failed to delete the post: ${errorMsg}`);
       }
     } catch (error) {
       console.error('Error deleting post:', error);
       alert('Failed to delete the post. Please try again.');
     }
   };
+  
+  
 
   const handleUpdatePost = async (postId) => {
     const updatedPost = { content: updatedContent };
@@ -142,7 +147,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
                 <div className="profile-picture">
                   <FaUser className="user-icon" />
                   <div className="post-info">
-                    <span className="post-username">{post.user?.userID || 'Unknown User'}</span>
+                    <span className="post-username">{post.user?.name || 'Unknown User'}</span>
                     <span className="post-timestamp">
                       {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
                     </span>

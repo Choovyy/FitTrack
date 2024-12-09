@@ -22,13 +22,13 @@ export const createWorkoutGoal = async (goalData) => {
 };
 
 // Function to get all workout goals
-export const getAllWorkoutGoals = async () => {
+export const getAllWorkoutGoals = async (userID) => {
   try {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(`http://localhost:8080/api/workout-goals/user/${userID}`);
     return response.data;
   } catch (error) {
-    console.error('Error in getAllWorkoutGoals:', error.response || error.message);
-    throw new Error('Failed to fetch workout goals');
+    console.error('Error fetching workout goals:', error);
+    throw error;
   }
 };
 

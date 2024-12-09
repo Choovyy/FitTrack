@@ -11,6 +11,10 @@ public class LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
+    public void deleteLikesByPostId(Integer postId) {
+        likeRepository.deleteByPostId(postId);
+    }
+
     public List<Like> getAllLikes() {
         return likeRepository.findAll();
     }

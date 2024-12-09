@@ -18,12 +18,12 @@ const WorkoutGoalPage = () => {
   const [error, setError] = useState(null);  // Error state
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
-
+  const userID = sessionStorage.getItem('userID');  // get user id from session storage
 
   useEffect(() => {
     const fetchGoals = async () => {
       try {
-        const response = await getAllWorkoutGoals();
+        const response = await getAllWorkoutGoals(userID); // Pass userID to the function
         setWorkoutGoals(response);
       } catch (error) {
         setError('Error fetching workout goals');
