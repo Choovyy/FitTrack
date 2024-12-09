@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaRegComment } from 'react-icons/fa';
 import axios from 'axios';
 import './Style/Post.css';
-
-
+ 
+ 
 const Comment = ({ postId }) => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -25,28 +25,28 @@ const Comment = ({ postId }) => {
         setLoading(false);
       }
     };
-
+ 
     fetchComments();
   }, [postId]);
-
+ 
   const handleAddComment = async () => {
     const trimmedComment = newComment.trim();
-
+ 
     if (trimmedComment === '') {
       alert('Comment cannot be empty.');
       return;
     }
-    
+   
     const commentData = {
       content: trimmedComment,
       user: { userID: userID },
       post: { postId: postId },
     };
-
+ 
     try {
       setLoading(true);
       const response = await axios.post('http://localhost:8080/comments', commentData);
-
+ 
       if (response.status === 201) {
         setComments((prevComments) => [...prevComments, response.data]);
         setNewComment('');
@@ -62,20 +62,20 @@ const Comment = ({ postId }) => {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (commentBoxRef.current && !commentBoxRef.current.contains(event.target)) {
         setShowCommentBox(false);
       }
     };
-
+ 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+ 
   return (
     <div>
       {!showCommentBox ? (
@@ -105,9 +105,9 @@ const Comment = ({ postId }) => {
     {loading ? 'Posting...' : 'Add Comment'}
   </button>
 </div>
-
+ 
       )}
-
+ 
       <div>
         {loading && <p>Loading comments...</p>}
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -121,5 +121,5 @@ const Comment = ({ postId }) => {
     </div>
   );
 };
-
+ 
 export default Comment;

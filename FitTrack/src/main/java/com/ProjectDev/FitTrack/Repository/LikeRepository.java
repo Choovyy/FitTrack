@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Integer> {
-    @Transactional
+    
+@Transactional
 @Modifying
 @Query("DELETE FROM Like l WHERE l.post.postId = :postId")
 void deleteByPostId(@Param("postId") Integer postId);

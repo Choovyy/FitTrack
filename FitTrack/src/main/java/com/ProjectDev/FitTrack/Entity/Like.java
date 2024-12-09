@@ -1,10 +1,10 @@
-package com.ProjectDev.FitTrack.Entity;
-
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "likes")
-public class Like {
+	package com.ProjectDev.FitTrack.Entity;
+	
+	import jakarta.persistence.*;
+	
+	@Entity
+	@Table(name = "likes")
+	public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,15 +1,15 @@
-    package com.ProjectDev.FitTrack.Controller;
+ 	package com.ProjectDev.FitTrack.Controller;
 
-    import com.ProjectDev.FitTrack.Entity.Post;
+   	import com.ProjectDev.FitTrack.Entity.Post;
     import com.ProjectDev.FitTrack.Entity.User;
     import com.ProjectDev.FitTrack.Repository.UserRepository;
     import com.ProjectDev.FitTrack.Service.CommentService;
     import com.ProjectDev.FitTrack.Service.PostService;
     import com.ProjectDev.FitTrack.Service.LikeService;
 
-import jakarta.transaction.Transactional;
+    import jakarta.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;

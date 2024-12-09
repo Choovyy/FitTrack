@@ -8,7 +8,7 @@ import LikeButton from './LikeButton';
 import Comment from './Comment';
 import './Style/Post.css';
 import './App.css';
-
+ 
 const Post = ({ onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
@@ -17,7 +17,7 @@ const Post = ({ onDelete, onUpdate }) => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const userID = sessionStorage.getItem('userID');
-
+ 
   const fetchPosts = async () => {
     try {
       const response = await fetch('http://localhost:8080/posts');
@@ -26,7 +26,7 @@ const Post = ({ onDelete, onUpdate }) => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        setPosts(data.filter((post) => post.postId)); 
+        setPosts(data.filter((post) => post.postId));
       } else {
         console.error('API did not return an array:', data);
       }
@@ -35,11 +35,11 @@ const Post = ({ onDelete, onUpdate }) => {
       alert('There was an error fetching the posts. Please try again later.');
     }
   };
-
+ 
   useEffect(() => {
     fetchPosts();
   }, []);
-
+ 
   const handleDeletePost = async (postId) => {
     console.log("Attempting to delete post with ID:", postId); // Debugging
     try {
@@ -57,9 +57,9 @@ const Post = ({ onDelete, onUpdate }) => {
       alert('Failed to delete the post. Please try again.');
     }
   };
-  
-  
-
+ 
+ 
+ 
   const handleUpdatePost = async (postId) => {
     const updatedPost = { content: updatedContent };
     try {
@@ -85,16 +85,16 @@ const Post = ({ onDelete, onUpdate }) => {
       alert('Failed to update the post. Please try again.');
     }
   };
-
+ 
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
   };
-
+ 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
-
+ 
   return (
     <div>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -130,13 +130,13 @@ const Post = ({ onDelete, onUpdate }) => {
           </li>
         </ul>
       </nav>
-
+ 
       <div className="add-post-container">
         <Link to="/add-post" className="add-post-button">
           <FontAwesomeIcon icon={faPlus} />  Add Post
         </Link>
       </div>
-
+ 
       <div className="post-container">
         {posts.length === 0 ? (
           <div className="no-posts">No posts available</div>
@@ -183,7 +183,7 @@ const Post = ({ onDelete, onUpdate }) => {
                     Save
                   </button>
                   <button
-                    onClick={() => setEditingPostID(null)} 
+                    onClick={() => setEditingPostID(null)}
                     className="cancel-button"
                   >
                     Cancel
@@ -200,12 +200,12 @@ const Post = ({ onDelete, onUpdate }) => {
           ))
         )}
       </div>
-
+ 
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>
       </div>
     </div>
   );
 };
-
+ 
 export default Post;
