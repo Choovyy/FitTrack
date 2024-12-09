@@ -8,15 +8,16 @@ import LikeButton from './LikeButton';
 import Comment from './Comment';
 import './Style/Post.css';
 import './App.css';
-
-const Post = ({ onDelete, onUpdate, userID }) => {
+ 
+const Post = ({ onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [editingPostID, setEditingPostID] = useState(null);
   const [updatedContent, setUpdatedContent] = useState('');
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
-
+  const userID = sessionStorage.getItem('userID');
+ 
   const fetchPosts = async () => {
     try {
       const response = await fetch('http://localhost:8080/posts');
@@ -25,7 +26,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        setPosts(data.filter((post) => post.postId)); 
+        setPosts(data.filter((post) => post.postId));
       } else {
         console.error('API did not return an array:', data);
       }
@@ -34,12 +35,13 @@ const Post = ({ onDelete, onUpdate, userID }) => {
       alert('There was an error fetching the posts. Please try again later.');
     }
   };
-
+ 
   useEffect(() => {
     fetchPosts();
   }, []);
-
+ 
   const handleDeletePost = async (postId) => {
+    console.log("Attempting to delete post with ID:", postId); // Debugging
     try {
       const response = await fetch(`http://localhost:8080/posts/${postId}`, { method: 'DELETE' });
       if (response.ok) {
@@ -47,14 +49,17 @@ const Post = ({ onDelete, onUpdate, userID }) => {
         alert('Post deleted successfully.');
         if (onDelete) onDelete(postId);
       } else {
-        throw new Error('Failed to delete the post.');
+        const errorMsg = await response.text();
+        throw new Error(`Failed to delete the post: ${errorMsg}`);
       }
     } catch (error) {
       console.error('Error deleting post:', error);
       alert('Failed to delete the post. Please try again.');
     }
   };
-
+ 
+ 
+ 
   const handleUpdatePost = async (postId) => {
     const updatedPost = { content: updatedContent };
     try {
@@ -80,16 +85,16 @@ const Post = ({ onDelete, onUpdate, userID }) => {
       alert('Failed to update the post. Please try again.');
     }
   };
-
+ 
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
   };
-
+ 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
-
+ 
   return (
     <div>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -125,13 +130,13 @@ const Post = ({ onDelete, onUpdate, userID }) => {
           </li>
         </ul>
       </nav>
-
+ 
       <div className="add-post-container">
         <Link to="/add-post" className="add-post-button">
           <FontAwesomeIcon icon={faPlus} />  Add Post
         </Link>
       </div>
-
+ 
       <div className="post-container">
         {posts.length === 0 ? (
           <div className="no-posts">No posts available</div>
@@ -142,7 +147,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
                 <div className="profile-picture">
                   <FaUser className="user-icon" />
                   <div className="post-info">
-                    <span className="post-username">{post.user?.userID || 'Unknown User'}</span>
+                    <span className="post-username">{post.user?.name || 'Unknown User'}</span>
                     <span className="post-timestamp">
                       {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
                     </span>
@@ -178,7 +183,7 @@ const Post = ({ onDelete, onUpdate, userID }) => {
                     Save
                   </button>
                   <button
-                    onClick={() => setEditingPostID(null)} 
+                    onClick={() => setEditingPostID(null)}
                     className="cancel-button"
                   >
                     Cancel
@@ -195,12 +200,12 @@ const Post = ({ onDelete, onUpdate, userID }) => {
           ))
         )}
       </div>
-
+ 
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>
       </div>
     </div>
   );
 };
-
+ 
 export default Post;

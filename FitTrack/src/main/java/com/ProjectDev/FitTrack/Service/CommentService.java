@@ -67,4 +67,12 @@ public class CommentService {
     public List<Comment> getCommentsByPostId(Long postId) {
         return commentRepository.findByPost_PostId(postId);
     }
+
+    
+
+
+    public void deleteCommentsByPostId(Integer postId) {
+        commentRepository.deleteByPostId(postId);
+    }
+
 }

@@ -2,46 +2,47 @@ import { useNavigate, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import logo from './assets/FitTrack Logo.png';
 import { FaUser } from 'react-icons/fa';
-import './Style/AddPost.css'; 
+import './Style/AddPost.css';
 import axios from 'axios';
 import './App.css';
-
-const AddPost = ({ userID = 1 }) => {
+ 
+const AddPost = () => {
+  const userID = sessionStorage.getItem('userID');
   const [content, setContent] = useState('');
   const [postType, setPostType] = useState('general');  
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
-
+ 
+ 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/users/${userID}`);
-        setUser(response.data); 
+        const response = await axios.get(`http://localhost:8080/api/users/${userID}`); // get user by id
+        setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
-        setUser(null); 
       }
     };
-
+ 
     fetchUser();
   }, [userID]);
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     if (content.trim().length < 5) {
       alert('Post content should be at least 5 characters long.');
       return;
     }
-
+ 
     const newPost = {
       user: { userID },
       content,
       type: postType,
     };
-
+ 
     try {
       await axios.post('http://localhost:8080/posts', newPost, {
         headers: { 'Content-Type': 'application/json' },
@@ -53,16 +54,16 @@ const AddPost = ({ userID = 1 }) => {
       alert('Failed to create post.');
     }
   };
-
+ 
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
   };
-
+ 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
-
+ 
   return (
     <div className="add-post">
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -98,12 +99,12 @@ const AddPost = ({ userID = 1 }) => {
           </li>
         </ul>
       </nav>
-
+ 
       <div className="create-post-box">
-        <h2 className="create-post-title">Create Post</h2> 
+        <h2 className="create-post-title">Create Post</h2>
         <div className="post-header">
           <FaUser className="user-iconn" />
-          <span className="post-usernamee">{user?.userID || 'Unknown User'}</span>
+          <span className="post-usernamee">{user?.name || 'Unknown User'}</span>
           <select
             id="postType"
             className="post-type-dropdown"
@@ -115,7 +116,7 @@ const AddPost = ({ userID = 1 }) => {
             <option value="nutrition">Nutrition</option>
           </select>
         </div>
-
+ 
         <textarea
           className="post-content-input"
           placeholder="What to flex?"
@@ -123,17 +124,17 @@ const AddPost = ({ userID = 1 }) => {
           onChange={(e) => setContent(e.target.value)}
           required
         />
-
+ 
         <button className="post-submit-btn" onClick={handleSubmit}>
           Post
         </button>
       </div>
-
+ 
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>
       </div>
     </div>
   );
 };
-
+ 
 export default AddPost;

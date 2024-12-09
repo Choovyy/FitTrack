@@ -2,15 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaRegComment } from 'react-icons/fa';
 import axios from 'axios';
 import './Style/Post.css';
-
-const Comment = ({ postId, userID }) => {
+ 
+ 
+const Comment = ({ postId }) => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const commentBoxRef = useRef(null);
-
+  const userID = sessionStorage.getItem('userID');
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -24,28 +25,28 @@ const Comment = ({ postId, userID }) => {
         setLoading(false);
       }
     };
-
+ 
     fetchComments();
   }, [postId]);
-
+ 
   const handleAddComment = async () => {
     const trimmedComment = newComment.trim();
-
+ 
     if (trimmedComment === '') {
       alert('Comment cannot be empty.');
       return;
     }
-
+   
     const commentData = {
       content: trimmedComment,
       user: { userID: userID },
       post: { postId: postId },
     };
-
+ 
     try {
       setLoading(true);
       const response = await axios.post('http://localhost:8080/comments', commentData);
-
+ 
       if (response.status === 201) {
         setComments((prevComments) => [...prevComments, response.data]);
         setNewComment('');
@@ -61,20 +62,20 @@ const Comment = ({ postId, userID }) => {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (commentBoxRef.current && !commentBoxRef.current.contains(event.target)) {
         setShowCommentBox(false);
       }
     };
-
+ 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
+ 
   return (
     <div>
       {!showCommentBox ? (
@@ -104,9 +105,9 @@ const Comment = ({ postId, userID }) => {
     {loading ? 'Posting...' : 'Add Comment'}
   </button>
 </div>
-
+ 
       )}
-
+ 
       <div>
         {loading && <p>Loading comments...</p>}
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -120,5 +121,5 @@ const Comment = ({ postId, userID }) => {
     </div>
   );
 };
-
+ 
 export default Comment;

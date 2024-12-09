@@ -1,15 +1,15 @@
-package com.ProjectDev.FitTrack.Entity;
-
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import com.ProjectDev.FitTrack.Serializer.UserSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-@Entity
-@Table(name = "post")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Post {
+	package com.ProjectDev.FitTrack.Entity;
+	
+	import jakarta.persistence.*;
+	import java.time.LocalDateTime;
+	import com.ProjectDev.FitTrack.Serializer.UserSerializer;
+	import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+	import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+	
+	@Entity
+	@Table(name = "post")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Post {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "timestamp", nullable = false, updatable = false)
+    @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
 
     @Column(name = "type")
@@ -44,6 +44,11 @@ public class Post {
 
     @PrePersist
     protected void onCreate() {
+        this.timestamp = LocalDateTime.now();
+    }
+    
+    @PreUpdate
+    protected void onUpdate() {
         this.timestamp = LocalDateTime.now();
     }
     
