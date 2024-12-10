@@ -198,18 +198,18 @@
 }
 
 /* Form Group */
-.form-group {
+.form-group-edit-profile {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.form-group-edit-profile label {
   display: block;
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.form-group input {
+.form-group-edit-profile input {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #ccc;
@@ -218,7 +218,7 @@
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-group input:focus {
+.form-group-edit-profile input:focus {
   border-color: #009688;
   box-shadow: 0 0 5px rgba(0, 150, 136, 0.4);
   outline: none;

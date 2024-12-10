@@ -10,76 +10,91 @@
 }
 
 .workout-goal-form-container {
-  width: 800px;
-  height: 515px;
-  background-color: #FFFFFF;
-  border: 2px solid black;
-  padding: 40px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+  border: none;
+  padding: 50px 40px; /* Increased padding to make the container bigger */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Set Your Goals heading with underline */
 .form-heading {
-  font-size: 32px;
-  color: #000000;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: bold;
+  color: #263238;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 /* Form Layout */
 .form-content {
   display: flex;
   gap: 20px;
-  height: 100%; /* Ensure this can fill the container */
+  height: 100%;
 }
 
 /* Left Column: Goal Description */
 .left-column {
   width: 50%;
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  height: 100%; /* Allow the left column to take the full height */
+  flex-direction: column;
+  height: 100%;
 }
 
 .form-group {
-  margin-bottom: 15px; /* Increased bottom margin for spacing */
+  margin-bottom: 15px;
   font-family: 'Inter', sans-serif;
-  flex: 1; /* Allow flex-grow for .form-group to distribute space */
+  flex: 1;
 }
 
+/* Updated Label Styling */
 label {
-  font-weight: bold;
-  color: #0a0a0a;
+  font-weight: 600;
+  color: #333333;
+  font-size: 16px;
   display: block;
-  margin-bottom: 10px; /* Increased margin for spacing between label and field */
-  text-align: left;
+  margin-bottom: 8px;
 }
 
+/* Inputs */
 textarea,
 input[type="number"],
 input[type="date"] {
-  width: 100%;
-  padding: 12px;
-  font-size: 1em;
-  border: 2px solid black;
-  border-radius: 4px;
-  font-family: 'Inter', sans-serif;
+  border: 1px solid #009688; /* Set border color to #009688 (same for all fields) */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease-in-out;
+}
+
+textarea:focus,
+input[type="number"]:focus,
+input[type="date"]:focus {
+  border-color: #00796b; /* Darker shade of #009688 for focus effect */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 150, 136, 0.5);
+}
+
+/* Error Messages */
+.error-message-form {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.error-message-form::before {
+  margin-right: 5px;
+  font-size: 16px;
 }
 
 /* Adjusted textarea for description */
 textarea {
-  width: 100%;             /* Full width */
-  height: 320px;           /* Make it take full height of parent */
-  padding: 15px;          /* Internal padding */
-  border: 2px solid black; /* Border style */
-  border-radius: 4px;     /* Rounded corners */
-  font-family: 'Inter', sans-serif; /* Font styling */
-  resize: none;            /* Disable resizing if needed */
+  width: 100%;
+  height: 360px; /* Adjusted height for better proportion */
+  padding: 15px;
+  border: 1px solid #000000; /* Same border color for consistency */
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  resize: none;
 }
 
 /* Right Column: Other Fields and Buttons */
@@ -87,45 +102,32 @@ textarea {
   width: 50%;
   display: flex;
   flex-direction: column;
-}
-
-/* Flex container for the deadline and buttons */
-.deadline-button-container {
-  display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center;    /* Center elements horizontally */
-  margin-top: 20px;      /* Add space above this section */
-}
-
-/* Deadline field styling */
-.deadline-field {
-  width: 100%;           /* Ensure it takes full width */
-  margin-bottom: 20px;  /* Space below the deadline field */
+  gap: 20px; /* Added gap to create space between the fields */
 }
 
 /* Common button styles for both Save and Cancel */
 .save-button-form,
 .cancel-button-form {
-  width: 150px;          /* Fixed width for consistent button size */
-  height: 40px;          /* Fixed height for consistent button size */
-  padding: 10px;         /* Padding for consistent button spacing */
-  font-size: 16px;       /* Font size */
-  text-align: center;    /* Center text */
-  border-radius: 4px;    /* Rounded corners */
-  border: none;          /* Remove default border */
-  cursor: pointer;       /* Pointer cursor on hover */
-  display: flex;         /* Allow flexbox properties */
-  justify-content: center; /* Center the button text */
-  align-items: center;   /* Vertically center the text */
+  width: 150px; /* Increased width for more balanced size */
+  height: 40px; /* Increased height for better proportionality */
+  padding: 12px;
+  font-size: 16px; /* Increased font size for better visibility */
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .save-button-form {
-  background-color: #4CAF50; /* Green background for save */
+  background-color: #4CAF50;
   color: white;
 }
 
 .cancel-button-form {
-  background-color: #f44336; /* Red background for cancel */
+  background-color: #f44336;
   color: white;
 }
 
@@ -138,9 +140,70 @@ textarea {
   background-color: #d32f2f;
 }
 
+/* Hover Effects for Buttons */
+.save-button-form:hover,
+.cancel-button-form:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
 /* Ensure the button container layout does not affect the button sizes */
 .button-container {
   display: flex;
-  justify-content: center; /* Center the buttons */
+  justify-content: center;
   gap: 15px;
 }
+
+.target-calories-input,
+.target-duration-input,
+.form-group-deadline input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #000000; /* Set border color to match the other fields */
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f7f7f7;
+  transition: border-color 0.3s ease;
+}
+
+.target-calories-input:focus,
+.target-duration-input:focus,
+.form-group-deadline input:focus {
+  border-color: #00796b; /* Darker shade on focus for consistency */
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 150, 136, 0.5);
+}
+
+/* Deadline form group */
+.form-group-deadline {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label styling for Deadline */
+.form-group-deadline label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+/* Icon inside the label */
+.form-group-deadline .form-icon {
+  margin-right: 8px;
+}
+
+/* Input field styling for Deadline */
+.form-group-deadline input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #000000; /* Set border color to match the other fields */
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+

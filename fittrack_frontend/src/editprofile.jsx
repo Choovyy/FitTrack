@@ -179,7 +179,7 @@ const EditProfile = () => {
               </button>
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="form-group">
+              <div className="form-group-edit-profile">
                 <label htmlFor="name">Name:</label>
                 <input
                   type="text"
@@ -191,7 +191,7 @@ const EditProfile = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group-edit-profile">
                 <label htmlFor="email">Email:</label>
                 <input
                   type="email"
@@ -203,7 +203,7 @@ const EditProfile = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group-edit-profile">
                 <label htmlFor="password">Password:</label>
                 <div className="password-container">
                   <input
