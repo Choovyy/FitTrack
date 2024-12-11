@@ -1,23 +1,30 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import logo from './assets/FitTrack Logo.png';
 import { FaUser } from 'react-icons/fa';
 import LikeButton from './LikeButton';
 import Comment from './Comment';
 import './Style/Post.css';
 import './App.css';
- 
+
 const Post = ({ onDelete, onUpdate }) => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [editingPostID, setEditingPostID] = useState(null);
   const [updatedContent, setUpdatedContent] = useState('');
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false); 
+  const [postIdToDelete, setPostIdToDelete] = useState(null); 
   const userID = sessionStorage.getItem('userID');
- 
+
+  const capitalize = (str) => {
+    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+  };
+
   const fetchPosts = async () => {
     try {
       const response = await fetch('http://localhost:8080/posts');
@@ -26,95 +33,105 @@ const Post = ({ onDelete, onUpdate }) => {
       }
       const data = await response.json();
       if (Array.isArray(data)) {
-        setPosts(data.filter((post) => post.postId));
+        const sortedPosts = data
+          .filter((post) => post.postId)
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        setPosts(sortedPosts);
       } else {
         console.error('API did not return an array:', data);
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
-      alert('There was an error fetching the posts. Please try again later.');
+      setModalMessage('There was an error fetching the posts. Please try again later.');
+      setIsModalVisible(true);
     }
   };
- 
+
   useEffect(() => {
     fetchPosts();
   }, []);
- 
+
   const handleDeletePost = async (postId) => {
-    console.log("Attempting to delete post with ID:", postId); // Debugging
     try {
       const response = await fetch(`http://localhost:8080/posts/${postId}`, { method: 'DELETE' });
       if (response.ok) {
         setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== postId));
-        alert('Post deleted successfully.');
+        setModalMessage('Post deleted successfully.');
+        setIsModalVisible(true);
         if (onDelete) onDelete(postId);
       } else {
-        const errorMsg = await response.text();
-        throw new Error(`Failed to delete the post: ${errorMsg}`);
+        throw new Error('Failed to delete the post');
       }
     } catch (error) {
       console.error('Error deleting post:', error);
-      alert('Failed to delete the post. Please try again.');
+      setModalMessage('Failed to delete the post. Please try again.');
+      setIsModalVisible(true);
     }
   };
- 
- 
- 
+
   const handleUpdatePost = async (postId) => {
-    const updatedPost = { content: updatedContent };
+    const postToEdit = posts.find((post) => post.postId === postId);
+
+    const updatedPost = {
+      content: updatedContent,
+      type: postToEdit.type,
+      timestamp: new Date().toISOString(),
+    };
+
     try {
       const response = await fetch(`http://localhost:8080/posts/${postId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedPost),
       });
+
       if (response.ok) {
+        const updatedPostData = await response.json();
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
-            post.postId === postId ? { ...post, content: updatedContent } : post
+            post.postId === postId ? { ...post, ...updatedPostData } : post
           )
         );
-        alert('Post updated successfully.');
-        if (onUpdate) onUpdate(updatedPost);
+        setModalMessage('Post updated successfully.');
+        setIsModalVisible(true);
+        if (onUpdate) onUpdate(updatedPostData);
         setEditingPostID(null);
       } else {
         throw new Error('Failed to update the post.');
       }
     } catch (error) {
       console.error('Error updating post:', error);
-      alert('Failed to update the post. Please try again.');
+      setModalMessage('Failed to update the post. Please try again.');
+      setIsModalVisible(true);
     }
   };
- 
+
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
   };
- 
-  const toggleProfileDropdown = () => {
-    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+
+  const closeModal = () => {
+    setIsModalVisible(false);
   };
- 
+
   return (
     <div>
-      <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
+      <nav className="navbar">
         <div className="navbar-logo">
           <Link to="/dashboard">
             <img src={logo} alt="FitTrack Logo" />
           </Link>
         </div>
         <ul className="navList">
-          <li>
-            <Link to="/dashboard" className="navLink">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/workout-history" className="navLink">History</Link>
-          </li>
-          <li>
-            <Link to="/aboutus" className="navLink">About Us</Link>
-          </li>
+          <li><Link to="/dashboard" className="navLink">Dashboard</Link></li>
+          <li><Link to="/workout-history" className="navLink">History</Link></li>
+          <li><Link to="/aboutus" className="navLink">About Us</Link></li>
           <li className="navProfile">
-            <button className="profile-btn navLink" onClick={toggleProfileDropdown}>
+            <button
+              className="profile-btn navLink"
+              onClick={() => setIsProfileDropdownVisible(!isProfileDropdownVisible)}
+            >
               <FaUser className="profile-icon" /> Profile
             </button>
             {isProfileDropdownVisible && (
@@ -130,13 +147,13 @@ const Post = ({ onDelete, onUpdate }) => {
           </li>
         </ul>
       </nav>
- 
+
       <div className="add-post-container">
         <Link to="/add-post" className="add-post-button">
-          <FontAwesomeIcon icon={faPlus} />  Add Post
+          <FontAwesomeIcon icon={faPlus} /> Add Post
         </Link>
       </div>
- 
+
       <div className="post-container">
         {posts.length === 0 ? (
           <div className="no-posts">No posts available</div>
@@ -151,41 +168,46 @@ const Post = ({ onDelete, onUpdate }) => {
                     <span className="post-timestamp">
                       {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
                     </span>
-                    <span className="post-type">{post.type || 'No type available'}</span>
+                    <span className="post-type">{capitalize(post.type) || 'No type available'}</span>
                   </div>
                 </div>
-                <div className="action-buttons">
-                  <button
-                    className="edit-button"
-                    onClick={() => {
-                      setEditingPostID(post.postId);
-                      setUpdatedContent(post.content || '');
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button className="delete-button" onClick={() => handleDeletePost(post.postId)}>
-                    Delete
-                  </button>
-                </div>
+                {post.user?.userID === userID && (
+                  <div className="action-buttons">
+                    <button
+                      className="edit-button"
+                      onClick={() => {
+                        setEditingPostID(post.postId);
+                        setUpdatedContent(post.content || '');
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => {
+                        setPostIdToDelete(post.postId);
+                        setIsDeleteModalVisible(true);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
               {editingPostID === post.postId ? (
                 <>
                   <textarea
                     value={updatedContent}
-                    onChange={(e) => setUpdatedContent(e.target.value)}
+                    onChange={(e) => {
+                      const capitalizedContent = capitalize(e.target.value);
+                      setUpdatedContent(capitalizedContent);
+                    }}
                     className="edit-textarea"
                   />
-                  <button
-                    onClick={() => handleUpdatePost(post.postId)}
-                    className="save-button"
-                  >
+                  <button onClick={() => handleUpdatePost(post.postId)} className="save-button">
                     Save
                   </button>
-                  <button
-                    onClick={() => setEditingPostID(null)}
-                    className="cancel-button"
-                  >
+                  <button onClick={() => setEditingPostID(null)} className="cancel-button">
                     Cancel
                   </button>
                 </>
@@ -200,12 +222,47 @@ const Post = ({ onDelete, onUpdate }) => {
           ))
         )}
       </div>
- 
-      <div className="footer">
+
+      {isModalVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close-btn">OK</button>
+          </div>
+        </div>
+      )}
+
+      {isDeleteModalVisible && ( 
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Are you sure you want to delete this post?</h3>
+            <p>This action cannot be undone.</p>
+            <div className="modal-buttons">
+              <button
+                onClick={() => {
+                  handleDeletePost(postIdToDelete);
+                  setIsDeleteModalVisible(false);
+                }}
+                className="modal-confirm-btn"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setIsDeleteModalVisible(false)}
+                className="modal-cancel-btn"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <footer className="footer">
         © 2024 || <a href="#">FitTrack</a>
-      </div>
+      </footer>
     </div>
   );
 };
- 
+
 export default Post;

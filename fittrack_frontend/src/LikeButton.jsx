@@ -1,19 +1,28 @@
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const LikeButton = ({ postID, initialCount }) => {
   const [likeCount, setLikeCount] = useState(initialCount);
   const [liked, setLiked] = useState(false);
 
+  useEffect(() => {
+    const storedLiked = sessionStorage.getItem(`liked-${postID}`);
+    if (storedLiked === 'true') {
+      setLiked(true);
+    }
+  }, [postID]);
+
   const handleLike = async () => {
     try {
       if (liked) {
         await axios.put(`http://localhost:8080/posts/${postID}/unlike`);
-        setLikeCount(likeCount - 1);
+        setLikeCount((prevCount) => prevCount - 1);
+        sessionStorage.setItem(`liked-${postID}`, 'false');
       } else {
         await axios.put(`http://localhost:8080/posts/${postID}/like`);
-        setLikeCount(likeCount + 1);
+        setLikeCount((prevCount) => prevCount + 1);
+        sessionStorage.setItem(`liked-${postID}`, 'true');
       }
       setLiked(!liked);
     } catch (error) {

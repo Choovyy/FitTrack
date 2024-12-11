@@ -80,13 +80,10 @@
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deletePost(@PathVariable Integer id) {
             try {
-                // Delete associated likes
                 likeService.deleteLikesByPostId(id);
         
-                // Delete associated comments
                 commentService.deleteCommentsByPostId(id);
-        
-                // Delete the post
+      
                 postService.deletePost(id);
         
                 return ResponseEntity.noContent().build();
