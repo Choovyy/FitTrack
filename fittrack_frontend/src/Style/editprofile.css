@@ -117,8 +117,9 @@
   cursor: pointer;
   position: absolute;
   top: 50; /* Move slightly lower */
-  right: 60px;
+  right: 165px;
   z-index: 9999;
+  
 }
 
 .edit-profile-btn:hover {
@@ -149,70 +150,118 @@
 }
 
 .modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   width: 100%;
+  max-width: 500px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.modal h2 {
-  font-size: 2rem;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.form-group {
+.modal-header h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.close-button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #444;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: #f44336;
+}
+
+/* Form Group */
+.form-group-edit-profile {
   margin-bottom: 15px;
 }
 
-.Form-group label {
-  font-weight: bold;
+.form-group-edit-profile label {
   display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.form-group input {
+.form-group-edit-profile input {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Modal Save Button */
-.modalSaveB {
-  background-color: #4CAF50;
-  color: white;
+.form-group-edit-profile input:focus {
+  border-color: #009688;
+  box-shadow: 0 0 5px rgba(0, 150, 136, 0.4);
+  outline: none;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-cancel-button,
+.modal-save-button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  flex: 1;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.modalSaveB:hover {
-  background-color: #45a049;
-}
-
-/* Modal Cancel Button */
-.modalCancelB {
+.modal-cancel-button {
   background-color: #f44336;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  flex: 1;
+  color: #fff;
 }
 
-.modalCancelB:hover {
+.modal-cancel-button:hover {
   background-color: #d32f2f;
 }
 
-/* Modal Buttons Container */
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+.modal-save-button {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.modal-save-button:hover {
+  background-color: #45a049;
+}
+
+.modal-cancel-button:active,
+.modal-save-button:active {
+  transform: scale(0.95);
 }
 
 /* Loading and Spinner */
@@ -234,4 +283,36 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Password Container */
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-container input {
+  flex: 1;
+  padding-right: 40px; /* Ensure space for the button */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+}
+
+.toggle-password-btn:hover {
+  color: #000;
+}
+
+.password-container input[type="text"],
+.password-container input[type="password"] {
+    width: 100%;
+    padding-right: 2.5rem; /* Add padding for the eye icon */
 }

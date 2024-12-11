@@ -51,6 +51,13 @@ public class WorkoutController {
         return workoutService.getAllWorkouts();
     }
 
+    // Get workouts by user ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Workout>> getWorkoutsByUserId(@PathVariable Integer userId) {
+        List<Workout> workouts = workoutService.getWorkoutsByUserId(userId);
+        return ResponseEntity.ok(workouts);
+    }
+
     // Get a workout by ID
     @GetMapping("/{id}")
     public ResponseEntity<Workout> getWorkoutById(@PathVariable Long id) {

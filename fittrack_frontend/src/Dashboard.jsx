@@ -6,16 +6,19 @@ import logo from './assets/FitTrack Logo.png';
 import './Style/Dashboard.css';
 import './App.css';
 
+// get by id not all users implement this after
+
 function Dashboard() {
   const [recentWorkouts, setRecentWorkouts] = useState([]);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const navigate = useNavigate();
+  const userID = sessionStorage.getItem('userID');  // get user id from session storage
 
   useEffect(() => {
     const fetchRecentWorkouts = async () => {
       try {
-        const workouts = await getAllWorkouts();
+        const workouts = await getAllWorkouts(userID); // Pass userID to the function
         const recent = workouts
           .sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate))
           .slice(0, 5);

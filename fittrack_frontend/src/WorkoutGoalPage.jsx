@@ -1,38 +1,38 @@
-// WorkoutGoalPage.jsx
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAllWorkoutGoals, deleteWorkoutGoal } from './WorkoutGoalService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faBullseye, faFire, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import './Style/WorkoutGoalPage.css';
 import logo from "./assets/FitTrack Logo.png";
-import goalImage from './assets/goalpic.jpg'; // Importing the image
+import goalImage from './assets/goalpic.jpg';
 import './App.css';
 import { FaUser } from 'react-icons/fa';
 
 const WorkoutGoalPage = () => {
   const [workoutGoals, setWorkoutGoals] = useState([]);
-  const [showModal, setShowModal] = useState(false);  // Modal visibility state
-  const [goalToDelete, setGoalToDelete] = useState(null);  // Goal to delete
-  const [loading, setLoading] = useState(false);  // Loading state
-  const [error, setError] = useState(null);  // Error state
+  const [showModal, setShowModal] = useState(false);
+  const [goalToDelete, setGoalToDelete] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
-
+  const navigate = useNavigate();
+  const userID = sessionStorage.getItem('userID');
 
   useEffect(() => {
     const fetchGoals = async () => {
       try {
-        const response = await getAllWorkoutGoals();
+        const response = await getAllWorkoutGoals(userID);
         setWorkoutGoals(response);
-      } catch (error) {
+      } catch (err) {
         setError('Error fetching workout goals');
-        console.error('Error fetching workout goals:', error);
+        console.error('Error fetching workout goals:', err);
       }
     };
 
     fetchGoals();
-  }, []);
+  }, [userID]);
 
   const handleDelete = async () => {
     if (goalToDelete) {
@@ -40,15 +40,16 @@ const WorkoutGoalPage = () => {
         setLoading(true);
         await deleteWorkoutGoal(goalToDelete.workoutID);
         setWorkoutGoals(workoutGoals.filter(goal => goal.workoutID !== goalToDelete.workoutID));
-        setShowModal(false);  // Close the modal
+        setShowModal(false);
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         setLoading(false);
         setError('Error deleting workout goal');
-        console.error('Error deleting workout goal:', error);
+        console.error('Error deleting workout goal:', err);
       }
     }
   };
+
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
@@ -57,6 +58,7 @@ const WorkoutGoalPage = () => {
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
+
   return (
     <div className="workout-goal-page">
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -92,13 +94,6 @@ const WorkoutGoalPage = () => {
           </li>
         </ul>
       </nav>
-
-
-      <div className="footer">
-        © 2024 || <a href="#">FitTrack</a>
-      </div>
-
-      {/* New information section */}
       <div className="goal-info-section">
         <img src={goalImage} alt="Person lifting weights" className="goal-info-image" />
         <div className="goal-info-text">
@@ -143,7 +138,6 @@ const WorkoutGoalPage = () => {
         ))}
       </div>
 
-      {/* Modal for confirmation */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -161,6 +155,10 @@ const WorkoutGoalPage = () => {
           </div>
         </div>
       )}
+
+      <div className="footer">
+        © 2024 || <a href="#">FitTrack</a>
+      </div>
     </div>
   );
 };

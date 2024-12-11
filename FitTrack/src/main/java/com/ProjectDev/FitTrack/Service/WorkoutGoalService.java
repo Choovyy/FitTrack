@@ -33,5 +33,9 @@ public class WorkoutGoalService {
     public void deleteWorkoutGoal(Long id) {
         workoutGoalRepository.deleteById(id);
     }
+
+    public List<WorkoutGoal> getWorkoutGoalsByUserId(Integer userID) {
+        return workoutGoalRepository.findByUser_UserID(userID);
+    }
 }
 

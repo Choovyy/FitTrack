@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaEnvelope, FaUser } from 'react-icons/fa';
+import { FaEnvelope, FaUser, FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Style/EditProfile.css';
 import logo from './assets/FitTrack Logo.png';
 import TheRoad from './assets/theroad.png';
@@ -9,6 +9,7 @@ import TheRoad from './assets/theroad.png';
 const EditProfile = () => {
   const [user, setUser] = useState({ name: '', email: '' });
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
@@ -17,54 +18,60 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const userID = sessionStorage.getItem('userID');
 
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
-      const { name, email } = response.data;
-      setUser({ name, email });
-      setIsLoading(false);
-    } catch (err) {
-      console.error('Error fetching user data:', err);
-      setError('Failed to load user data. Please try again later.');
-      setIsLoading(false);
+  useEffect(() => {
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
+            const { name, email, password } = response.data; // Destructure the password here
+            setUser({ name, email });
+            setPassword(password); // Set the fetched password here
+            setIsLoading(false);
+        } catch (err) {
+            console.error('Error fetching user data:', err);
+            setError('Failed to load user data. Please try again later.');
+            setIsLoading(false);
+        }
+    };
+
+    if (userID) {
+        fetchUserData();
+    } else {
+        setError('User ID is not available. Please log in again.');
+        setIsLoading(false);
     }
+  }, [userID]);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
   };
 
-  if (userID) {
-    fetchUserData();
-  } else {
-    setError('User ID is not available. Please log in again.');
-    setIsLoading(false);
-  }
-}, [userID]);
-
-
   const toggleProfileDropdown = () => {
-    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+    setIsProfileDropdownVisible((prev) => !prev);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userID');
+    sessionStorage.removeItem('userID');
     navigate('/login');
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'password') {
-      setPassword(value);
+        setPassword(value);
     } else {
-      setUser({ ...user, [name]: value });
+        setUser({ ...user, [name]: value });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    const updatedData = { ...user, password };
 
     try {
-      await axios.put(`http://localhost:8080/api/users/${userID}`, updatedData);
+      await axios.put(`http://localhost:8080/api/users/${userID}`, {
+        ...user,
+        password,
+      });
       alert('Profile updated successfully!');
       setIsModalOpen(false);
       navigate('/dashboard');
@@ -78,22 +85,15 @@ useEffect(() => {
     setIsModalOpen(false);
   };
 
-  // Close modal with ESC key
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
+      if (e.key === 'Escape') closeModal();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  if (isLoading) {
-    return <div className="loading">Loading...</div>;
-  }
+  if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
     <>
@@ -135,51 +135,51 @@ useEffect(() => {
           </li>
         </ul>
       </nav>
+
+      {/* Profile Section */}
       <div className="profile-section">
-          <div className="profile-card">
-            <div className="profile-picture">
-              <FaUser className="user-icon" />
+        <div className="profile-card">
+          <div className="profile-picture">
+            <FaUser className="user-icon" />
+          </div>
+          <div className="profile-info">
+            <h3 className="profile-name">{user.name}</h3>
+            <div className="profile-credentials">
+              <p><FaEnvelope className="email-icon" /> {user.email}</p>
             </div>
-            <div className="profile-info">
-              <h3 className="profile-name">{user.name}</h3>
-              <div className="profile-credentials">
-                <p><FaEnvelope className="email-icon" /> {user.email}</p>
-              </div>
-              <button className="edit-profile-btn" onClick={() => setIsModalOpen(true)}>Edit Profile</button>
-            </div>
+            <button className="edit-profile-btn" onClick={() => setIsModalOpen(true)}>Edit Profile</button>
           </div>
         </div>
-      {/* Edit Profile Section */}
-      <div className="edit-profile-container">
-        <section className="motivational-section">
-          <div className="motivational-content">
-            <h1 className="motivational-heading">The road to your best self begins here</h1>
-            <p className="motivational-subtext">
-              Edit your profile, log your goals, and track your way to success. 
-              Your journey starts today—stay consistent and achieve greatness.
-            </p>
-          </div>
-          <div className="motivational-image">
-            <img src={TheRoad} alt="Motivational workout" />
-          </div>
-        </section>
-        {error && <div className="error-messageEP">{error}</div>}
-
-        <footer className="footer">
-          © 2024 || <a href="#">FitTrack</a>
-        </footer>
       </div>
-      {/* Edit Profile Modal */}
+
+      {/* Motivational Section */}
+      <section className="motivational-section">
+        <div className="motivational-content">
+          <h1 className="motivational-heading">The road to your best self begins here</h1>
+          <p className="motivational-subtext">
+            Edit your profile, log your goals, and track your way to success. 
+            Your journey starts today—stay consistent and achieve greatness.
+          </p>
+        </div>
+        <div className="motivational-image">
+          <img src={TheRoad} alt="Motivational workout" />
+        </div>
+      </section>
+
+      {error && <div className="error-messageEP">{error}</div>}
+
+      {/* Modal */}
       {isModalOpen && (
-        <div
-          className="modal-overlay"
-          onClick={closeModal}
-          aria-label="Close Modal"
-        >
+        <div className="modal-overlay" onClick={closeModal} aria-label="Close Modal">
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2>Edit Your Profile</h2>
+            <div className="modal-header">
+              <h2>Edit Your Profile</h2>
+              <button className="close-button" onClick={closeModal} aria-label="Close">
+                &times;
+              </button>
+            </div>
             <form onSubmit={handleSubmit}>
-              <div className="Form-group">
+              <div className="form-group-edit-profile">
                 <label htmlFor="name">Name:</label>
                 <input
                   type="text"
@@ -187,10 +187,11 @@ useEffect(() => {
                   name="name"
                   value={user.name}
                   onChange={handleInputChange}
+                  placeholder="Enter your name"
                   required
                 />
               </div>
-              <div className="Form-group">
+              <div className="form-group-edit-profile">
                 <label htmlFor="email">Email:</label>
                 <input
                   type="email"
@@ -198,39 +199,44 @@ useEffect(() => {
                   name="email"
                   value={user.email}
                   onChange={handleInputChange}
+                  placeholder="Enter your email"
                   required
                 />
               </div>
-              <div className="Form-group">
+              <div className="form-group-edit-profile">
                 <label htmlFor="password">Password:</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={handleInputChange}
-                  required
-                />
+                <div className="password-container">
+                  <input
+                    type={isPasswordVisible ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={handleInputChange}
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="toggle-password-btn"
+                    onClick={togglePasswordVisibility}
+                    aria-label="Toggle Password Visibility"
+                  >
+                    {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
               <div className="modal-buttons">
-                <button
-                  type="button"
-                  className="modalCancelB"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="modalSaveB"
-                >
-                  Save
-                </button>
+                <button type="button" className="modal-cancel-button" onClick={closeModal}>Cancel</button>
+                <button type="submit" className="modal-save-button">Save</button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      <footer className="footer">
+        © 2024 || <a href="#">FitTrack</a>
+      </footer>
     </>
   );
 };
