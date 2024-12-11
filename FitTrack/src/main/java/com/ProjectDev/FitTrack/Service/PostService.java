@@ -5,6 +5,7 @@ import com.ProjectDev.FitTrack.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +27,13 @@ public class PostService {
     }
 
     public Post updatePost(Integer id, Post updatedPost) {
-        Optional<Post> postOptional = postRepository.findById(id);
-        if (postOptional.isPresent()) {
-            Post existingPost = postOptional.get();
-            existingPost.setContent(updatedPost.getContent());
-            existingPost.setType(updatedPost.getType());
-            return postRepository.save(existingPost);
-        }
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+
+        post.setContent(updatedPost.getContent());
+        post.setType(updatedPost.getType());
+        post.setTimestamp(LocalDateTime.now()); 
+
+        return postRepository.save(post);
     }
 
     public void deletePost(Integer id) {

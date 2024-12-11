@@ -5,65 +5,84 @@ import { FaUser } from 'react-icons/fa';
 import './Style/AddPost.css';
 import axios from 'axios';
 import './App.css';
- 
+
 const AddPost = () => {
   const userID = sessionStorage.getItem('userID');
   const [content, setContent] = useState('');
-  const [postType, setPostType] = useState('general');  
+  const [postType, setPostType] = useState('general');
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
- 
- 
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${userID}`); // get user by id
+        const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
- 
+
     fetchUser();
   }, [userID]);
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+
     if (content.trim().length < 5) {
-      alert('Post content should be at least 5 characters long.');
+      setModalMessage('Post content should be at least 5 characters long.');
+      setIsModalVisible(true);
       return;
     }
- 
+
     const newPost = {
       user: { userID },
       content,
       type: postType,
     };
- 
+
     try {
       await axios.post('http://localhost:8080/posts', newPost, {
         headers: { 'Content-Type': 'application/json' },
       });
-      alert('Post created successfully!');
-      navigate('/post');
+      setModalMessage('Post created! Check your timeline.');
+      setIsModalVisible(true);
     } catch (error) {
       console.error('Error creating post:', error);
-      alert('Failed to create post.');
+      setModalMessage('Failed to create post.');
+      setIsModalVisible(true);
     }
   };
- 
+
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
   };
- 
+
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
- 
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const handleContentChange = (e) => {
+    const input = e.target.value;
+    setContent(capitalizeFirstLetter(input));
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    if (modalMessage === 'Post created! Check your timeline.') {
+      navigate('/post');
+    }
+  };
+
   return (
     <div className="add-post">
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -99,7 +118,7 @@ const AddPost = () => {
           </li>
         </ul>
       </nav>
- 
+
       <div className="create-post-box">
         <h2 className="create-post-title">Create Post</h2>
         <div className="post-header">
@@ -116,25 +135,42 @@ const AddPost = () => {
             <option value="nutrition">Nutrition</option>
           </select>
         </div>
- 
+
         <textarea
           className="post-content-input"
           placeholder="What to flex?"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={handleContentChange}
           required
         />
- 
-        <button className="post-submit-btn" onClick={handleSubmit}>
-          Post
-        </button>
+
+        <div className="post-actions">
+          <button className="post-submit-btn" onClick={handleSubmit}>
+            Post
+          </button>
+          <button
+            className="cancel-btn"
+            onClick={() => navigate('/post')}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
- 
+
+      {isModalVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className="modal-close-btn">OK</button>
+          </div>
+        </div>
+      )}
+
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>
       </div>
     </div>
   );
 };
- 
+
 export default AddPost;

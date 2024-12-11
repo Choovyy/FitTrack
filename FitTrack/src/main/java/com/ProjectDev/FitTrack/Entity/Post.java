@@ -47,11 +47,6 @@
         this.timestamp = LocalDateTime.now();
     }
     
-    @PreUpdate
-    protected void onUpdate() {
-        this.timestamp = LocalDateTime.now();
-    }
-    
     public Integer getPostId() {
         return postId;
     }
