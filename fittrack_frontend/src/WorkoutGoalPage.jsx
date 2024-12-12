@@ -113,11 +113,11 @@ const WorkoutGoalPage = () => {
       </div>
 
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="modal-overlay-goal">
+          <div className="modal-content-goal">
             <h3>Are you sure you want to delete this goal?</h3>
             <p>This action cannot be undone.</p>
-            <div className="modal-actions">
+            <div className="modal-actions-goal">
               <button onClick={handleDelete} className="modal-confirm-btn">
                 {loading ? 'Deleting...' : 'Yes'}
               </button>

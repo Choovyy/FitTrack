@@ -7,38 +7,31 @@ import './App.css';
 import { FaUser } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboard, faFireAlt, faClock, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-toastify'; // Import toast for notifications
+import { toast } from 'react-toastify';
 
 const WorkoutGoalForm = () => {
   const [goalDescription, setGoalDescription] = useState('');
   const [targetCalories, setTargetCalories] = useState('');
   const [targetDuration, setTargetDuration] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [errors, setErrors] = useState({});
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const navigate = useNavigate();
 
-  // Handle input changes with validation
   const handleGoalDescriptionChange = (e) => {
     setGoalDescription(e.target.value);
     if (e.target.value.trim() === '') {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        goalDescription: 'Goal description is required.',
-      }));
+      setErrors((prevErrors) => ({ ...prevErrors, goalDescription: 'Goal description is required.' }));
     } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        goalDescription: '',
-      }));
+      setErrors((prevErrors) => ({ ...prevErrors, goalDescription: '' }));
     }
   };
 
   const handleTargetCaloriesChange = (e) => {
-    let input = e.target.value;
+    const input = e.target.value;
     if (/[a-zA-Z]/.test(input)) {
       setErrors((prevErrors) => ({ ...prevErrors, targetCalories: 'Target Calories cannot contain letters' }));
     } else {
@@ -48,7 +41,7 @@ const WorkoutGoalForm = () => {
   };
 
   const handleTargetDurationChange = (e) => {
-    let input = e.target.value;
+    const input = e.target.value;
     if (/[a-zA-Z]/.test(input)) {
       setErrors((prevErrors) => ({ ...prevErrors, targetDuration: 'Target Duration cannot contain letters' }));
     } else {
@@ -68,7 +61,6 @@ const WorkoutGoalForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMessage(''); // Clear any previous success messages
 
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
@@ -97,8 +89,9 @@ const WorkoutGoalForm = () => {
       setTargetDuration('');
       setDeadline('');
       setErrors({});
-      setSuccessMessage('Workout Goal created successfully!');
+      setIsModalVisible(true);
       setTimeout(() => {
+        setIsModalVisible(false);
         navigate('/workout-goals');
       }, 2000);
     } catch (error) {
@@ -158,19 +151,21 @@ const WorkoutGoalForm = () => {
         </ul>
       </nav>
 
+      {isModalVisible && (
+        <div className="modal-overlay-form">
+          <div className="modal-content-form">
+            <p>Workout Goal created successfully! Good luck 💪</p>
+          </div>
+        </div>
+      )}
+
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>
       </div>
-      {successMessage && (
-        <div className="success-message">
-          {successMessage}
-        </div>
-      )}
+
       <div className="workout-goal-form-page">
         <div className="workout-goal-form-container">
           <h2 className="form-heading">Set Your Goals</h2>
-
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <form onSubmit={handleSubmit} className="workout-goal-form">
             <div className="form-content">
@@ -200,12 +195,11 @@ const WorkoutGoalForm = () => {
                   <input
                     type="text"
                     id="targetCalories"
-                    className="target-calories-input"
+                    className = "target-duration-input"
                     value={targetCalories}
                     onChange={handleTargetCaloriesChange}
                     placeholder="Enter target calories"
                     required
-                    min="1"
                   />
                   {errors.targetCalories && <p className="error-message-form">{errors.targetCalories}</p>}
                 </div>
@@ -217,7 +211,7 @@ const WorkoutGoalForm = () => {
                   <input
                     type="text"
                     id="targetDuration"
-                    className="target-duration-input"
+                    className = "target-duration-input"
                     value={targetDuration}
                     onChange={handleTargetDurationChange}
                     placeholder="Enter duration in minutes"

@@ -12,7 +12,7 @@
 .workout-goal-form-container {
   background: linear-gradient(135deg, #ffffff, #ffffff);
   border: none;
-  padding: 50px 40px; /* Increased padding to make the container bigger */
+  padding: 50px 40px; 
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
@@ -61,14 +61,14 @@ label {
 textarea,
 input[type="number"],
 input[type="date"] {
-  border: 1px solid #009688; /* Set border color to #009688 (same for all fields) */
+  border: 1px solid #009688; 
   transition: border-color 0.3s ease-in-out;
 }
 
 textarea:focus,
 input[type="number"]:focus,
 input[type="date"]:focus {
-  border-color: #00796b; /* Darker shade of #009688 for focus effect */
+  border-color: #00796b; 
   outline: none;
   box-shadow: 0 0 5px rgba(0, 150, 136, 0.5);
 }
@@ -88,9 +88,9 @@ input[type="date"]:focus {
 /* Adjusted textarea for description */
 textarea {
   width: 100%;
-  height: 360px; /* Adjusted height for better proportion */
+  height: 360px; 
   padding: 15px;
-  border: 1px solid #000000; /* Same border color for consistency */
+  border: 1px solid #000000; 
   border-radius: 4px;
   font-family: 'Inter', sans-serif;
   resize: none;
@@ -102,16 +102,16 @@ textarea {
   width: 50%;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Added gap to create space between the fields */
+  gap: 20px; 
 }
 
 /* Common button styles for both Save and Cancel */
 .save-button-form,
 .cancel-button-form {
-  width: 150px; /* Increased width for more balanced size */
-  height: 40px; /* Increased height for better proportionality */
+  width: 150px;
+  height: 40px; 
   padding: 12px;
-  font-size: 16px; /* Increased font size for better visibility */
+  font-size: 16px; 
   text-align: center;
   border-radius: 4px;
   border: none;
@@ -160,7 +160,7 @@ textarea {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #000000; /* Set border color to match the other fields */
+  border: 1px solid #000000;
   border-radius: 5px;
   font-size: 14px;
   background-color: #ffffff;
@@ -170,7 +170,7 @@ textarea {
 .target-calories-input:focus,
 .target-duration-input:focus,
 .form-group-deadline input:focus {
-  border-color: #00796b; /* Darker shade on focus for consistency */
+  border-color: #00796b;
   outline: none;
   box-shadow: 0 0 8px rgba(0, 150, 136, 0.5);
 }
@@ -201,18 +201,27 @@ textarea {
 .form-group-deadline input {
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #000000; /* Set border color to match the other fields */
+  border: 1px solid #000000;
   border-radius: 5px;
   outline: none;
   transition: border-color 0.3s ease;
 }
-.success-message {
-  background-color: transparent;
-  color: rgb(10, 184, 10);            /* Green text color */
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: bold;
-  margin-top: 50px;
+.modal-overlay-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
+.modal-content-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}

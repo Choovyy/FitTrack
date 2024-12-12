@@ -30,7 +30,7 @@
   min-width: 100px;
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between icon and text */
+  gap: 8px; 
 }
 .add-goal-button:hover {
   background-color: #4cae4c;
@@ -41,8 +41,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-height: 650px; /* Adjust the height as needed */
-  overflow-y: auto; /* Adds vertical scrollbar */
+  max-height: 650px; 
+  overflow-y: auto; 
 }
 
 .goal-card {
@@ -51,10 +51,17 @@
   padding: 20px;
   border: 1px solid #B0BEC5;
   border-radius: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease; 
+  will-change: box-shadow, background-color; 
+}
+
+.goal-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); 
+  background-color: #f9f9f9; 
 }
 
 .goal-details {
@@ -68,7 +75,7 @@
 .goal-target-duration,
 .goal-deadline {
   font-size: 18px;
-  margin: 10px 0; /* Spacing between lines */
+  margin: 10px 0; 
 }
 
 /* Make only the labels bold */
@@ -94,7 +101,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between icon and text */
+  gap: 8px; 
 }
 .delete-button:hover {
   background-color: #d32f2f;
@@ -102,11 +109,11 @@
 
 .delete-button svg,
 .add-goal-button svg {
-  fill: #009688; /* Green color to match the add goal button */
+  fill: #009688; 
 }
 
 /* Modal overlay styles */
-.modal-overlay {
+.modal-overlay-goal {
   position: fixed;
   top: 0;
   left: 0;
@@ -120,7 +127,7 @@
 }
 
 /* Modal content styles */
-.modal-content {
+.modal-content-goal {
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -129,7 +136,7 @@
   text-align: center;
 }
 
-.modal-actions {
+.modal-actions-goal {
   display: flex;
   justify-content: space-evenly;
   margin-top: 20px;
@@ -137,12 +144,12 @@
 }
 
 .modal-confirm-btn, .modal-cancel-btn {
-  padding: 12px 4px;   /* Same padding for both buttons */
-  font-size: 16px;       /* Same font size */
+  padding: 12px 4px;  
+  font-size: 16px;       
   cursor: pointer;
   border-radius: 5px;
-  width: 35%;            /* Make both buttons the same width */
-  border: none;          /* Remove border */
+  width: 35%;            
+  border: none;          
 }
 
 .modal-confirm-btn {
