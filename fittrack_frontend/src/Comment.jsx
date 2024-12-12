@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaRegComment } from 'react-icons/fa';
 import './Style/Comment.css';
 import axios from 'axios';
 import './Style/Post.css';
@@ -7,7 +6,6 @@ import './Style/Post.css';
 const Comment = ({ postId }) => {
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
-  const [showCommentBox, setShowCommentBox] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false); 
@@ -55,7 +53,6 @@ const Comment = ({ postId }) => {
       if (response.status === 201) {
         setComments((prevComments) => [...prevComments, response.data]);
         setNewComment('');
-        setShowCommentBox(false);
 
         setTimeout(() => {
           if (commentListRef.current) {
@@ -74,19 +71,6 @@ const Comment = ({ postId }) => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (commentBoxRef.current && !commentBoxRef.current.contains(event.target)) {
-        setShowCommentBox(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -103,36 +87,22 @@ const Comment = ({ postId }) => {
 
   return (
     <div>
-      {!showCommentBox && (
-        <div
-          className="comment-button-container"
-          onClick={() => setShowCommentBox(true)}
+      <div ref={commentBoxRef} className="comment-box">
+        <textarea
+          value={newComment}
+          onChange={handleCommentChange}
+          placeholder="Write a comment..."
+          className="comment-textarea"
+          disabled={loading}
+        />
+        <button
+          onClick={handleAddComment}
+          className="add-comment-button"
+          disabled={loading}
         >
-          <button className="comment-button">
-            <FaRegComment size={24} />
-            <span className="comment-text">Comment</span>
-          </button>
-        </div>
-      )}
-
-      {showCommentBox && (
-        <div ref={commentBoxRef} className="comment-box">
-          <textarea
-            value={newComment}
-            onChange={handleCommentChange}
-            placeholder="Write a comment..."
-            className="comment-textarea"
-            disabled={loading}
-          />
-          <button
-            onClick={handleAddComment}
-            className="add-comment-button"
-            disabled={loading}
-          >
-            {loading ? 'Posting...' : 'Add Comment'}
-          </button>
-        </div>
-      )}
+          {loading ? 'Posting...' : 'Add Comment'}
+        </button>
+      </div>
 
       <div ref={commentListRef} className="comment-list steady-comment-list">
         {loading && <p>Loading comments...</p>}
