@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import "./Style/Login.css";
 import boyIcon from "./assets/boyicon.png";
 import logo from "./assets/FitTrack Logo.png";
@@ -12,7 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to track password visibility
   const navigate = useNavigate();
+
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
   // Handle login
   const handleLogin = async (e) => {
@@ -40,7 +47,7 @@ const Login = () => {
           // Wait for the toast duration before redirecting
           setTimeout(() => {
             navigate("/dashboard"); // Navigate to dashboard after toast disappears
-          }, 3000); // 5 seconds delay
+          }, 3000); // 3 seconds delay
         } else {
           toast.error("Login failed. Please try again.");
         }
@@ -84,20 +91,30 @@ const Login = () => {
             <label htmlFor="password" className="login-label">
               Password:
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="login-input"
-            />
+            <div className="password-container">
+              <input
+                type={isPasswordVisible ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="login-input"
+              />
+              <button
+                type="button"
+                className="toggle-password-btn"
+                onClick={togglePasswordVisibility}
+                aria-label="Toggle Password Visibility"
+              >
+                {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
           <button type="submit" className="login-button">
             Login
           </button>
         </form>
-        <div className="Rregister-link">
+        <div className="register-link">
           Don’t have an account?{" "}
           <Link to="/register" className="register-button">
             Register
@@ -108,7 +125,7 @@ const Login = () => {
       {/* ToastContainer to display toasts */}
       <ToastContainer
         position="top-right"
-        autoClose={2000} // Auto close the toast after 5 seconds
+        autoClose={2000} // Auto close the toast after 2 seconds
         hideProgressBar={false} // Show progress bar
         newestOnTop={false}
         closeOnClick
