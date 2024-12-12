@@ -153,22 +153,25 @@ function WorkoutHistory() {
             <span>Duration (minutes)</span>
             <span>Calories Burned</span>
             <span>Date</span>
+            <span>Actions</span>
           </div>
           {filteredWorkouts.length > 0 ? (
             filteredWorkouts.map((workout) => (
-              <div key={workout.workoutID} className="workout-item">
+              <div key={workout.workoutID} className="logworkout-item">
                 <div>{workout.exerciseType}</div>
                 <div>{workout.duration} minutes</div>
                 <div>{workout.caloriesBurned} cal</div>
                 <div>{new Date(workout.workoutDate).toLocaleDateString()}</div>
-                <div className="workout-actions">
-                  <button onClick={() => handleUpdate(workout.workoutID)} className="update-btn">Update</button>
-                  <button onClick={() => handleDelete(workout.workoutID)} className="delete-btn">Delete</button>
+                <div className="logworkout-actions">
+                  <button onClick={() => handleUpdate(workout.workoutID)} className="logworkout-update-btn">Update</button>
+                  <button onClick={() => handleDelete(workout.workoutID)} className="logworkout-delete-btn">Delete</button>
                 </div>
               </div>
             ))
           ) : (
-            <p>No workouts found. Start logging your workouts!</p>
+            <div className = "no-history">
+            <div>No workouts found. Start logging your workouts!</div>
+            </div>
           )}
         </div>
       </div>

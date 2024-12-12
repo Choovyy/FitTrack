@@ -98,8 +98,8 @@ const WorkoutGoalPage = () => {
             <div key={goal.workoutID} className="goal-card">
               <div className="goal-details">
                 <p><FontAwesomeIcon icon={faBullseye} /> Description: {goal.goalDescription}</p>
-                <p><FontAwesomeIcon icon={faFire} /> Target Calories: {goal.targetCalories}</p>
-                <p><FontAwesomeIcon icon={faClock} /> Target Duration: {goal.targetDuration} mins</p>
+                <p><FontAwesomeIcon icon={faFire} /> Target Calories: {goal.targetCalories} calories</p>
+                <p><FontAwesomeIcon icon={faClock} /> Target Duration: {goal.targetDuration} minutes</p>
                 <p style = {{color: 'red' }}><FontAwesomeIcon icon={faCalendarAlt} /> Deadline: {goal.deadline}</p>
               </div>
               <button onClick={() => { setGoalToDelete(goal); setShowModal(true); }} className="delete-button">

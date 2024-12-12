@@ -58,12 +58,17 @@
   padding-bottom: 8px;
 }
 
-.workout-labels,
+.workout-labels-dashboard,
 .workout-item {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   font-size: 16px;
   padding: 10px 0;
+  text-align: left;
+}
+.workout-labels-dashboard{
+  color: #009688;
+  font-weight: bold;
 }
 
 .workout-item {
@@ -77,4 +82,8 @@
 .workout-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+.no-workouts{
+  margin-top: 10px;
+  text-align: center;
 }

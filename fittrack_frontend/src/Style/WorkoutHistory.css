@@ -1,7 +1,9 @@
+/* Updated CSS for Workout History Page */
+
 .workout-history-page {
   margin: 80px auto 40px;
   width: 90%;
-  max-width: 1200px;
+  max-width: 1000px;
 }
 
 .workout-history-page h2 {
@@ -12,6 +14,11 @@
   margin-bottom: 20px;
   border-bottom: 2px solid #009688;
   padding-bottom: 10px;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 10;
+  margin-top: 150px;
 }
 
 .workout-history-container {
@@ -19,11 +26,13 @@
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .workout-labels {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 150px; /* Adjust columns */
+  grid-template-columns: 2fr 1fr 1fr 1.2fr 1fr; /* Align labels */
   font-weight: bold;
   font-size: 18px;
   color: #009688;
@@ -32,10 +41,11 @@
   margin-bottom: 20px;
 }
 
-.workout-item {
+.logworkout-item {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 150px; /* Adjust columns for uniformity */
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; /* Ensure all data aligns */
   align-items: center;
+  justify-content: space-between;
   background-color: #f7f7f7;
   border-radius: 10px;
   padding: 15px 20px;
@@ -46,31 +56,32 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.workout-item:hover {
+.logworkout-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-.workout-actions {
+.logworkout-actions {
   display: flex;
-  gap: 10px;
-  justify-self: end; /* Align buttons to the right */
+  gap: 15px;
+  justify-content: flex-start; /* Center buttons horizontally */
+  align-items: center;
 }
 
-.update-btn, .delete-btn {
+.logworkout-update-btn,
+.logworkout-delete-btn {
   padding: 8px 12px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  font-weight: bold;
 }
 
-.update-btn {
+.logworkout-update-btn {
   background-color: #4CAF50;
   color: white;
 }
 
-.delete-btn {
+.logworkout-delete-btn {
   background-color: #FF5252;
   color: white;
 }
@@ -102,6 +113,7 @@
   justify-content: space-around;
   margin-top: 15px;
 }
+
 /* Search Bar Styling */
 .search-bar {
   display: flex;
@@ -123,4 +135,23 @@
   outline: none;
   border-color: #ff9800;
   box-shadow: 0 0 8px rgba(255, 152, 0, 0.2);
+}
+
+/* No History Text */
+.no-history {
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .workout-labels,
+  .workout-item {
+    grid-template-columns: 1fr 1fr 1fr; /* Stack layout for smaller screens */
+    font-size: 16px;
+  }
+
+  .logworkout-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
 }

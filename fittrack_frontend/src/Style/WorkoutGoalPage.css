@@ -68,27 +68,7 @@
   text-align: left;
   flex: 1;
   margin-right: 15px;
-}
-
-.goal-description,
-.goal-target-calories,
-.goal-target-duration,
-.goal-deadline {
-  font-size: 18px;
-  margin: 10px 0; 
-}
-
-/* Make only the labels bold */
-.goal-description span,
-.goal-target-calories span,
-.goal-target-duration span,
-.goal-deadline span {
-  font-weight: bold;
-}
-
-/* Retain deadline color in red */
-.goal-deadline {
-  color: red;
+  line-height: 1.8;
 }
 
 /* Green color for icons to match "Add Goal" button */

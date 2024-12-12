@@ -116,7 +116,7 @@ function Dashboard() {
 
         <div className="recent-workouts">
           <h3>Recent Workouts</h3>
-          <div className="workout-labels">
+          <div className="workout-labels-dashboard">
             <span>Exercise Type</span>
             <span>Duration (minutes)</span>
             <span>Calories Burned</span>
@@ -130,7 +130,9 @@ function Dashboard() {
               </div>
             ))
           ) : (
-            <p>No recent workouts found.</p>
+            <div className= "no-workouts">
+              <div> No recent workouts found. </div>
+              </div>
           )}
         </div>
       </div>

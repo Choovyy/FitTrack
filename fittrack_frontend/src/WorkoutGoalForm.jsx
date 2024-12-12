@@ -179,7 +179,7 @@ const WorkoutGoalForm = () => {
                     value={goalDescription}
                     onChange={handleGoalDescriptionChange}
                     rows="6"
-                    maxLength="500"
+                    maxLength="2000"
                     placeholder="Describe your goal in detail..."
                     required
                   />
