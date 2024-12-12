@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import "./Style/Register.css";
 import boyIcon from "./assets/boyicon.png";
 import logo from "./assets/FitTrack Logo.png";
@@ -15,6 +16,8 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to track password visibility
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,12 +25,26 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
-  
+
     // Reset any previous toasts
     toast.dismiss();
-  
+
+    if (!validatePassword(formData.password)) {
+      setErrorMessage("Password must be at least 8 characters long and contain at least one special character.");
+      return;
+    }
+
     try {
       // Make POST request to register the user
       const response = await axios.post("http://localhost:8080/api/users", formData);
@@ -46,7 +63,7 @@ const Register = () => {
           // Wait for the toast duration before redirecting
           setTimeout(() => {
             navigate("/login"); // Redirect to login after toast disappears
-          }, 3000); // 5 seconds to match the toast duration
+          }, 3000); // 3 seconds to match the toast duration
         } else {
           toast.error("Registration failed. Invalid response from server.");
         }
@@ -66,7 +83,6 @@ const Register = () => {
       }
     }
   };
-  
 
   return (
     <div className="register-page">
@@ -112,23 +128,34 @@ const Register = () => {
             <label htmlFor="password" className="register-label">
               Password:
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="register-input"
-            />
+            <div className="password-container">
+              <input
+                type={isPasswordVisible ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="register-input"
+              />
+              <button
+                type="button"
+                className="toggle-password-btn"
+                onClick={togglePasswordVisibility}
+                aria-label="Toggle Password Visibility"
+              >
+                {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
-          <button type="submit" className="Rregister-button">
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button type="submit" className="register-button">
             Register
           </button>
           <div className="register-footer">
             <p>
               Already have an account?{" "}
-              <Link to="/login" className="Rregister-link">
+              <Link to="/login" className="register-link">
                 Login
               </Link>
             </p>
@@ -139,7 +166,7 @@ const Register = () => {
       {/* ToastContainer to display toasts */}
       <ToastContainer
         position="top-right"
-        autoClose={2000} // Auto close the toast after 5 seconds
+        autoClose={2000} // Auto close the toast after 2 seconds
         hideProgressBar={false} // Show progress bar
         newestOnTop={false}
         closeOnClick
