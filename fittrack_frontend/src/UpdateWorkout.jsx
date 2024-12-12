@@ -46,8 +46,8 @@ const UpdateWorkout = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === '-' || e.key === 'e') {
-      e.preventDefault(); // Prevent typing '-' or 'e'
+    if (e.key === '-') {
+      e.preventDefault();
     }
   };
 
@@ -133,6 +133,7 @@ const UpdateWorkout = () => {
               type="text"
               value={exerciseType}
               onChange={handleExerciseTypeChange}
+              onKeyDown={handleKeyDown}
               required
             />
           </div>

@@ -145,6 +145,7 @@ const LogWorkout = () => {
                 className="textBox" 
                 value={exerciseType} 
                 onChange={handleExerciseTypeChange} 
+                onKeyDown={handleKeyDown}
                 required
               />
               {errorMessage && <p className="error-message">{errorMessage}</p>}
