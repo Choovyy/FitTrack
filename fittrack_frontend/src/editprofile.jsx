@@ -14,30 +14,31 @@ const EditProfile = () => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const userID = sessionStorage.getItem('userID');
 
   useEffect(() => {
     const fetchUserData = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
-            const { name, email, password } = response.data; // Destructure the password here
-            setUser({ name, email });
-            setPassword(password); // Set the fetched password here
-            setIsLoading(false);
-        } catch (err) {
-            console.error('Error fetching user data:', err);
-            setError('Failed to load user data. Please try again later.');
-            setIsLoading(false);
-        }
+      try {
+        const response = await axios.get(`http://localhost:8080/api/users/${userID}`);
+        const { name, email, password } = response.data;
+        setUser({ name, email });
+        setPassword(password);
+        setIsLoading(false);
+      } catch (err) {
+        console.error('Error fetching user data:', err);
+        setError('Failed to load user data. Please try again later.');
+        setIsLoading(false);
+      }
     };
 
     if (userID) {
-        fetchUserData();
+      fetchUserData();
     } else {
-        setError('User ID is not available. Please log in again.');
-        setIsLoading(false);
+      setError('User ID is not available. Please log in again.');
+      setIsLoading(false);
     }
   }, [userID]);
 
@@ -57,9 +58,9 @@ const EditProfile = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'password') {
-        setPassword(value);
+      setPassword(value);
     } else {
-        setUser({ ...user, [name]: value });
+      setUser({ ...user, [name]: value });
     }
   };
 
@@ -72,9 +73,8 @@ const EditProfile = () => {
         ...user,
         password,
       });
-      alert('Profile updated successfully!');
       setIsModalOpen(false);
-      navigate('/dashboard');
+      setIsSuccessModalOpen(true);
     } catch (err) {
       console.error('Error updating profile:', err);
       setError('Failed to update profile. Please try again.');
@@ -83,6 +83,11 @@ const EditProfile = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    navigate('/dashboard');
   };
 
   useEffect(() => {
@@ -230,6 +235,26 @@ const EditProfile = () => {
                 <button type="submit" className="modal-save-button">Save</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {isSuccessModalOpen && (
+        <div className="modal-overlay" onClick={closeSuccessModal} aria-label="Close Success Modal">
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Success</h2>
+              <button className="close-button" onClick={closeSuccessModal} aria-label="Close">
+                &times;
+              </button>
+            </div>
+            <div className="modal-content">
+              <p>Your profile has been updated successfully!</p>
+            </div>
+            <div className="modal-buttons-profile">
+              <button type="button" className="modal-ok-button" onClick={closeSuccessModal}>OK</button>
+            </div>
           </div>
         </div>
       )}

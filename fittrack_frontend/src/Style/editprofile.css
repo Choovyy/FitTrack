@@ -248,6 +248,14 @@
   background-color: #4CAF50; /* Green */
 }
 
+.modal-header{
+  color:black;
+}
+
+.modal-content{
+  color:black;
+}
+
 .modal-save-button:hover {
   background-color: #45a049; /* Darker green on hover */
 }
