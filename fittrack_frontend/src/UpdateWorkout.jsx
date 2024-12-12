@@ -76,7 +76,7 @@ const UpdateWorkout = () => {
   };
 
   const handleCancel = () => {
-    navigate('/dashboard');
+    navigate('/workout-history');
   };
 
   const handleLogout = () => {
