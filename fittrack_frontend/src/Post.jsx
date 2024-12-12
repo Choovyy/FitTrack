@@ -166,7 +166,10 @@ const Post = ({ onDelete, onUpdate }) => {
                   <div className="post-info">
                     <span className="post-username">{post.user?.name || 'Unknown User'}</span>
                     <span className="post-timestamp">
-                      {post.timestamp ? new Date(post.timestamp).toLocaleString() : 'No timestamp available'}
+                    {post.timestamp ? new Date(post.timestamp).toLocaleString('en-US', {
+                      year: 'numeric', month: '2-digit', day: '2-digit',
+                      hour: '2-digit', minute: '2-digit', hour12: true
+                    }) : 'No timestamp available'}
                     </span>
                     <span className="post-type">{capitalize(post.type) || 'No type available'}</span>
                   </div>

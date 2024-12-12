@@ -1,5 +1,7 @@
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
+import { ToastContainer, toast } from 'react-toastify';
 import React, { useState, useEffect } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 const LikeButton = ({ postID, initialCount }) => {
@@ -27,20 +29,33 @@ const LikeButton = ({ postID, initialCount }) => {
       setLiked(!liked);
     } catch (error) {
       console.error('Error updating like status:', error.response || error.message);
-      alert('Failed to update like status. Please try again.');
+      toast.error('Failed to update like status. Please try again.');
     }
   };
 
   return (
-    <div
-      className={`like-button-container ${liked ? 'liked' : ''}`}
-      onClick={handleLike}
-    >
-      <button className="like-button">
-        {liked ? <AiFillLike size={24} color="#000000" /> : <AiOutlineLike size={24} />}
-        <span className="like-text">Like</span>
-      </button>
-      <span className="like-count">{likeCount}</span>
+    <div>
+      <div
+        className={`like-button-container ${liked ? 'liked' : ''}`}
+        onClick={handleLike}
+      >
+        <button className="like-button">
+          {liked ? <AiFillLike size={24} color="#000000" /> : <AiOutlineLike size={24} />}
+          <span className="like-text">Like</span>
+        </button>
+        <span className="like-count">{likeCount}</span>
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000} 
+        hideProgressBar={false} 
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
