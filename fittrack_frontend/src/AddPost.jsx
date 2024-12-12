@@ -1,11 +1,11 @@
 import { useNavigate, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import logo from './assets/FitTrack Logo.png';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaTimes } from 'react-icons/fa';
 import './Style/AddPost.css';
 import axios from 'axios';
 import './App.css';
-
+ 
 const AddPost = () => {
   const userID = sessionStorage.getItem('userID');
   const [content, setContent] = useState('');
@@ -16,7 +16,7 @@ const AddPost = () => {
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+ 
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -26,25 +26,25 @@ const AddPost = () => {
         console.error('Error fetching user data:', error);
       }
     };
-
+ 
     fetchUser();
   }, [userID]);
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     if (content.trim().length < 5) {
       setModalMessage('Post content should be at least 5 characters long.');
       setIsModalVisible(true);
       return;
     }
-
+ 
     const newPost = {
       user: { userID },
       content,
       type: postType,
     };
-
+ 
     try {
       await axios.post('http://localhost:8080/posts', newPost, {
         headers: { 'Content-Type': 'application/json' },
@@ -57,32 +57,32 @@ const AddPost = () => {
       setIsModalVisible(true);
     }
   };
-
+ 
   const handleLogout = () => {
     sessionStorage.clear();
     navigate('/login');
   };
-
+ 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
-
+ 
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-
+ 
   const handleContentChange = (e) => {
     const input = e.target.value;
     setContent(capitalizeFirstLetter(input));
   };
-
+ 
   const closeModal = () => {
     setIsModalVisible(false);
     if (modalMessage === 'Post created! Check your timeline.') {
       navigate('/post');
     }
   };
-
+ 
   return (
     <div className="add-post">
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -118,7 +118,7 @@ const AddPost = () => {
           </li>
         </ul>
       </nav>
-
+ 
       <div className="create-post-box">
         <h2 className="create-post-title">Create Post</h2>
         <div className="post-header">
@@ -135,7 +135,7 @@ const AddPost = () => {
             <option value="nutrition">Nutrition</option>
           </select>
         </div>
-
+ 
         <textarea
           className="post-content-input"
           placeholder="What to flex?"
@@ -143,20 +143,20 @@ const AddPost = () => {
           onChange={handleContentChange}
           required
         />
-
+ 
         <div className="post-actions">
           <button className="post-submit-btn" onClick={handleSubmit}>
             Post
           </button>
           <button
-            className="cancel-btn"
-            onClick={() => navigate('/post')}
-          >
-            Cancel
-          </button>
+        className="cancel-btn"
+        onClick={() => navigate('/post')}
+      >
+        <FaTimes />
+      </button>
         </div>
       </div>
-
+ 
       {isModalVisible && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -165,12 +165,13 @@ const AddPost = () => {
           </div>
         </div>
       )}
-
+ 
       <div className="footer">
         © 2024 || <a href="#">FitTrack</a>
       </div>
     </div>
   );
 };
-
+ 
 export default AddPost;
+ 

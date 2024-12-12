@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react'; 
+import IconButton from '@mui/material/IconButton';
+import SendIcon from '@mui/icons-material/Send';
 import './Style/Comment.css';
 import axios from 'axios';
-import './Style/Post.css';
 
 const Comment = ({ postId }) => {
   const [newComment, setNewComment] = useState('');
@@ -95,23 +96,36 @@ const Comment = ({ postId }) => {
           className="comment-textarea"
           disabled={loading}
         />
-        <button
+        <IconButton
           onClick={handleAddComment}
-          className="add-comment-button"
+          className="send-icon-button"
           disabled={loading}
+          aria-label="send-comment"
         >
-          {loading ? 'Posting...' : 'Add Comment'}
-        </button>
+          <SendIcon style={{ color: loading ? 'gray' : 'black' }} />
+        </IconButton>
       </div>
 
       <div ref={commentListRef} className="comment-list steady-comment-list">
         {loading && <p>Loading comments...</p>}
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        {!loading && comments.length === 0 && (
+          <p className="no-comments-message">No comments available.</p>
+        )}
         {comments.map((comment) => (
           <div key={comment.commentId} className="comment-item">
             <div className="comment-header">
               <strong>{comment.user?.name || 'Anonymous'}</strong>
-              <small>{new Date(comment.timestamp).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</small>
+              <small>
+                {new Date(comment.timestamp).toLocaleString('en-US', {
+                  month: '2-digit',
+                  day: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                })}
+              </small>
             </div>
             <p className="comment-content">{comment.content}</p>
           </div>
