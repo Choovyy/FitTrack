@@ -1,8 +1,16 @@
+/* Prevent horizontal scrolling */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
 .workout-goal-page {
   width: 100%;
   font-family: 'Inter', sans-serif;
   padding: 20px;
   margin-top: 100px;
+  box-sizing: border-box;
 }
 
 .goals-header {
@@ -43,10 +51,13 @@
   gap: 20px;
   max-height: 650px; 
   overflow-y: auto; 
+  padding-right: 20px; /* Reduce padding-right to prevent overflow */
+  width: 100%; /* Ensure the container doesn't overflow horizontally */
+  box-sizing: border-box;
 }
 
-.goal-card {
-  width: 1160px;
+.goal-card { /* Make the card take up the full width of the container */
+  width: 1160px; /* Set a maximum width for the card */
   background: #FFFFFF;
   padding: 20px;
   border: 1px solid #B0BEC5;
@@ -57,6 +68,7 @@
   align-items: flex-start;
   transition: box-shadow 0.3s ease, background-color 0.3s ease; 
   will-change: box-shadow, background-color; 
+  margin: 0 auto; /* Center the card */
 }
 
 .goal-card:hover {

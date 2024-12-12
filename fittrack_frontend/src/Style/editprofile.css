@@ -225,44 +225,50 @@
 }
 
 /* Modal Buttons */
-.modal-buttons {
+.modal-buttons-profile {
   display: flex;
   justify-content: center;
   gap: 15px;
 }
 
+/* Modal Buttons (Updated for flat design similar to image) */
 .modal-cancel-button,
 .modal-save-button {
-  padding: 10px 20px;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.3s ease;
 }
 
-.modal-cancel-button {
-  background-color: #f44336;
-  color: #fff;
-}
-
-.modal-cancel-button:hover {
-  background-color: #d32f2f;
-}
-
+/* Save Button Style */
 .modal-save-button {
-  background-color: #4CAF50;
-  color: #fff;
+  background-color: #4CAF50; /* Green */
 }
 
 .modal-save-button:hover {
-  background-color: #45a049;
+  background-color: #45a049; /* Darker green on hover */
 }
 
-.modal-cancel-button:active,
 .modal-save-button:active {
-  transform: scale(0.95);
+  transform: scale(0.98); /* Slight shrinking effect on click */
 }
+
+/* Cancel Button Style */
+.modal-cancel-button {
+  background-color: #f44336; /* Red */
+}
+
+.modal-cancel-button:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+.modal-cancel-button:active {
+  transform: scale(0.98); /* Slight shrinking effect on click */
+}
+
 
 /* Loading and Spinner */
 .loading {

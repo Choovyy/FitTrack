@@ -1,7 +1,15 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Disable scrolling for the body */
+}
+
 .about-us-container {
     text-align: center;
     margin-top: 70px; /* Adjust heading position */
     padding: 0 20px;
+    max-height: calc(100vh - 80px); /* Ensure it fits within the viewport */
+    padding-bottom: 20px; /* Space at the bottom to avoid clipping */
 }
 
 .about-us-heading {
@@ -13,6 +21,7 @@
     width: fit-content;
     animation: typing 2.5s steps(30) forwards, removeCursor 2.5s forwards; /* Remove cursor after typing */
     margin-bottom: 30px; /* Add bottom margin */
+    color: #213547;
 }
 
 /* Typing animation */
@@ -81,4 +90,80 @@
     padding: 0; /* Remove side padding */
     width: 100%; /* Allow full-width usage */
     text-align: center; /* Center the text horizontally */
+    margin-top: 50px;
 }
+
+.about-us-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Mission and Core Values Section - 2-Column Layout */
+.mission-core-values {
+    display: grid; /* Switch to grid layout */
+    grid-template-columns: 1fr 1fr; /* Create 2 equal columns */
+    gap: 20px; /* Add spacing between the columns */
+    padding: 20px; /* Add padding around the grid */
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+/* Individual Sections (Mission and Core Values) */
+.mission-section, .core-values-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Align text to the left */
+}
+
+.section-heading-mission{
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #213547;
+    text-align: center;
+}
+.section-heading-core{
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #213547;
+    text-align: center;
+}
+
+.section-text {
+    margin-top: 10px;
+    font-size: 20px;
+    line-height: 1.6;
+    color: #333;
+    text-align: center;
+}
+
+/* Core Values List Styling */
+.core-values-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.core-values-list li {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #213547;
+    text-align: center;
+}
+
+/* Scrollable container for the About Us page */
+.about-us-scroll-container {
+    height: calc(100vh - 80px); /* Adjust for footer height (example: 80px footer height) */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding-top: 70px; /* Add padding to avoid overlap with navbar */
+    background-color: #f5f5f5; /* Add a light background for distinction */
+    scrollbar-width: thin; /* For Firefox: Make the scrollbar less intrusive */
+}
+
+/* Keep the rest of your styles the same */

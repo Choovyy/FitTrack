@@ -225,7 +225,7 @@ const EditProfile = () => {
                   </button>
                 </div>
               </div>
-              <div className="modal-buttons">
+              <div className="modal-buttons-profile">
                 <button type="button" className="modal-cancel-button" onClick={closeModal}>Cancel</button>
                 <button type="submit" className="modal-save-button">Save</button>
               </div>
