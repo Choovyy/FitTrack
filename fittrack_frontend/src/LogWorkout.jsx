@@ -127,6 +127,7 @@ const LogWorkout = () => {
               <label>Exercise Type:</label>
               <input 
                 type="text" 
+                placeholder='(Biceps, Chest, Legs, others...)'
                 className="textBox" 
                 value={exerciseType} 
                 onChange={handleExerciseTypeChange} 
@@ -138,6 +139,7 @@ const LogWorkout = () => {
               <label>Duration (minutes):</label>
               <input 
                 type="number" 
+                placeholder='(45)'
                 value={duration} 
                 onChange={(e) => setDuration(e.target.value)} 
                 required
@@ -147,6 +149,7 @@ const LogWorkout = () => {
               <label>Calories Burned:</label>
               <input 
                 type="number" 
+                placeholder='(325)'
                 value={caloriesBurned} 
                 onChange={(e) => setCaloriesBurned(e.target.value)} 
                 required
