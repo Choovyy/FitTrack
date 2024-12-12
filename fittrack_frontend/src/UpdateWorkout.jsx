@@ -14,11 +14,10 @@ const UpdateWorkout = () => {
   const [exerciseType, setExerciseType] = useState('');
   const [duration, setDuration] = useState('');
   const [caloriesBurned, setCaloriesBurned] = useState('');
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);  // Add this line to declare the state
-  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);  // Define the missing state
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true); // Add this line to declare the state
+  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false); // Define the missing state
 
   useEffect(() => {
-    // Fetch the workout data by ID
     const fetchWorkout = async () => {
       try {
         const workout = await getWorkoutById(workoutID);
@@ -32,6 +31,31 @@ const UpdateWorkout = () => {
 
     fetchWorkout();
   }, [workoutID]);
+
+  const handleExerciseTypeChange = (e) => {
+    let input = e.target.value.replace(/[0-9]/g, ''); // Remove any numeric characters
+    input = input.toLowerCase();
+    input = input.charAt(0).toUpperCase() + input.slice(1); // Capitalize the first letter
+    setExerciseType(input);
+  };
+
+  const handleDurationChange = (e) => {
+    let input = e.target.value;
+    if (input < 1) input = ''; // Clear invalid input
+    setDuration(input);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === '-' || e.key === 'e') {
+      e.preventDefault(); // Prevent typing '-' or 'e'
+    }
+  };
+
+  const handleCaloriesBurnedChange = (e) => {
+    let input = e.target.value;
+    if (input < 1) input = ''; // Clear invalid input
+    setCaloriesBurned(input);
+  };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -108,7 +132,7 @@ const UpdateWorkout = () => {
             <input
               type="text"
               value={exerciseType}
-              onChange={(e) => setExerciseType(e.target.value)}
+              onChange={handleExerciseTypeChange}
               required
             />
           </div>
@@ -117,7 +141,8 @@ const UpdateWorkout = () => {
             <input
               type="number"
               value={duration}
-              onChange={(e) => setDuration(e.target.value)}
+              onChange={handleDurationChange}
+              onKeyDown={handleKeyDown}
               required
             />
           </div>
@@ -126,7 +151,8 @@ const UpdateWorkout = () => {
             <input
               type="number"
               value={caloriesBurned}
-              onChange={(e) => setCaloriesBurned(e.target.value)}
+              onChange={handleCaloriesBurnedChange}
+              onKeyDown={handleKeyDown}
               required
             />
           </div>

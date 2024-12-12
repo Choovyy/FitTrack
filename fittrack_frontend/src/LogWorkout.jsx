@@ -22,12 +22,12 @@ const LogWorkout = () => {
   const userID = sessionStorage.getItem('userID');
 
   const handleExerciseTypeChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.toLowerCase(); // Convert input to lowercase
+    input = input.charAt(0).toUpperCase() + input.slice(1); // Capitalize the first letter
     if (/\d/.test(input)) {
       setErrorMessage('Exercise type cannot contain numbers');
     } else {
       setErrorMessage('');
-      input = input.charAt(0).toUpperCase() + input.slice(1);
       setExerciseType(input);
     }
   };
@@ -78,7 +78,21 @@ const LogWorkout = () => {
   const toggleProfileDropdown = () => {
     setIsProfileDropdownVisible(!isProfileDropdownVisible);
   };
+  
+  const handleInputChange = (e, setState) => {
+    const value = e.target.value;
+  
+    // Allow only positive integers and clear invalid inputs
+    if (/^[1-9]\d*$/.test(value) || value === '') {
+      setState(value);
+    }
+  };
 
+  const handleKeyDown = (e) => {
+    if (e.key === '-' || e.key === 'e') {
+      e.preventDefault(); // Prevent typing '-' or 'e'
+    }
+  };
   return (
     <>
       <nav className={`navbar ${isNavbarVisible ? 'visible' : 'hidden'}`}>
@@ -139,9 +153,10 @@ const LogWorkout = () => {
               <label>Duration (minutes):</label>
               <input 
                 type="number" 
-                placeholder='(45)'
+                placeholder="(45)"
                 value={duration} 
-                onChange={(e) => setDuration(e.target.value)} 
+                onChange={(e) => handleInputChange(e, setDuration)}
+                onKeyDown={handleKeyDown} 
                 required
               />
             </div>
@@ -151,7 +166,8 @@ const LogWorkout = () => {
                 type="number" 
                 placeholder='(325)'
                 value={caloriesBurned} 
-                onChange={(e) => setCaloriesBurned(e.target.value)} 
+                onChange={(e) => handleInputChange(e, setCaloriesBurned)}
+                onKeyDown={handleKeyDown}
                 required
               />
             </div>
