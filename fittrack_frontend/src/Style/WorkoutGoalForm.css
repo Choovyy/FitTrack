@@ -206,4 +206,13 @@ textarea {
   outline: none;
   transition: border-color 0.3s ease;
 }
+.success-message {
+  background-color: transparent;
+  color: rgb(10, 184, 10);            /* Green text color */
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 50px;
+}
 
