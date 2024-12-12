@@ -117,12 +117,12 @@ body {
     font-size: 16px;
   }
   .register-button {
-    color: #00aaff;
+    color: #2ecc71;
     cursor: pointer;
   }
   
   .register-button:hover {
-    color: #0066cc;
+    color: #2ecc71;
     text-decoration: underline;
   }
   

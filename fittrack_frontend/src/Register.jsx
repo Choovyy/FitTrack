@@ -149,13 +149,13 @@ const Register = () => {
             </div>
           </div>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <button type="submit" className="register-button">
+          <button type="submit" className="Rregister-button">
             Register
           </button>
           <div className="register-footer">
             <p>
               Already have an account?{" "}
-              <Link to="/login" className="register-link">
+              <Link to="/login" className="Rregister-links">
                 Login
               </Link>
             </p>

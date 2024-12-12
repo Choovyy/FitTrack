@@ -116,9 +116,10 @@ body {
 }
 
 .register-footer a {
-  color: #00aaff;
+  color: #2ecc71;
   text-decoration: none;
 }
+
 
 .register-footer a:hover {
   text-decoration: underline;
